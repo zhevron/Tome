@@ -1,0 +1,20 @@
+Identifier = "Tome"
+Name = "Tome"
+NameShort = "Tome"
+Version = "0.1b"
+Description = "A Roleplaying Immersion Addon"
+
+Author = "Lyrai @ Faeblight NA"
+Website = "http://zhevron.github.io/Tome"
+Email = "thomas@lokshall.com"
+
+Environment = "2.2"
+
+RunOnStartup = {
+    "Tome.Main.lua"
+}
+
+SavedVariables = {
+    Tome_Data = "shard",
+    Tome_Config = "character"
+}
