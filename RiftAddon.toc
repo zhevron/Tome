@@ -11,10 +11,13 @@ Email = "thomas@lokshall.com"
 Environment = "2.2"
 
 RunOnStartup = {
-    "Tome.Main.lua"
+    "Tome.Defaults.lua",
+    "Tome.Main.lua",
+    "Tome.Data.lua"
 }
 
 SavedVariables = {
-    Tome_Data = "shard",
-    Tome_Config = "character"
+    Tome_Cache = "shard",
+    Tome_Config = "account",
+    Tome_Character = "character"
 }

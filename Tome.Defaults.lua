@@ -1,5 +1,5 @@
 --
--- Tome.Main.lua
+-- Tome.Defaults.lua
 -- Maintained by Lyrai @ Faeblight NA (Zhevron @ Github)
 --
 -- This file is part of Tome.
@@ -18,17 +18,23 @@
 -- along with Tome. If not, see <http://www.gnu.org/licenses/>.
 --
 
--- Create the global module table
-Tome = {}
+Tome_Config = {
+    Timeout = 3600
+}
 
--- This function is triggered from the event API when a slash command is entered
-function Tome.Event_Command_Slash(handle, commandline)
-    --
-end
+Tome_Character = {
+    Prefix = "",
+    Name = "",
+    Suffix = "",
+    Title = "",
+    Age = "",
+    Height = "",
+    Weight = "",
+    Appearance = "",
+    History = "",
+    InCharacter = false,
+    Tutor = false,
+    Flag = 0,
+}
 
--- Attach to the slash command event using the "/tome" prefix
-Command.Event.Attach(
-    Command.Slash.Register("tome"),
-    Tome.Event_Command_Slash,
-    "Tome_Event_Command_Slash"
-)
+Tome_Cache = {}
