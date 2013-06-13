@@ -23,7 +23,24 @@ Tome = {}
 
 -- This function is triggered from the event API when a slash command is entered
 function Tome.Event_Command_Slash(handle, commandline)
-    --
+    -- Split the command line on space to get the parameters
+    local parameters = {}
+    for key in string.gmatch(commandline, "%S+") do
+        if key then
+            table.insert(parameters, key)
+        end
+    end
+
+    -- The first element of the parameters is the command
+    local command = table.remove(parameters, 1)
+
+    local data = Tome.Data.Get(command)
+
+    if not data then
+        return
+    end
+
+    print(string.format("Got flag: %d", data.Flag))
 end
 
 -- Attach to the slash command event using the "/tome" prefix

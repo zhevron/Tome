@@ -99,18 +99,22 @@ end
 
 -- This function gets data from the cache or sends a query if it doesn't exist
 function Tome.Data.Get(name)
+    -- Force the name to be uppercase
+    name = string.upper(name)
+
     -- Check if we have the character data in our cache
     if Tome_Cache[name] then
         -- Data is cached. Get the time that it will expire
         local expires = Tome_Cache[name].Timestamp + Tome_Config.Timeout
 
         -- Check that the data hasn't expired
-        if (expires <= Inspect.Time.Frame()) then
+        if (expires >= os.time()) then
             -- Data is still valid. Return it
             return Tome_Cache[name]
         else
             -- Data has expires. Send a new query
-            Time.Data.Query(name)
+            Tome.Data.Query(name)
+        end
     else
         -- Data is not present. Send a new query
         Tome.Data.Query(name)
@@ -122,10 +126,10 @@ end
 -- This function adds specified data to the character data cache
 function Tome.Data.Cache(name, data)
     -- Set the time this entry was added so we can check for expiry later
-    data.Timestamp = Inspect.Time.Frame()
+    data.Timestamp = os.time()
 
     -- Store the data in our cache
-    Tome_Cache[name] = data
+    Tome_Cache[string.upper(name)] = data
 end
 
 -- This function sends a data query to the target or broadcasts if not target is provided
@@ -133,10 +137,10 @@ function Tome.Data.Query(target)
     -- Check if a target was provided
     if target then
         -- Send query to a single target
-        Command.Message.Send(target, "Tome_Query", data, Tome.Data.SendCallback)
+        Command.Message.Send(target, "Tome_Query", "", Tome.Data.SendCallback)
     else
         -- Broadcast query to anyone in /say range
-        Command.Message.Broadcast("say", nil, "Tome_Query", data, Tome.Data.SendCallback)
+        Command.Message.Broadcast("say", nil, "Tome_Query", "", Tome.Data.SendCallback)
     end
 end
 
@@ -164,7 +168,8 @@ function Tome.Data.Send(target)
 end
 
 -- This function is triggered by the event API when an addon message is received
-function Tome.Data.Event_Message_Receive(from, type, channel, identifier, data)
+function Tome.Data.Event_Message_Receive(handle, from, msgtype, channel, identifier, data)
+    print("Message received")
     -- Discard if it's not a message for Tome
     if (identifier ~= "Tome_Query" and identifier ~= "Tome_Data") then
         return
@@ -173,13 +178,16 @@ function Tome.Data.Event_Message_Receive(from, type, channel, identifier, data)
     -- Determine the message type
     if (identifier == "Tome_Query") then
         -- It's a query. Send our data
+        print("Query received")
         Tome.Data.Send(from)
     elseif (identifier == "Tome_Data") then
+        print("Data received")
         -- It's a data packet. Unserialize the data
         local deserialized = Tome.Data.Deserialize(data)
 
         -- Check that the data is valid and exit if it isn't
         if (type(deserialized) ~= "table") then
+            print("Received incorrect data type: "..type(deserialized))
             return
         end
 
