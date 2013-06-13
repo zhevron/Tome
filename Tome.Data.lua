@@ -30,6 +30,13 @@ Tome.Data.Flags = {
     { id = 4, text = "" }
 }
 
+-- Store a table that contains the send error data
+Tome.Data.Error = {
+    Target = "",
+    Type = "",
+    Count = 0
+}
+
 -- Serializes a variable so it can be transmitted across the network
 function Tome.Data.Serialize(value, name, depth)
     -- Set depth to 0 if we're just starting the serialization
@@ -136,6 +143,10 @@ end
 function Tome.Data.Query(target)
     -- Check if a target was provided
     if target then
+        -- Store the target name in case we have to try again
+        Tome.Data.Error.Target = target
+        Tome.Data.Error.Type = "Query"
+
         -- Send query to a single target
         Command.Message.Send(target, "Tome_Query", "", Tome.Data.SendCallback)
     else
@@ -148,7 +159,22 @@ end
 function Tome.Data.SendCallback(failure, message)
     -- If an error occured, notify the player
     if failure then
-        print(string.format("An error occured while sending a message: %s", message))
+        -- If above he failure threshold, abort
+        if (Tome.Data.Error.Count >= 10) then
+            return
+        end
+
+        -- Increase failure count
+        Tome.Data.Error.Count = Tome.Data.Error.Count + 1
+
+        -- Attempt to send again
+        if (Tome.Data.Error.Type == "Query") then
+            Tome.Data.Query(Tome.Data.Error.Target)
+        elseif (Tome.Data.Error.Type == "Send") then
+            Tome.Data.Send(Tome.Data.Error.Target)
+        end
+    else
+        Tome.Data.Error.Count = 0
     end
 end
 
@@ -159,6 +185,10 @@ function Tome.Data.Send(target)
 
     -- Check if a target was provided
     if target then
+        -- Store the target name in case we have to try again
+        Tome.Data.Error.Target = target
+        Tome.Data.Error.Type = "Send"
+
         -- Send data to a single target
         Command.Message.Send(target, "Tome_Data", data, Tome.Data.SendCallback)
     else

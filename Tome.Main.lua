@@ -34,13 +34,18 @@ function Tome.Event_Command_Slash(handle, commandline)
     -- The first element of the parameters is the command
     local command = table.remove(parameters, 1)
 
-    local data = Tome.Data.Get(command)
+    if (command == "query") then
+        local name = table.remove(parameters, 1)
+        local data = Tome.Data.Get(name)
 
-    if not data then
-        return
+        if not data then
+            return
+        end
+
+        print(string.format("Got flag: %d", data.Flag))
+    elseif (command == "cache") then
+        Tome_Cache = {}
     end
-
-    print(string.format("Got flag: %d", data.Flag))
 end
 
 -- Attach to the slash command event using the "/tome" prefix
