@@ -13,7 +13,9 @@ Environment = "2.2"
 RunOnStartup = {
     "Tome.Defaults.lua",
     "Tome.Main.lua",
-    "Tome.Data.lua"
+    "Tome.Tooltip.lua",
+    "Tome.Data.lua",
+    "Tome.Compat.Merisioux.lua"
 }
 
 SavedVariables = {

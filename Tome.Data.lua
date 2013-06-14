@@ -21,6 +21,9 @@
 -- Create the global module table
 Tome.Data = {}
 
+-- Create a global table for compatibility modules to hook into
+Tome.Compat = {}
+
 -- Store the various RP status flags
 Tome.Data.Flags = {
     { id = 0, text = "Non-Roleplayer" },
@@ -154,9 +157,43 @@ function Tome.Data.Query(target, broadcast)
 
         -- Send query to a single target
         Command.Message.Send(target, "Tome_Query", "", Tome.Data.SendCallback)
+
+        -- Call the compatibility modules' query function
+        for _, item in pairs(Tome.Compat) do
+            item.Query(target)
+        end
     else
         -- Broadcast query to anyone in /say range
         Command.Message.Broadcast(target, nil, "Tome_Query", "")
+    end
+end
+
+-- This function sends the character data to a target or broadcasts if no target is provided
+function Tome.Data.Send(target, broadcast)
+    -- Abort if no target is provided
+    if not target then
+        return
+    end
+
+    -- Serialize character data for sending
+    local data = Tome.Data.Serialize(Tome_Character)
+
+    -- Check if this is a broadcast
+    if not broadcast then
+        -- Store the target name in case we have to try again
+        Tome.Data.Error.Target = target
+        Tome.Data.Error.Type = "Send"
+
+        -- Send data to a single target
+        Command.Message.Send(target, "Tome_Data", data, Tome.Data.SendCallback)
+
+        -- Call the compatibility modules' send function
+        for _, item in pairs(Tome.Compat) do
+            item.Send(target)
+        end
+    else
+        -- Broadcast data to anyone in /say range
+        Command.Message.Broadcast(target, nil, "Tome_Data", data)
     end
 end
 
@@ -183,30 +220,6 @@ function Tome.Data.SendCallback(failure, message)
     else
         -- No errors, reset the error counter
         Tome.Data.Error.Count = 0
-    end
-end
-
--- This function sends the character data to a target or broadcasts if no target is provided
-function Tome.Data.Send(target, broadcast)
-    -- Abort if no target is provided
-    if not target then
-        return
-    end
-
-    -- Serialize character data for sending
-    local data = Tome.Data.Serialize(Tome_Character)
-
-    -- Check if this is a broadcast
-    if not broadcast then
-        -- Store the target name in case we have to try again
-        Tome.Data.Error.Target = target
-        Tome.Data.Error.Type = "Send"
-
-        -- Send data to a single target
-        Command.Message.Send(target, "Tome_Data", data, Tome.Data.SendCallback)
-    else
-        -- Broadcast data to anyone in /say range
-        Command.Message.Broadcast(target, nil, "Tome_Data", data)
     end
 end
 
