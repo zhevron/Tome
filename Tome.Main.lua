@@ -21,6 +21,9 @@
 -- Create the global module table
 Tome = {}
 
+-- Create a global table that UI modules than hook into
+Tome.UI = {}
+
 -- This function is triggered from the event API when a slash command is entered
 function Tome.Event_Command_Slash(handle, commandline)
     -- Split the command line on space to get the parameters
