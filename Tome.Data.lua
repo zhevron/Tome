@@ -38,7 +38,7 @@ Tome.Data.Statistics = {
         Sent = 0,
         Received = 0,
         Errors = 0
-    }
+    },
     Data = {
         Sent = 0,
         Received = 0,

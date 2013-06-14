@@ -27,7 +27,7 @@ Tome.Compat.Merisioux.Statistics = {
         Sent = 0,
         Received = 0,
         Errors = 0
-    }
+    },
     Data = {
         Sent = 0,
         Received = 0,
