@@ -64,6 +64,28 @@ function Tome.ShowDebug()
     -- Dump the serialized character information
     print("------- Character Info -------")
     print(Tome.Data.Serialize(Tome_Character))
+
+    -- Show counters for message data (Tome)
+    print("------- Message Statistics -------")
+    print("Tome Query:")
+    print(string.format("  Sent: %d", Tome.Data.Statistics.Query.Sent))
+    print(string.format("  Received: %d", Tome.Data.Statistics.Query.Received))
+    print(string.format("  Errors: %d", Tome.Data.Statistics.Query.Errors))
+    print("Tome Data:")
+    print(string.format("  Sent: %d", Tome.Data.Statistics.Data.Sent))
+    print(string.format("  Received: %d", Tome.Data.Statistics.Data.Received))
+    print(string.format("  Errors: %d", Tome.Data.Statistics.Data.Errors))
+
+    -- Show counters for message data (Merisioux)
+    print("------- Message Statistics -------")
+    print("Merisioux Query:")
+    print(string.format("  Sent: %d", Tome.Compat.Merisioux.Statistics.Query.Sent))
+    print(string.format("  Received: %d", Tome.Compat.Merisioux.Statistics.Query.Received))
+    print(string.format("  Errors: %d", Tome.Compat.Merisioux.Statistics.Query.Errors))
+    print("Merisioux Data:")
+    print(string.format("  Sent: %d", Tome.Compat.Merisioux.Statistics.Data.Sent))
+    print(string.format("  Received: %d", Tome.Compat.Merisioux.Statistics.Data.Received))
+    print(string.format("  Errors: %d", Tome.Compat.Merisioux.Statistics.Data.Errors))
 end
 
 -- This function sets different values of your Tome characters

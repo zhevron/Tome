@@ -21,6 +21,20 @@
 -- Create the global module table
 Tome.Compat.Merisioux = {}
 
+-- Store a table of statistics that can be used for debugging
+Tome.Compat.Merisioux.Statistics = {
+    Query = {
+        Sent = 0,
+        Received = 0,
+        Errors = 0
+    }
+    Data = {
+        Sent = 0,
+        Received = 0,
+        Errors = 0
+    }
+}
+
 -- Store a table that contains the send error data
 Tome.Compat.Merisioux.Error = {
     Target = "",
@@ -54,6 +68,13 @@ function Tome.Compat.Merisioux.SendCallback(failure, message)
     if failure then
         -- If above he failure threshold, abort
         if (Tome.Compat.Merisioux.Error.Count >= 10) then
+            -- Increment the statistics error counter
+            if (Tome.Compat.Merisioux.Error.Type == "Query") then
+                Tome.Compat.Merisioux.Statistics.Query.Errors = Tome.Compat.Merisioux.Statistics.Query.Errors + 1
+            elseif (Tome.Compat.Merisioux.Error.Type == "Data") then
+                Tome.Compat.Merisioux.Statistics.Data.Errors = Tome.Compat.Merisioux.Statistics.Data.Errors + 1
+            end
+
             -- Reset the error counter
             Tome.Compat.Merisioux.Error.Count = 0
             return
@@ -69,6 +90,13 @@ function Tome.Compat.Merisioux.SendCallback(failure, message)
             Tome.Compat.Merisioux.Send(Tome.Compat.Merisioux.Error.Target)
         end
     else
+        -- Increment the statistics sent counter
+        if (Tome.Compat.Merisioux.Error.Type == "Query") then
+            Tome.Compat.Merisioux.Statistics.Query.Sent = Tome.Compat.Merisioux.Statistics.Query.Sent + 1
+        elseif (Tome.Compat.Merisioux.Error.Type == "Data") then
+            Tome.Compat.Merisioux.Statistics.Data.Sent = Tome.Compat.Merisioux.Statistics.Data.Sent + 1
+        end
+
         -- No errors, reset the error counter
         Tome.Compat.Merisioux.Error.Count = 0
     end

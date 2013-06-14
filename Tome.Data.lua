@@ -27,10 +27,23 @@ Tome.Compat = {}
 -- Store the various RP status flags
 Tome.Data.Flags = {
     { id = 0, text = "Non-Roleplayer" },
-    { id = 1, text = "" },
-    { id = 2, text = "" },
-    { id = 3, text = "" },
-    { id = 4, text = "" }
+    { id = 1, text = "Fledgling Roleplayer" },
+    { id = 2, text = "Roleplayer" },
+    { id = 3, text = "Experienced Roleplayer" }
+}
+
+-- Store a table of statistics that can be used for debugging
+Tome.Data.Statistics = {
+    Query = {
+        Sent = 0,
+        Received = 0,
+        Errors = 0
+    }
+    Data = {
+        Sent = 0,
+        Received = 0,
+        Errors = 0
+    }
 }
 
 -- Store a table that contains the send error data
@@ -203,6 +216,13 @@ function Tome.Data.SendCallback(failure, message)
     if failure then
         -- If above he failure threshold, abort
         if (Tome.Data.Error.Count >= 10) then
+            -- Increment the statistics error counter
+            if (Tome.Data.Error.Type == "Query") then
+                Tome.Data.Statistics.Query.Errors = Tome.Data.Statistics.Query.Errors + 1
+            elseif (Tome.Data.Error.Type == "Data") then
+                Tome.Data.Statistics.Data.Errors = Tome.Data.Statistics.Data.Errors + 1
+            end
+
             -- Reset the error counter
             Tome.Data.Error.Count = 0
             return
@@ -218,6 +238,13 @@ function Tome.Data.SendCallback(failure, message)
             Tome.Data.Send(Tome.Data.Error.Target)
         end
     else
+        -- Increment the statistics sent counter
+        if (Tome.Data.Error.Type == "Query") then
+            Tome.Data.Statistics.Query.Sent = Tome.Data.Statistics.Query.Sent + 1
+        elseif (Tome.Data.Error.Type == "Data") then
+            Tome.Data.Statistics.Data.Sent = Tome.Data.Statistics.Data.Sent + 1
+        end
+
         -- No errors, reset the error counter
         Tome.Data.Error.Count = 0
     end
@@ -232,9 +259,15 @@ function Tome.Data.Event_Message_Receive(handle, from, msgtype, channel, identif
 
     -- Determine the message type
     if (identifier == "Tome_Query") then
+        -- Increment the query received counter
+        Time.Data.Statistics.Query.Received = Tome.Data.Statistics.Query.Received + 1
+
         -- It's a query. Send our data
         Tome.Data.Send(from)
     elseif (identifier == "Tome_Data") then
+        -- Increment the data received counter
+        Tome.Data.Statistics.Data.Received = Tome.Data.Statistics.Data.Received + 1
+
         -- It's a data packet. Unserialize the data
         local deserialized = Tome.Data.Deserialize(data)
 
