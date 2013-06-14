@@ -43,49 +43,57 @@ function Tome.ShowHelp()
     print("  set appearance <string> - Sets your appearance")
     print("  set history <string> - Sets your history")
     print("  set flag <int> - Sets your flag")
-    print("  debug - Prints debug information about the addon")
+    print("  debug cpu - Prints CPU usage debug information")
+    print("  debug data - Prints the serialized character data")
+    print("  debug counters - Prints message counters")
+    print("  debug merisioux - Prints message counters for Merisioux compatibility")
 end
 
 -- This function dumps some debug info about the addon
-function Tome.ShowDebug()
-    -- Get CPU usage for all addons
-    local cpu = Inspect.Addon.Cpu()
+function Tome.ShowDebug(command)
+    -- Check what information we need to print
+    if (command == "cpu") then
+        -- Get CPU usage for all addons
+        local cpu = Inspect.Addon.Cpu()
 
-    -- Print CPU usage information
-    if cpu[Inspect.Addon.Current()] then
-        print("------- CPU Usage -------")
-        for key, value in pairs(cpu[Inspect.Addon.Current()]) do
-            print(string.format("%s = %02f%%", key, value * 100))
+        -- Print CPU usage information
+        if cpu[Inspect.Addon.Current()] then
+            print("------- CPU Usage -------")
+            for key, value in pairs(cpu[Inspect.Addon.Current()]) do
+                print(string.format("%s = %02f%%", key, value * 100))
+            end
+        else
+            print("Unable to get CPU usage information!")
         end
+    elseif (command == "data") then
+        -- Dump the serialized character information
+        print("------- Character Info -------")
+        print(Tome.Data.Serialize(Tome_Character))
+    elseif (command == "counters") then
+        -- Show counters for message data (Tome)
+        print("------- Message Statistics -------")
+        print("Tome Query:")
+        print(string.format("  Sent: %d", Tome.Data.Statistics.Query.Sent))
+        print(string.format("  Received: %d", Tome.Data.Statistics.Query.Received))
+        print(string.format("  Errors: %d", Tome.Data.Statistics.Query.Errors))
+        print("Tome Data:")
+        print(string.format("  Sent: %d", Tome.Data.Statistics.Data.Sent))
+        print(string.format("  Received: %d", Tome.Data.Statistics.Data.Received))
+        print(string.format("  Errors: %d", Tome.Data.Statistics.Data.Errors))
+    elseif (command == "merisioux") then
+        -- Show counters for message data (Merisioux)
+        print("------- Message Statistics -------")
+        print("Merisioux Query:")
+        print(string.format("  Sent: %d", Tome.Compat.Merisioux.Statistics.Query.Sent))
+        print(string.format("  Received: %d", Tome.Compat.Merisioux.Statistics.Query.Received))
+        print(string.format("  Errors: %d", Tome.Compat.Merisioux.Statistics.Query.Errors))
+        print("Merisioux Data:")
+        print(string.format("  Sent: %d", Tome.Compat.Merisioux.Statistics.Data.Sent))
+        print(string.format("  Received: %d", Tome.Compat.Merisioux.Statistics.Data.Received))
+        print(string.format("  Errors: %d", Tome.Compat.Merisioux.Statistics.Data.Errors))
     else
-        print("Unable to get CPU usage information!")
+        --
     end
-
-    -- Dump the serialized character information
-    print("------- Character Info -------")
-    print(Tome.Data.Serialize(Tome_Character))
-
-    -- Show counters for message data (Tome)
-    print("------- Message Statistics -------")
-    print("Tome Query:")
-    print(string.format("  Sent: %d", Tome.Data.Statistics.Query.Sent))
-    print(string.format("  Received: %d", Tome.Data.Statistics.Query.Received))
-    print(string.format("  Errors: %d", Tome.Data.Statistics.Query.Errors))
-    print("Tome Data:")
-    print(string.format("  Sent: %d", Tome.Data.Statistics.Data.Sent))
-    print(string.format("  Received: %d", Tome.Data.Statistics.Data.Received))
-    print(string.format("  Errors: %d", Tome.Data.Statistics.Data.Errors))
-
-    -- Show counters for message data (Merisioux)
-    print("------- Message Statistics -------")
-    print("Merisioux Query:")
-    print(string.format("  Sent: %d", Tome.Compat.Merisioux.Statistics.Query.Sent))
-    print(string.format("  Received: %d", Tome.Compat.Merisioux.Statistics.Query.Received))
-    print(string.format("  Errors: %d", Tome.Compat.Merisioux.Statistics.Query.Errors))
-    print("Merisioux Data:")
-    print(string.format("  Sent: %d", Tome.Compat.Merisioux.Statistics.Data.Sent))
-    print(string.format("  Received: %d", Tome.Compat.Merisioux.Statistics.Data.Received))
-    print(string.format("  Errors: %d", Tome.Compat.Merisioux.Statistics.Data.Errors))
 end
 
 -- This function sets different values of your Tome characters
@@ -210,7 +218,13 @@ function Tome.Event_Command_Slash(handle, commandline)
 
         Tome.Set(key, value)
     elseif (command == "debug") then
-        Tome.ShowDebug()
+        -- Abort if we do not have a debug command
+        if (table.getn(parameters) ~= 1) then
+            print("Incorrect parameter for command 'debug'")
+            return
+        end
+
+        Tome.ShowDebug(string.lower(table.remove(parameters, 1)))
     else
         -- No commands mathes. Display help message
         Tome.ShowHelp()
