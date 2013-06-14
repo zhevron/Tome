@@ -18,14 +18,17 @@
 -- along with Tome. If not, see <http://www.gnu.org/licenses/>.
 --
 
+-- Get the character details
+local detail = Inspect.Unit.Detail("player")
+
 Tome_Config = {
     Timeout = 3600
 }
 
 Tome_Character = {
-    Prefix = "",
-    Name = "",
-    Suffix = "",
+    Prefix = detail and detail.titlePrefixName or "",
+    Name = detail and detail.name or "",
+    Suffix = detail and detail.titleSuffixName or "",
     Title = "",
     Age = "",
     Height = "",

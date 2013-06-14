@@ -60,6 +60,10 @@ function Tome.ShowDebug()
     else
         print("Unable to get CPU usage information!")
     end
+
+    -- Dump the serialized character information
+    print("------- Character Info -------")
+    print(Tome.Data.Serialize(Tome_Character))
 end
 
 -- This function sets different values of your Tome characters
