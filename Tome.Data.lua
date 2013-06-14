@@ -140,9 +140,14 @@ function Tome.Data.Cache(name, data)
 end
 
 -- This function sends a data query to the target or broadcasts if not target is provided
-function Tome.Data.Query(target)
-    -- Check if a target was provided
-    if target then
+function Tome.Data.Query(target, broadcast)
+    -- Abort if no target is provided
+    if not target then
+        return
+    end
+
+    -- Check if this is a broadcast
+    if not broadcast then
         -- Store the target name in case we have to try again
         Tome.Data.Error.Target = target
         Tome.Data.Error.Type = "Query"
@@ -151,7 +156,7 @@ function Tome.Data.Query(target)
         Command.Message.Send(target, "Tome_Query", "", Tome.Data.SendCallback)
     else
         -- Broadcast query to anyone in /say range
-        Command.Message.Broadcast("say", nil, "Tome_Query", "", Tome.Data.SendCallback)
+        Command.Message.Broadcast(target, nil, "Tome_Query", "")
     end
 end
 
@@ -161,6 +166,8 @@ function Tome.Data.SendCallback(failure, message)
     if failure then
         -- If above he failure threshold, abort
         if (Tome.Data.Error.Count >= 10) then
+            -- Reset the error counter
+            Tome.Data.Error.Count = 0
             return
         end
 
@@ -174,17 +181,23 @@ function Tome.Data.SendCallback(failure, message)
             Tome.Data.Send(Tome.Data.Error.Target)
         end
     else
+        -- No errors, reset the error counter
         Tome.Data.Error.Count = 0
     end
 end
 
 -- This function sends the character data to a target or broadcasts if no target is provided
-function Tome.Data.Send(target)
+function Tome.Data.Send(target, broadcast)
+    -- Abort if no target is provided
+    if not target then
+        return
+    end
+
     -- Serialize character data for sending
     local data = Tome.Data.Serialize(Tome_Character)
 
-    -- Check if a target was provided
-    if target then
+    -- Check if this is a broadcast
+    if not broadcast then
         -- Store the target name in case we have to try again
         Tome.Data.Error.Target = target
         Tome.Data.Error.Type = "Send"
@@ -193,13 +206,12 @@ function Tome.Data.Send(target)
         Command.Message.Send(target, "Tome_Data", data, Tome.Data.SendCallback)
     else
         -- Broadcast data to anyone in /say range
-        Command.Message.Broadcast("say", nil, "Tome_Data", data, Tome.Data.SendCallback)
+        Command.Message.Broadcast(target, nil, "Tome_Data", data)
     end
 end
 
 -- This function is triggered by the event API when an addon message is received
 function Tome.Data.Event_Message_Receive(handle, from, msgtype, channel, identifier, data)
-    print("Message received")
     -- Discard if it's not a message for Tome
     if (identifier ~= "Tome_Query" and identifier ~= "Tome_Data") then
         return
@@ -208,16 +220,13 @@ function Tome.Data.Event_Message_Receive(handle, from, msgtype, channel, identif
     -- Determine the message type
     if (identifier == "Tome_Query") then
         -- It's a query. Send our data
-        print("Query received")
         Tome.Data.Send(from)
     elseif (identifier == "Tome_Data") then
-        print("Data received")
         -- It's a data packet. Unserialize the data
         local deserialized = Tome.Data.Deserialize(data)
 
         -- Check that the data is valid and exit if it isn't
         if (type(deserialized) ~= "table") then
-            print("Received incorrect data type: "..type(deserialized))
             return
         end
 
