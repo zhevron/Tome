@@ -204,11 +204,6 @@ function Tome.Data.Send(target, broadcast)
 
         -- Send data to a single target
         Command.Message.Send(target, "Tome_Data", data, Tome.Data.SendCallback)
-
-        -- Call the compatibility modules' send function
-        for _, item in pairs(Tome.Compat) do
-            item.Send(target)
-        end
     else
         -- Broadcast data to anyone in /say range
         Command.Message.Broadcast(target, nil, "Tome_Data", data)
