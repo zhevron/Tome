@@ -71,7 +71,7 @@ function Tome.Compat.Merisioux.Cache(name, data)
     -- Interpret the Merisioux data and convert it to Tome data
     local tomedata = {
         Prefix = data.prefix and data.prefix or "",
-        Name = data.override and data.override or name,
+        Name = (data.override ~= "") and data.override or name,
         Suffix = data.suffix and data.suffix or "",
         Title = data.title and data.title or "",
         Age = "",
