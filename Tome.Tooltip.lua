@@ -24,6 +24,9 @@ Tome.Tooltip = {}
 -- Create the tooltip UI context
 Tome.Tooltip.Context = UI.CreateContext("Tome_Tooltip")
 
+-- Set the context strata
+Tome.Tooltip.Context:SetStrata("topmost")
+
 -- Create the initial tooltip frame
 Tome.Tooltip.Frame = UI.CreateFrame("Frame", "Tome_Tooltip_Frame", Tome.Tooltip.Context)
 
