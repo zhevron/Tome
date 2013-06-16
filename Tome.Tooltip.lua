@@ -74,7 +74,7 @@ function Tome.Tooltip.Create()
 
     -- Create the title label frame
     Tome.Tooltip.Title = UI.CreateFrame("Text", "Tome_Tooltip_Title", Tome.Tooltip.Frame)
-    Tome.Tooltip.Title:SetPoint("TOPLEFT", Tome.Tooltip.Name, "BOTTOMLEFT", 0, -2)
+    Tome.Tooltip.Title:SetPoint("TOPLEFT", Tome.Tooltip.Name, "BOTTOMLEFT", 0, -5)
     Tome.Tooltip.Title:SetFontColor(0.6, 0.6, 0.8, 1.0)
 
     -- Create the cache status label frame
