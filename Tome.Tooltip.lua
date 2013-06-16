@@ -113,8 +113,21 @@ function Tome.Tooltip.Update(data)
     -- Set the players title
     Tome.Tooltip.Title:SetText(data.Title)
 
+    -- Make a temporary variable with the player name
+    local name = data.Name
+
+    -- Prepend the prefix if the player has one
+    if data.Prefix and data.Prefix ~= "" then
+        name = string.format("%s %s", data.Prefix, name)
+    end
+
+    -- Append the suffix if the player has one
+    if data.Suffix and data.Suffix ~= "" then
+        name = string.format("%s %s", name, data.Suffix)
+    end
+
     -- Set the players name
-    Tome.Tooltip.Name:SetText(string.format("%s %s %s", data.Prefix, data.Name, data.Suffix))
+    Tome.Tooltip.Name:SetText(name)
 
     -- Make a temporary variable to store our flag text
     local flagtext = ""
