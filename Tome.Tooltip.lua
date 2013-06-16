@@ -33,9 +33,6 @@ Tome.Tooltip.Frame:SetVisible(false)
 -- Create a table to store the border frames in
 Tome.Tooltip.Borders = {}
 
--- Store whether the tooltip is visible or not
-Tome.Tooltip.Visible = false
-
 -- Store the current tooltip target
 Tome.Tooltip.Target = nil
 
