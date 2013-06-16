@@ -173,7 +173,9 @@ function Tome.Tooltip.Update(data)
     end
 
     -- Set the origin addon text
-    Tome.Tooltip.Origin:SetText(data.Origin)
+    if data.Origin then
+        Tome.Tooltip.Origin:SetText(data.Origin)
+    end
 
     -- Update the tooltip width
     Tome.Tooltip.UpdateWidth()
