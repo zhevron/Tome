@@ -73,22 +73,31 @@ function Tome.Tooltip.Create()
     -- Create the title label frame
     Tome.Tooltip.Title = UI.CreateFrame("Text", "Tome_Tooltip_Title", Tome.Tooltip.Frame)
     Tome.Tooltip.Title:SetPoint("TOPLEFT", Tome.Tooltip.Frame, "TOPLEFT", 5, 5)
-    Tome.Tooltip.Title:SetFontColor(1.0, 1.0, 0.8, 1.0)
+    Tome.Tooltip.Title:SetFontColor(0.6, 0.6, 0.8, 1.0)
 
     -- Create the name label frame
     Tome.Tooltip.Name = UI.CreateFrame("Text", "Tome_Tooltip_Name", Tome.Tooltip.Frame)
     Tome.Tooltip.Name:SetPoint("TOPLEFT", Tome.Tooltip.Title, "BOTTOMLEFT", 0, 5)
     Tome.Tooltip.Name:SetFontSize(15)
 
+    -- Create the cache status label frame
+    Tome.Tooltip.Cache = UI.CreateFrame("Text", "Tome_Tooltip_Cache", Tome.Tooltip.Frame)
+    Tome.Tooltip.Cache:SetPoint("BOTTOMLEFT", Tome.Tooltip.Frame, "BOTTOMLEFT", 5, -5)
+
+    -- Create the origin addon label frame
+    Tome.Tooltip.Origin = UI.CreateFrame("Text", "Tome_Tooltip_Origin", Tome.Tooltip.Frame)
+    Tome.Tooltip.Origin:SetPoint("BOTTOMRIGHT", Tome.Tooltip.Frame, "BOTTOMRIGHT", -5, -5)
+    Tome.Tooltip.Origin:SetFontColor(1.0, 1.0, 0.8, 1.0)
+
     -- Create the flag label frame
     Tome.Tooltip.Flag = UI.CreateFrame("Text", "Tome_Tooltip_Flag", Tome.Tooltip.Frame)
-    Tome.Tooltip.Flag:SetPoint("BOTTOMLEFT", Tome.Tooltip.Frame, "BOTTOMLEFT", 5, -5)
+    Tome.Tooltip.Flag:SetPoint("BOTTOMLEFT", Tome.Tooltip.Cache, "TOPLEFT", 0, -2)
     Tome.Tooltip.Flag:SetFontColor(0.2, 0.5, 0.9, 1.0)
     Tome.Tooltip.Flag:SetFontSize(13)
 
     -- Create the in character indicator label frame
     Tome.Tooltip.InCharacter = UI.CreateFrame("Text", "Tome_Tooltip_InCharacter", Tome.Tooltip.Frame)
-    Tome.Tooltip.InCharacter:SetPoint("BOTTOMRIGHT", Tome.Tooltip.Frame, "BOTTOMRIGHT", -5, -5)
+    Tome.Tooltip.InCharacter:SetPoint("BOTTOMRIGHT", Tome.Tooltip.Origin, "TOPRIGHT", 0, -2)
     Tome.Tooltip.InCharacter:SetFontSize(13)
 end
 
@@ -158,6 +167,12 @@ function Tome.Tooltip.Update(data)
         Tome.Tooltip.InCharacter:SetText("Out of Character")
         Tome.Tooltip.InCharacter:SetFontColor(0.78, 0.08, 0.08, 1.0)
     end
+
+    -- TODO: Display a message of the data is old
+    Tome.Tooltip.Cache:SetText(" ")
+
+    -- Set the origin addon text
+    Tome.Tooltip.Origin:SetText(data.Origin)
 
     -- Update the tooltip width
     Tome.Tooltip.UpdateWidth()

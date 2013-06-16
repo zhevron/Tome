@@ -151,6 +151,9 @@ function Tome.Data.Cache(name, data)
     -- Set the time this entry was added so we can check for expiry later
     data.Timestamp = os.time()
 
+    -- Set the origin addon for the data
+    data.Origin = "Tome"
+
     -- Store the data in our cache
     Tome_Cache[string.upper(name)] = data
 

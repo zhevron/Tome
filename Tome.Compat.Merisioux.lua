@@ -81,7 +81,8 @@ function Tome.Compat.Merisioux.Cache(name, data)
         History = data.biography and data.biography or "",
         InCharacter = false,
         Tutor = false,
-        Flag = 0
+        Flag = 0,
+        Origin = "Merisioux"
     }
 
     -- Interpret the Merisioux flags and set the equivalent Tome flags
@@ -227,6 +228,11 @@ function Tome.Compat.Merisioux.Event_Message_Receive(handle, from, msgtype, chan
 
         -- Check that the data is valid and exit if it isn't
         if (type(deserialized) ~= "table") then
+            return
+        end
+
+        -- Drop the message if it originated from Tome
+        if deserialized.origin and deserialized.origin == "Tome" then
             return
         end
 

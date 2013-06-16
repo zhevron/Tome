@@ -38,6 +38,7 @@ Tome_Character = {
     InCharacter = false,
     Tutor = false,
     Flag = 0,
+    Origin = "Tome"
 }
 
 Tome_Cache = {}
