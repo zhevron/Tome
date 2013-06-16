@@ -263,7 +263,7 @@ function Tome.Data.Event_Message_Receive(handle, from, msgtype, channel, identif
     -- Determine the message type
     if (identifier == "Tome_Query") then
         -- Increment the query received counter
-        Time.Data.Statistics.Query.Received = Tome.Data.Statistics.Query.Received + 1
+        Tome.Data.Statistics.Query.Received = Tome.Data.Statistics.Query.Received + 1
 
         -- It's a query. Send our data
         Tome.Data.Send(from)
