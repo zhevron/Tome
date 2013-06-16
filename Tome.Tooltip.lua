@@ -197,13 +197,13 @@ function Tome.Tooltip.UpdateWidth()
     end
 
     -- Check if the width of the flag and in character fields are wider
-    local total = Tome.Tooltip.Flag:GetWidth() + Tome.Tooltip.InCharacter:GetWidth() + 30
+    local total = Tome.Tooltip.Flag:GetWidth() + Tome.Tooltip.InCharacter:GetWidth()
     if total > width then
         width = total
     end
 
     -- Set the tooltip width
-    Tome.Tooltip.Frame:SetWidth(width)
+    Tome.Tooltip.Frame:SetWidth(width + 30)
 end
 
 -- This funtion is used to notify the tooltip of an update in the data cache
