@@ -144,6 +144,9 @@ function Tome.Set(key, value)
         return
     end
 
+    -- Broadcast the new data
+    Tome.Data.Send(nil, true)
+
     -- Confirm to the player that we set the value
     print(string.format("Set your %s to: %s", key, value))
 end
@@ -160,7 +163,7 @@ function Tome.Event_Command_Slash(handle, commandline)
 
     -- If no parameters were provided, just display the config interface
     if (table.getn(parameters) == 0) then
-        -- TODO: Show the config UI
+        Tome.UI.Show()
         return
     end
 

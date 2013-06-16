@@ -10,14 +10,21 @@ Email = "thomas@lokshall.com"
 
 Environment = "2.2"
 
+Dependencies = {
+    LibSimpleWidgets = { "required", "before" }
+}
+
+Embed = {
+    LibSimpleWidgets = true
+}
+
 RunOnStartup = {
     "Tome.Defaults.lua",
     "Tome.Main.lua",
     "Tome.Tooltip.lua",
     "Tome.Data.lua",
     "Tome.Compat.Merisioux.lua",
-    "Tome.UI.Character.lua",
-    "Tome.UI.Config.lua"
+    "Tome.UI.lua"
 }
 
 SavedVariables = {
