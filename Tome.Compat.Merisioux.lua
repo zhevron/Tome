@@ -132,6 +132,11 @@ function Tome.Compat.Merisioux.Send(target, broadcast)
     -- Serialize character data for sending
     local data = Tome.Compat.Merisioux.Serialize(Tome_Character)
 
+    -- Abort if the data serialization somehow failed
+    if not data then
+        return
+    end
+
     -- Check if this is a broadcast
     if not broadcast then
         -- Store the target name in case we have to try again
