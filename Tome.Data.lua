@@ -130,14 +130,13 @@ function Tome.Data.Get(name)
         -- Data is cached. Get the time that it will expire
         local expires = Tome_Cache[name].Timestamp + Tome_Config.Timeout
 
-        -- Check that the data hasn't expired
-        if (expires >= os.time()) then
-            -- Data is still valid. Return it
-            return Tome_Cache[name]
-        else
-            -- Data has expires. Send a new query
+        -- Send a new query if the data has expired and flag it
+        if (expires <= os.time()) then
             Tome.Data.Query(name)
+            Tome_Cache[name].Expired = true
         end
+
+        return Tome_Cache[name]
     else
         -- Data is not present. Send a new query
         Tome.Data.Query(name)

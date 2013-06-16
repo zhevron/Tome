@@ -168,8 +168,12 @@ function Tome.Tooltip.Update(data)
         Tome.Tooltip.InCharacter:SetFontColor(0.78, 0.08, 0.08, 1.0)
     end
 
-    -- TODO: Display a message of the data is old
-    Tome.Tooltip.Cache:SetText(" ")
+    -- Display a message if the data is old
+    if data.Expired then
+        Tome.Tooltip.Cache:SetText("Expired")
+    else
+        Tome.Tooltip.Cache:SetText(" ")
+    end
 
     -- Set the origin addon text
     Tome.Tooltip.Origin:SetText(data.Origin)
