@@ -44,7 +44,50 @@ Tome.Compat.Merisioux.Error = {
 
 -- Serializes a variable so it can be transmitted across the network
 function Tome.Compat.Merisioux.Serialize(data)
-    --
+    -- Create a data structure to hold the Merisioux converted data
+    local merisiouxdata = {
+        addonversion = "Merisioux:0.15-130521-20:24:20",
+        libversion = "0.7-130317-15:12:00",
+        origin = "Tome",
+        prefix = data.Prefix,
+        override = data.Name,
+        suffix = data.Suffix,
+        title = data.Title,
+        description = data.Appearance,
+        biography = data.History,
+        flags = ""
+    }
+
+    -- Add the in character status flag
+    if data.InCharacter then
+        merisiouxdata.flags = string.format("%sc", merisiouxdata.flags)
+    else
+        merisiouxdata.flags = string.format("%so", merisiouxdata.flags)
+    end
+
+    -- Add the tutor mode flag
+    if data.Tutor then
+        merisiouxdata.flags = string.format("%sh", merisiouxdata.flags)
+    end
+
+    -- Set the Newbie flag is the player is a Fledgling Roleplayer
+    if data.Flag == 1 then
+        merisiouxdata.flags = string.format("%sw", merisiouxdata.flags)
+    end
+
+    -- Use the Data module to serialize the table to a string
+    local serialized = Utility.Serialize.Inline(merisiouxdata)
+
+    -- Instantiate ZLIB to deflate the data
+    local deflate = zlib.deflate(zlib.BEST_COMPRESSION)
+
+    -- Deflate the raw data
+    local deflated = deflate(serialized, "finish")
+
+    -- Append the header prefix
+    deflated = string.format("merisioux_data\1%s", deflated)
+
+    return deflated
 end
 
 -- This function deserializes data back into their objects
@@ -53,7 +96,7 @@ function Tome.Compat.Merisioux.Deserialize(data)
     local inflate = zlib.inflate()
 
     -- Inflate the compressed data
-    local inflated, eof = inflate(data)
+    local inflated = inflate(data)
 
     -- Deserialize using loadstring
     local deserialized = loadstring(string.format("return %s", inflated))
