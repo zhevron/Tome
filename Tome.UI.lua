@@ -94,6 +94,9 @@ function Tome.UI.Event_Button_Save()
     Tome_Character.Appearance = Tome.UI.Layouts.Character.Appearance.Text:GetText()
     Tome_Character.History = Tome.UI.Layouts.Character.History.Text:GetText()
 
+    -- Broadcast the new data
+    Tome.Data.Send(nil, true)
+
     -- Disable the save button
     Tome.UI.NavButtons.Save:SetEnabled(false)
 end

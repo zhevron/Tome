@@ -172,15 +172,24 @@ function Tome.Event_Command_Slash(handle, commandline)
 
     if (command == "ic") then
         Tome_Character.InCharacter = true
-        -- TODO: Trigger a broadcast update
+
+        -- Broadcast the new data
+        Tome.Data.Send(nil, true)
+
         print("You are now In Character")
     elseif (command == "ooc") then
         Tome_Character.InCharacter = false
-        -- TODO: Trigger a broadcast update
+
+        -- Broadcast the new data
+        Tome.Data.Send(nil, true)
+
         print("You are now Out Of Character")
     elseif (command == "tutor") then
         Tome_Character.Tutor = not Tome_Character.Tutor
-        -- TODO: Trigger a broadcast update
+
+        -- Broadcast the new data
+        Tome.Data.Send(nil, true)
+
         if Tome_Character.Tutor then
             print("You are now in Tutor mode")
         else
