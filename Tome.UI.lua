@@ -166,7 +166,7 @@ function Tome.UI.CreateNavButtons()
     Tome.UI.NavButtons.Close = UI.CreateFrame("RiftButton", "Tome_UI_NavButton_Close", Tome.UI.Window)
     Tome.UI.NavButtons.Close:SetPoint("TOPRIGHT", Tome.UI.Window, "TOPRIGHT", -10, 17)
     Tome.UI.NavButtons.Close:SetSkin("close")
-    Tome.UI.NavButtons.Close:AttachEvent(
+    Tome.UI.NavButtons.Close:EventAttach(
         Event.UI.Input.Mouse.Left.Click,
         Tome.UI.Event_Button_Close,
         "Tome_UI_NavButton_Close_Click"
@@ -176,7 +176,7 @@ function Tome.UI.CreateNavButtons()
     Tome.UI.NavButtons.Character = UI.CreateFrame("RiftButton", "Tome_UI_NavButton_Character", Tome.UI.Window)
     Tome.UI.NavButtons.Character:SetPoint("BOTTOMLEFT", Tome.UI.Window, "BOTTOMLEFT", 15, -15)
     Tome.UI.NavButtons.Character:SetText("Character")
-    Tome.UI.NavButtons.Character:AttachEvent(
+    Tome.UI.NavButtons.Character:EventAttach(
         Event.UI.Input.Mouse.Left.Click,
         Tome.UI.Event_Button_Character,
         "Tome_UI_NavButton_Character_Click"
@@ -187,7 +187,7 @@ function Tome.UI.CreateNavButtons()
     Tome.UI.NavButtons.Guild:SetPoint("BOTTOMLEFT", Tome.UI.NavButtons.Character, "BOTTOMRIGHT", 0, 0)
     Tome.UI.NavButtons.Guild:SetText("Guild")
     Tome.UI.NavButtons.Guild:SetEnabled(false)
-    Tome.UI.NavButtons.Guild:AttachEvent(
+    Tome.UI.NavButtons.Guild:EventAttach(
         Event.UI.Input.Mouse.Left.Click,
         Tome.UI.Event_Button_Guild,
         "Tome_UI_NavButton_Guild_Click"
@@ -198,7 +198,7 @@ function Tome.UI.CreateNavButtons()
     Tome.UI.NavButtons.Save:SetPoint("BOTTOMRIGHT", Tome.UI.Window, "BOTTOMRIGHT", -15, -15)
     Tome.UI.NavButtons.Save:SetText("Save")
     Tome.UI.NavButtons.Save:SetEnabled(false)
-    Tome.UI.NavButtons.Save:AttachEvent(
+    Tome.UI.NavButtons.Save:EventAttach(
         Event.UI.Input.Mouse.Left.Click,
         Tome.UI.Event_Button_Save,
         "Tome_UI_NavButton_Save_Click"
@@ -209,7 +209,7 @@ function Tome.UI.CreateNavButtons()
     Tome.UI.NavButtons.Settings:SetPoint("BOTTOMRIGHT", Tome.UI.NavButtons.Save, "BOTTOMLEFT", 0, 0)
     Tome.UI.NavButtons.Settings:SetText("Settings")
     Tome.UI.NavButtons.Settings:SetEnabled(false)
-    Tome.UI.NavButtons.Settings:AttachEvent(
+    Tome.UI.NavButtons.Settings:EventAttach(
         Event.UI.Input.Mouse.Left.Click,
         Tome.UI.Event_Button_Settings,
         "Tome_UI_NavButton_Settings_Click"
@@ -220,7 +220,7 @@ function Tome.UI.CreateNavButtons()
     Tome.UI.NavButtons.Preview:SetPoint("BOTTOMRIGHT", Tome.UI.NavButtons.Settings, "BOTTOMLEFT", 0, 0)
     Tome.UI.NavButtons.Preview:SetText("Preview")
     Tome.UI.NavButtons.Preview:SetEnabled(false)
-    Tome.UI.NavButtons.Preview:AttachEvent(
+    Tome.UI.NavButtons.Preview:EventAttach(
         Event.UI.Input.Mouse.Left.Click,
         Tome.UI.Event_Button_Preview,
         "Tome_UI_NavButton_Preview_Click"
@@ -258,7 +258,7 @@ function Tome.UI.CreateCharacterLayout()
             Tome.UI.Layouts.Character.Prefix:SetText("Prefix")
         end
     end]]--
-    Tome.UI.Layouts.Character.Prefix:AttachEvent(
+    Tome.UI.Layouts.Character.Prefix:EventAttach(
         Event.UI.Input.Key.Up,
         function(handle, key)
             -- Enable the Save button
@@ -287,7 +287,7 @@ function Tome.UI.CreateCharacterLayout()
             Tome.UI.Layouts.Character.Suffix:SetText("Suffix")
         end
     end]]--
-    Tome.UI.Layouts.Character.Suffix:AttachEvent(
+    Tome.UI.Layouts.Character.Suffix:EventAttach(
         Event.UI.Input.Key.Up,
         function(handle, key)
             -- Enable the Save button
@@ -317,7 +317,7 @@ function Tome.UI.CreateCharacterLayout()
             Tome.UI.Layouts.Character.Name:SetText("Name")
         end
     end]]--
-    Tome.UI.Layouts.Character.Name:AttachEvent(
+    Tome.UI.Layouts.Character.Name:EventAttach(
         Event.UI.Input.Key.Up,
         function(handle, key)
             -- Enable the Save button
@@ -346,7 +346,7 @@ function Tome.UI.CreateCharacterLayout()
             Tome.UI.Layouts.Character.Title:SetText("Title")
         end
     end]]--
-    Tome.UI.Layouts.Character.Title:AttachEvent(
+    Tome.UI.Layouts.Character.Title:EventAttach(
         Event.UI.Input.Key.Up,
         function(handle, key)
             -- Enable the Save button
@@ -362,7 +362,7 @@ function Tome.UI.CreateCharacterLayout()
     Tome.UI.Layouts.Character.InCharacter:SetPoint("TOPLEFT", Tome.UI.Layouts.Character.Suffix, "TOPRIGHT", 5, -7)
     Tome.UI.Layouts.Character.InCharacter:SetWidth(size)
     Tome.UI.Layouts.Character.InCharacter:SetText("IC/OOC")
-    Tome.UI.Layouts.Character.InCharacter:AttachEvent(
+    Tome.UI.Layouts.Character.InCharacter:EventAttach(
         Event.UI.Input.Mouse.Left.Click,
         function(handle)
             -- Toggle the button based on current status
@@ -383,7 +383,7 @@ function Tome.UI.CreateCharacterLayout()
     Tome.UI.Layouts.Character.Tutor:SetPoint("TOPLEFT", Tome.UI.Layouts.Character.InCharacter, "TOPRIGHT", 5, 0)
     Tome.UI.Layouts.Character.Tutor:SetWidth(size)
     Tome.UI.Layouts.Character.Tutor:SetText("Tutor")
-    Tome.UI.Layouts.Character.Tutor:AttachEvent(
+    Tome.UI.Layouts.Character.Tutor:EventAttach(
         Event.UI.Input.Mouse.Left.Click,
         function(handle)
             -- Toggle the button based on current status
@@ -412,7 +412,7 @@ function Tome.UI.CreateCharacterLayout()
     -- Create the Flag dropdown menu
     Tome.UI.Layouts.Character.Flag = UI.CreateFrame("SimpleSelect", "Tome_UI_Layout_Character_Flag", Tome.UI.Layouts.Character)
     Tome.UI.Layouts.Character.Flag:SetPoint("TOPLEFT", Tome.UI.Layouts.Character.Title, "TOPRIGHT", 5, 0)
-    Tome.UI.Layouts.Character.Flag:SetSize((size * 2) + 5)
+    --Tome.UI.Layouts.Character.Flag:SetSize((size * 2) + 5)
     Tome.UI.Layouts.Character.Flag:SetBackgroundColor(0.0, 0.0, 0.0, 0.7)
     Tome.UI.Layouts.Character.Flag:SetItems(flagtext, flagvalue)
     -- TODO: Convert this event to the new system
@@ -431,7 +431,7 @@ function Tome.UI.CreateCharacterLayout()
     Tome.UI.Layouts.Character.Appearance.Text:SetPoint("TOPLEFT", Tome.UI.Layouts.Character.Appearance.Label, "BOTTOMLEFT", 0, 5)
     Tome.UI.Layouts.Character.Appearance.Text:SetPoint("TOPRIGHT", Tome.UI.Layouts.Character.Appearance.Label, "BOTTOMRIGHT", 0, 5)
     Tome.UI.Layouts.Character.Appearance.Text:SetBackgroundColor(0.0, 0.0, 0.0, 0.7)
-    Tome.UI.Layouts.Character.Appearance.Text:AttachEvent(
+    Tome.UI.Layouts.Character.Appearance.Text:EventAttach(
         Event.UI.Input.Key.Up,
         function(handle, key)
             -- Enable the Save button
@@ -450,7 +450,7 @@ function Tome.UI.CreateCharacterLayout()
     Tome.UI.Layouts.Character.History.Text:SetPoint("TOPLEFT", Tome.UI.Layouts.Character.History.Label, "BOTTOMLEFT", 0, 5)
     Tome.UI.Layouts.Character.History.Text:SetPoint("TOPRIGHT", Tome.UI.Layouts.Character.History.Label, "BOTTOMRIGHT", 0, 5)
     Tome.UI.Layouts.Character.History.Text:SetBackgroundColor(0.0, 0.0, 0.0, 0.7)
-    Tome.UI.Layouts.Character.History.Text:AttachEvent(
+    Tome.UI.Layouts.Character.History.Text:EventAttach(
         Event.UI.Input.Key.Up,
         function(handle, key)
             -- Enable the Save button
