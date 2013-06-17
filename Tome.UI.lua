@@ -50,7 +50,7 @@ Tome.UI.NavButtons = {}
 Tome.UI.Layouts = {}
 
 -- This function is called by the event API when the Character button is pressed
-function Tome.UI.Event_Button_Character()
+function Tome.UI.Event_Button_Character(handle)
     --Tome.UI.Layouts.Guild:SetVisible(false)
     --Tome.UI.Layouts.Preview:SetVisible(false)
     --Tome.UI.Layouts.Settings:SetVisible(false)
@@ -58,7 +58,7 @@ function Tome.UI.Event_Button_Character()
 end
 
 -- This function is called by the event API when the Guild button is pressed
-function Tome.UI.Event_Button_Guild()
+function Tome.UI.Event_Button_Guild(handle)
     Tome.UI.Layouts.Character:SetVisible(false)
     --Tome.UI.Layouts.Preview:SetVisible(false)
     --Tome.UI.Layouts.Settings:SetVisible(false)
@@ -66,7 +66,7 @@ function Tome.UI.Event_Button_Guild()
 end
 
 -- This function is called by the event API when the Preview button is pressed
-function Tome.UI.Event_Button_Preview()
+function Tome.UI.Event_Button_Preview(handle)
     Tome.UI.Layouts.Character:SetVisible(false)
     --Tome.UI.Layouts.Guild:SetVisible(false)
     --Tome.UI.Layouts.Settings:SetVisible(false)
@@ -74,7 +74,7 @@ function Tome.UI.Event_Button_Preview()
 end
 
 -- This function is called by the event API when the Settings button is pressed
-function Tome.UI.Event_Button_Settings()
+function Tome.UI.Event_Button_Settings(handle)
     Tome.UI.Layouts.Character:SetVisible(false)
     --Tome.UI.Layouts.Guild:SetVisible(false)
     --Tome.UI.Layouts.Preview:SetVisible(false)
@@ -82,7 +82,7 @@ function Tome.UI.Event_Button_Settings()
 end
 
 -- This function is called by the event API when the Save button is pressed
-function Tome.UI.Event_Button_Save()
+function Tome.UI.Event_Button_Save(handle)
     -- Save the settings
     Tome_Character.Prefix = string.gsub(Tome.UI.Layouts.Character.Prefix:GetText(), "Prefix", "")
     Tome_Character.Name = string.gsub(Tome.UI.Layouts.Character.Name:GetText(), "Name", "")
@@ -102,7 +102,7 @@ function Tome.UI.Event_Button_Save()
 end
 
 -- This function is called by the event API when the Close button is pressed
-function Tome.UI.Event_Button_Close()
+function Tome.UI.Event_Button_Close(handle)
     -- Remove focus from all fields
     Tome.UI.Layouts.Character.Prefix:SetKeyFocus(false)
     Tome.UI.Layouts.Character.Name:SetKeyFocus(false)
@@ -166,41 +166,65 @@ function Tome.UI.CreateNavButtons()
     Tome.UI.NavButtons.Close = UI.CreateFrame("RiftButton", "Tome_UI_NavButton_Close", Tome.UI.Window)
     Tome.UI.NavButtons.Close:SetPoint("TOPRIGHT", Tome.UI.Window, "TOPRIGHT", -10, 17)
     Tome.UI.NavButtons.Close:SetSkin("close")
-    Tome.UI.NavButtons.Close.Event.LeftClick = Tome.UI.Event_Button_Close
+    Tome.UI.NavButtons.Close:AttachEvent(
+        Event.UI.Input.Mouse.Left.Click,
+        Tome.UI.Event_Button_Close,
+        "Tome_UI_NavButton_Close_Click"
+    )
 
     -- Create the Character tab button
     Tome.UI.NavButtons.Character = UI.CreateFrame("RiftButton", "Tome_UI_NavButton_Character", Tome.UI.Window)
     Tome.UI.NavButtons.Character:SetPoint("BOTTOMLEFT", Tome.UI.Window, "BOTTOMLEFT", 15, -15)
     Tome.UI.NavButtons.Character:SetText("Character")
-    Tome.UI.NavButtons.Character.Event.LeftClick = Tome.UI.Event_Button_Character
+    Tome.UI.NavButtons.Character:AttachEvent(
+        Event.UI.Input.Mouse.Left.Click,
+        Tome.UI.Event_Button_Character,
+        "Tome_UI_NavButton_Character_Click"
+    )
 
     -- Create the Guild tab button
     Tome.UI.NavButtons.Guild = UI.CreateFrame("RiftButton", "Tome_UI_NavButton_Guild", Tome.UI.Window)
     Tome.UI.NavButtons.Guild:SetPoint("BOTTOMLEFT", Tome.UI.NavButtons.Character, "BOTTOMRIGHT", 0, 0)
     Tome.UI.NavButtons.Guild:SetText("Guild")
     Tome.UI.NavButtons.Guild:SetEnabled(false)
-    Tome.UI.NavButtons.Guild.Event.LeftClick = Tome.UI.Event_Button_Guild
+    Tome.UI.NavButtons.Guild:AttachEvent(
+        Event.UI.Input.Mouse.Left.Click,
+        Tome.UI.Event_Button_Guild,
+        "Tome_UI_NavButton_Guild_Click"
+    )
 
     -- Create the Save button
     Tome.UI.NavButtons.Save = UI.CreateFrame("RiftButton", "Tome_UI_NavButton_Save", Tome.UI.Window)
     Tome.UI.NavButtons.Save:SetPoint("BOTTOMRIGHT", Tome.UI.Window, "BOTTOMRIGHT", -15, -15)
     Tome.UI.NavButtons.Save:SetText("Save")
     Tome.UI.NavButtons.Save:SetEnabled(false)
-    Tome.UI.NavButtons.Save.Event.LeftClick = Tome.UI.Event_Button_Save
+    Tome.UI.NavButtons.Save:AttachEvent(
+        Event.UI.Input.Mouse.Left.Click,
+        Tome.UI.Event_Button_Save,
+        "Tome_UI_NavButton_Save_Click"
+    )
 
     -- Create the Settings tab button
     Tome.UI.NavButtons.Settings = UI.CreateFrame("RiftButton", "Tome_UI_NavButton_Settings", Tome.UI.Window)
     Tome.UI.NavButtons.Settings:SetPoint("BOTTOMRIGHT", Tome.UI.NavButtons.Save, "BOTTOMLEFT", 0, 0)
     Tome.UI.NavButtons.Settings:SetText("Settings")
     Tome.UI.NavButtons.Settings:SetEnabled(false)
-    Tome.UI.NavButtons.Settings.Event.LeftClick = Tome.UI.Event_Button_Settings
+    Tome.UI.NavButtons.Settings:AttachEvent(
+        Event.UI.Input.Mouse.Left.Click,
+        Tome.UI.Event_Button_Settings,
+        "Tome_UI_NavButton_Settings_Click"
+    )
 
     -- Create the Preview tab button
     Tome.UI.NavButtons.Preview = UI.CreateFrame("RiftButton", "Tome_UI_NavButton_Preview", Tome.UI.Window)
     Tome.UI.NavButtons.Preview:SetPoint("BOTTOMRIGHT", Tome.UI.NavButtons.Settings, "BOTTOMLEFT", 0, 0)
     Tome.UI.NavButtons.Preview:SetText("Preview")
     Tome.UI.NavButtons.Preview:SetEnabled(false)
-    Tome.UI.NavButtons.Preview.Event.LeftClick = Tome.UI.Event_Button_Preview
+    Tome.UI.NavButtons.Preview:AttachEvent(
+        Event.UI.Input.Mouse.Left.Click,
+        Tome.UI.Event_Button_Preview,
+        "Tome_UI_NavButton_Preview_Click"
+    )
 end
 
 -- This function creates the Character layout
@@ -220,22 +244,28 @@ function Tome.UI.CreateCharacterLayout()
     Tome.UI.Layouts.Character.Prefix:SetWidth(size)
     Tome.UI.Layouts.Character.Prefix:SetBackgroundColor(0.0, 0.0, 0.0, 0.7)
     Tome.UI.Layouts.Character.Prefix:SetText("Prefix")
+    -- TODO: Convert this event to the new system
     --[[Tome.UI.Layouts.Character.Prefix.Event.KeyFocusGain = function()
         -- Clear the text if it matches default
         if Tome.UI.Layouts.Character.Prefix:GetText() == "Prefix" then
             Tome.UI.Layouts.Character.Prefix:SetText("")
         end
     end]]--
+    -- TODO: Convert this event to the new system
     --[[Tome.UI.Layouts.Character.Prefix.Event.KeyFocusLoss = function()
         -- Set the default text if field is empty
         if Tome.UI.Layouts.Character.Prefix:GetText() == "" then
             Tome.UI.Layouts.Character.Prefix:SetText("Prefix")
         end
     end]]--
-    --[[Tome.UI.Layouts.Character.Prefix.Event.TextfieldChange = function()
-        -- Enable the Save button
-        Tome.UI.NavButtons.Save:SetEnabled(true)
-    end]]--
+    Tome.UI.Layouts.Character.Prefix:AttachEvent(
+        Event.UI.Input.Key.Up,
+        function(handle, key)
+            -- Enable the Save button
+            Tome.UI.NavButtons.Save:SetEnabled(true)
+        end,
+        "Tome_UI_Layout_Character_Prefix_Change"
+    )
 
     -- Create the Suffix field
     Tome.UI.Layouts.Character.Suffix = UI.CreateFrame("RiftTextfield", "Tome_UI_Layout_Character_Suffix", Tome.UI.Layouts.Character)
@@ -243,22 +273,28 @@ function Tome.UI.CreateCharacterLayout()
     Tome.UI.Layouts.Character.Suffix:SetWidth(size)
     Tome.UI.Layouts.Character.Suffix:SetBackgroundColor(0.0, 0.0, 0.0, 0.7)
     Tome.UI.Layouts.Character.Suffix:SetText("Suffix")
+    -- TODO: Convert this event to the new system
     --[[Tome.UI.Layouts.Character.Suffix.Event.KeyFocusGain = function()
         -- Clear the text if it matches default
         if Tome.UI.Layouts.Character.Suffix:GetText() == "Suffix" then
             Tome.UI.Layouts.Character.Suffix:SetText("")
         end
     end]]--
+    -- TODO: Convert this event to the new system
     --[[Tome.UI.Layouts.Character.Suffix.Event.KeyFocusLoss = function()
         -- Set the default text if field is empty
         if Tome.UI.Layouts.Character.Suffix:GetText() == "" then
             Tome.UI.Layouts.Character.Suffix:SetText("Suffix")
         end
     end]]--
-    --[[Tome.UI.Layouts.Character.Suffix.Event.TextfieldChange = function()
-        -- Enable the Save button
-        Tome.UI.NavButtons.Save:SetEnabled(true)
-    end]]--
+    Tome.UI.Layouts.Character.Suffix:AttachEvent(
+        Event.UI.Input.Key.Up,
+        function(handle, key)
+            -- Enable the Save button
+            Tome.UI.NavButtons.Save:SetEnabled(true)
+        end,
+        "Tome_UI_Layout_Character_Suffix_Change"
+    )
 
     -- Create the Name field
     Tome.UI.Layouts.Character.Name = UI.CreateFrame("RiftTextfield", "Tome_UI_Layout_Character_Name", Tome.UI.Layouts.Character)
@@ -267,22 +303,28 @@ function Tome.UI.CreateCharacterLayout()
     Tome.UI.Layouts.Character.Name:SetWidth(size)
     Tome.UI.Layouts.Character.Name:SetBackgroundColor(0.0, 0.0, 0.0, 0.7)
     Tome.UI.Layouts.Character.Name:SetText("Name")
+    -- TODO: Convert this event to the new system
     --[[Tome.UI.Layouts.Character.Name.Event.KeyFocusGain = function()
         -- Clear the text if it matches default
         if Tome.UI.Layouts.Character.Name:GetText() == "Name" then
             Tome.UI.Layouts.Character.Name:SetText("")
         end
     end]]--
+    -- TODO: Convert this event to the new system
     --[[Tome.UI.Layouts.Character.Name.Event.KeyFocusLoss = function()
         -- Set the default text if field is empty
         if Tome.UI.Layouts.Character.Name:GetText() == "" then
             Tome.UI.Layouts.Character.Name:SetText("Name")
         end
     end]]--
-    --[[Tome.UI.Layouts.Character.Name.Event.TextfieldChange = function()
-        -- Enable the Save button
-        Tome.UI.NavButtons.Save:SetEnabled(true)
-    end]]--
+    Tome.UI.Layouts.Character.Name:AttachEvent(
+        Event.UI.Input.Key.Up,
+        function(handle, key)
+            -- Enable the Save button
+            Tome.UI.NavButtons.Save:SetEnabled(true)
+        end,
+        "Tome_UI_Layout_Character_Name_Change"
+    )
 
     -- Create the Title field
     Tome.UI.Layouts.Character.Title = UI.CreateFrame("RiftTextfield", "Tome_UI_Layout_Character_Title", Tome.UI.Layouts.Character)
@@ -290,22 +332,28 @@ function Tome.UI.CreateCharacterLayout()
     Tome.UI.Layouts.Character.Title:SetPoint("TOPRIGHT", Tome.UI.Layouts.Character.Suffix, "BOTTOMRIGHT", 0, 10)
     Tome.UI.Layouts.Character.Title:SetBackgroundColor(0.0, 0.0, 0.0, 0.7)
     Tome.UI.Layouts.Character.Title:SetText("Title")
+    -- TODO: Convert this event to the new system
     --[[Tome.UI.Layouts.Character.Title.Event.KeyFocusGain = function()
         -- Clear the text if it matches default
         if Tome.UI.Layouts.Character.Title:GetText() == "Title" then
             Tome.UI.Layouts.Character.Title:SetText("")
         end
     end]]--
+    -- TODO: Convert this event to the new system
     --[[Tome.UI.Layouts.Character.Title.Event.KeyFocusLoss = function()
         -- Set the default text if field is empty
         if Tome.UI.Layouts.Character.Title:GetText() == "" then
             Tome.UI.Layouts.Character.Title:SetText("Title")
         end
     end]]--
-    --[[Tome.UI.Layouts.Character.Title.Event.TextfieldChange = function()
-        -- Enable the Save button
-        Tome.UI.NavButtons.Save:SetEnabled(true)
-    end]]--
+    Tome.UI.Layouts.Character.Title:AttachEvent(
+        Event.UI.Input.Key.Up,
+        function(handle, key)
+            -- Enable the Save button
+            Tome.UI.NavButtons.Save:SetEnabled(true)
+        end,
+        "Tome_UI_Layout_Character_Title_Change"
+    )
 
     size = (((Tome.UI.Layouts.Character:GetWidth() / 100) * 35) - 10) / 2
 
@@ -314,34 +362,42 @@ function Tome.UI.CreateCharacterLayout()
     Tome.UI.Layouts.Character.InCharacter:SetPoint("TOPLEFT", Tome.UI.Layouts.Character.Suffix, "TOPRIGHT", 5, -7)
     Tome.UI.Layouts.Character.InCharacter:SetWidth(size)
     Tome.UI.Layouts.Character.InCharacter:SetText("IC/OOC")
-    Tome.UI.Layouts.Character.InCharacter.Event.LeftClick = function()
-        -- Toggle the button based on current status
-        if Tome.UI.Layouts.Character.InCharacter:GetText() == "IC" then
-            Tome.UI.Layouts.Character.InCharacter:SetText("OOC")
-        else
-            Tome.UI.Layouts.Character.InCharacter:SetText("IC")
-        end
+    Tome.UI.Layouts.Character.InCharacter:AttachEvent(
+        Event.UI.Input.Mouse.Left.Click,
+        function(handle)
+            -- Toggle the button based on current status
+            if Tome.UI.Layouts.Character.InCharacter:GetText() == "IC" then
+                Tome.UI.Layouts.Character.InCharacter:SetText("OOC")
+            else
+                Tome.UI.Layouts.Character.InCharacter:SetText("IC")
+            end
 
-        -- Enable the Save button
-        Tome.UI.NavButtons.Save:SetEnabled(true)
-    end
+            -- Enable the Save button
+            Tome.UI.NavButtons.Save:SetEnabled(true)
+        end,
+        "Tome_UI_Layout_Character_InCharacter_Click"
+    )
 
     -- Create the Tutor button
     Tome.UI.Layouts.Character.Tutor = UI.CreateFrame("RiftButton", "Tome_UI_Layout_Character_Tutor", Tome.UI.Layouts.Character)
     Tome.UI.Layouts.Character.Tutor:SetPoint("TOPLEFT", Tome.UI.Layouts.Character.InCharacter, "TOPRIGHT", 5, 0)
     Tome.UI.Layouts.Character.Tutor:SetWidth(size)
     Tome.UI.Layouts.Character.Tutor:SetText("Tutor")
-    Tome.UI.Layouts.Character.Tutor.Event.LeftClick = function()
-        -- Toggle the button based on current status
-        if Tome.UI.Layouts.Character.Tutor:GetText() == "Tutor: On" then
-            Tome.UI.Layouts.Character.Tutor:SetText("Tutor: Off")
-        else
-            Tome.UI.Layouts.Character.Tutor:SetText("Tutor: On")
-        end
+    Tome.UI.Layouts.Character.Tutor:AttachEvent(
+        Event.UI.Input.Mouse.Left.Click,
+        function(handle)
+            -- Toggle the button based on current status
+            if Tome.UI.Layouts.Character.Tutor:GetText() == "Tutor: On" then
+                Tome.UI.Layouts.Character.Tutor:SetText("Tutor: Off")
+            else
+                Tome.UI.Layouts.Character.Tutor:SetText("Tutor: On")
+            end
 
-        -- Enable the Save button
-        Tome.UI.NavButtons.Save:SetEnabled(true)
-    end
+            -- Enable the Save button
+            Tome.UI.NavButtons.Save:SetEnabled(true)
+        end,
+        ""
+    )
 
     -- Create a list of all the available flags
     local flagtext = {}
@@ -359,6 +415,7 @@ function Tome.UI.CreateCharacterLayout()
     Tome.UI.Layouts.Character.Flag:SetSize((size * 2) + 5)
     Tome.UI.Layouts.Character.Flag:SetBackgroundColor(0.0, 0.0, 0.0, 0.7)
     Tome.UI.Layouts.Character.Flag:SetItems(flagtext, flagvalue)
+    -- TODO: Convert this event to the new system
     --[[Tome.UI.Layouts.Character.Flag.Event.ItemSelect = function(item, value, index)
         -- Enable the Save button
         Tome.UI.NavButtons.Save:SetEnabled(true)
@@ -374,10 +431,14 @@ function Tome.UI.CreateCharacterLayout()
     Tome.UI.Layouts.Character.Appearance.Text:SetPoint("TOPLEFT", Tome.UI.Layouts.Character.Appearance.Label, "BOTTOMLEFT", 0, 5)
     Tome.UI.Layouts.Character.Appearance.Text:SetPoint("TOPRIGHT", Tome.UI.Layouts.Character.Appearance.Label, "BOTTOMRIGHT", 0, 5)
     Tome.UI.Layouts.Character.Appearance.Text:SetBackgroundColor(0.0, 0.0, 0.0, 0.7)
-    --[[Tome.UI.Layouts.Character.Appearance.Text.Event.TextfieldChange = function()
-        -- Enable the Save button
-        Tome.UI.NavButtons.Save:SetEnabled(true)
-    end]]--
+    Tome.UI.Layouts.Character.Appearance.Text:AttachEvent(
+        Event.UI.Input.Key.Up,
+        function(handle, key)
+            -- Enable the Save button
+            Tome.UI.NavButtons.Save:SetEnabled(true)
+        end,
+        "Tome_UI_Layout_Character_Appearance_Text_Change"
+    )
 
     -- Create the History field
     Tome.UI.Layouts.Character.History = {}
@@ -389,10 +450,14 @@ function Tome.UI.CreateCharacterLayout()
     Tome.UI.Layouts.Character.History.Text:SetPoint("TOPLEFT", Tome.UI.Layouts.Character.History.Label, "BOTTOMLEFT", 0, 5)
     Tome.UI.Layouts.Character.History.Text:SetPoint("TOPRIGHT", Tome.UI.Layouts.Character.History.Label, "BOTTOMRIGHT", 0, 5)
     Tome.UI.Layouts.Character.History.Text:SetBackgroundColor(0.0, 0.0, 0.0, 0.7)
-    --[[Tome.UI.Layouts.Character.History.Text.Event.TextfieldChange = function()
-        -- Enable the Save button
-        Tome.UI.NavButtons.Save:SetEnabled(true)
-    end]]--
+    Tome.UI.Layouts.Character.History.Text:AttachEvent(
+        Event.UI.Input.Key.Up,
+        function(handle, key)
+            -- Enable the Save button
+            Tome.UI.NavButtons.Save:SetEnabled(true)
+        end,
+        "Tome_UI_Layout_Character_History_Text_Change"
+    )
 end
 
 -- This function creates the Guild layout
