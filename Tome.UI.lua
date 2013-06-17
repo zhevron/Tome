@@ -120,29 +120,29 @@ function Tome.UI.Show(data)
     -- If data is manually supplied, disable all the edit boxes
     if data then
         -- Disable the fields
-        Tome.UI.Layouts.Character.Prefix:SetEnabled(false)
-        Tome.UI.Layouts.Character.Name:SetEnabled(false)
-        Tome.UI.Layouts.Character.Suffix:SetEnabled(false)
-        Tome.UI.Layouts.Character.Title:SetEnabled(false)
-        Tome.UI.Layouts.Character.InCharacter:SetEnabled(false)
-        Tome.UI.Layouts.Character.Tutor:SetEnabled(false)
-        Tome.UI.Layouts.Character.Flag:SetEnabled(false)
-        Tome.UI.Layouts.Character.Appearance.Text:SetEnabled(false)
-        Tome.UI.Layouts.Character.History.Text:SetEnabled(false)
+        --Tome.UI.Layouts.Character.Prefix:SetEnabled(false)
+        --Tome.UI.Layouts.Character.Name:SetEnabled(false)
+        --Tome.UI.Layouts.Character.Suffix:SetEnabled(false)
+        --Tome.UI.Layouts.Character.Title:SetEnabled(false)
+        --Tome.UI.Layouts.Character.InCharacter:SetEnabled(false)
+        --Tome.UI.Layouts.Character.Tutor:SetEnabled(false)
+        --Tome.UI.Layouts.Character.Flag:SetEnabled(false)
+        --Tome.UI.Layouts.Character.Appearance.Text:SetEnabled(false)
+        --Tome.UI.Layouts.Character.History.Text:SetEnabled(false)
     else
         -- Get the player data instead
         data = Tome_Character
 
         -- Enable the fields
-        Tome.UI.Layouts.Character.Prefix:SetEnabled(true)
-        Tome.UI.Layouts.Character.Name:SetEnabled(true)
-        Tome.UI.Layouts.Character.Suffix:SetEnabled(true)
-        Tome.UI.Layouts.Character.Title:SetEnabled(true)
-        Tome.UI.Layouts.Character.InCharacter:SetEnabled(true)
-        Tome.UI.Layouts.Character.Tutor:SetEnabled(true)
-        Tome.UI.Layouts.Character.Flag:SetEnabled(true)
-        Tome.UI.Layouts.Character.Appearance.Text:SetEnabled(true)
-        Tome.UI.Layouts.Character.History.Text:SetEnabled(true)
+        --Tome.UI.Layouts.Character.Prefix:SetEnabled(true)
+        --Tome.UI.Layouts.Character.Name:SetEnabled(true)
+        --Tome.UI.Layouts.Character.Suffix:SetEnabled(true)
+        --Tome.UI.Layouts.Character.Title:SetEnabled(true)
+        --Tome.UI.Layouts.Character.InCharacter:SetEnabled(true)
+        --Tome.UI.Layouts.Character.Tutor:SetEnabled(true)
+        --Tome.UI.Layouts.Character.Flag:SetEnabled(true)
+        --Tome.UI.Layouts.Character.Appearance.Text:SetEnabled(true)
+        --Tome.UI.Layouts.Character.History.Text:SetEnabled(true)
     end
 
     -- Set all the fields to current data
@@ -356,7 +356,7 @@ function Tome.UI.CreateCharacterLayout()
     -- Create the Flag dropdown menu
     Tome.UI.Layouts.Character.Flag = UI.CreateFrame("SimpleSelect", "Tome_UI_Layout_Character_Flag", Tome.UI.Layouts.Character)
     Tome.UI.Layouts.Character.Flag:SetPoint("TOPLEFT", Tome.UI.Layouts.Character.Title, "TOPRIGHT", 5, 0)
-    Tome.UI.Layouts.Character.Flag:SetPoint("TOPRIGHT", Tome.UI.Layouts.Character.Tutor, 0, 5)
+    Tome.UI.Layouts.Character.Flag:SetPoint("TOPRIGHT", Tome.UI.Layouts.Character.Tutor, "BOTTOMRIGHT", 0, 5)
     Tome.UI.Layouts.Character.Flag:SetBackgroundColor(0.0, 0.0, 0.0, 0.7)
     Tome.UI.Layouts.Character.Flag:SetItems(flagtext, flagvalue)
     Tome.UI.Layouts.Character.Flag.Event.ItemSelect = function(item, value, index)
