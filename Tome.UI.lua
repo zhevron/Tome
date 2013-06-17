@@ -153,8 +153,8 @@ function Tome.UI.Show(data)
     Tome.UI.Layouts.Character.InCharacter:SetText(data.InCharacter and "IC" or "OOC")
     Tome.UI.Layouts.Character.Tutor:SetText(data.Tutor and "Tutor: On" or "Tutor: Off")
     Tome.UI.Layouts.Character.Flag:SetSelectedValue(data.Flag)
-    Tome.UI.Layouts.Character.Appearance.Text:SetText(data.Appearance)
-    Tome.UI.Layouts.Character.History.Text:SetText(data.History)
+    --Tome.UI.Layouts.Character.Appearance.Text:SetText(data.Appearance)
+    --Tome.UI.Layouts.Character.History.Text:SetText(data.History)
 
     -- Show the window
     Tome.UI.Window:SetVisible(true)
