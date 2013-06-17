@@ -51,6 +51,12 @@ Tome.UI.Layouts = {}
 
 -- This function is called by the event API when the Character button is pressed
 function Tome.UI.Event_Button_Character(handle)
+    -- Abort if the button is disabled
+    if not Tome.UI.NavButtons.Character:GetEnabled() then
+        return
+    end
+
+    -- Show the Character tab
     --Tome.UI.Layouts.Guild:SetVisible(false)
     --Tome.UI.Layouts.Preview:SetVisible(false)
     --Tome.UI.Layouts.Settings:SetVisible(false)
@@ -59,6 +65,12 @@ end
 
 -- This function is called by the event API when the Guild button is pressed
 function Tome.UI.Event_Button_Guild(handle)
+    -- Abort if the button is disabled
+    if not Tome.UI.NavButtons.Guild:GetEnabled() then
+        return
+    end
+
+    -- Show the Guild tab
     Tome.UI.Layouts.Character:SetVisible(false)
     --Tome.UI.Layouts.Preview:SetVisible(false)
     --Tome.UI.Layouts.Settings:SetVisible(false)
@@ -67,6 +79,12 @@ end
 
 -- This function is called by the event API when the Preview button is pressed
 function Tome.UI.Event_Button_Preview(handle)
+    -- Abort if the button is disabled
+    if not Tome.UI.NavButtons.Preview:GetEnabled() then
+        return
+    end
+
+    -- Show the Preview tab
     Tome.UI.Layouts.Character:SetVisible(false)
     --Tome.UI.Layouts.Guild:SetVisible(false)
     --Tome.UI.Layouts.Settings:SetVisible(false)
@@ -75,6 +93,12 @@ end
 
 -- This function is called by the event API when the Settings button is pressed
 function Tome.UI.Event_Button_Settings(handle)
+    -- Abort if the button is disabled
+    if not Tome.UI.NavButtons.Settings:GetEnabled() then
+        return
+    end
+
+    -- Show the Settings tab
     Tome.UI.Layouts.Character:SetVisible(false)
     --Tome.UI.Layouts.Guild:SetVisible(false)
     --Tome.UI.Layouts.Preview:SetVisible(false)
@@ -83,6 +107,11 @@ end
 
 -- This function is called by the event API when the Save button is pressed
 function Tome.UI.Event_Button_Save(handle)
+    -- Abort if the button is disabled
+    if not Tome.UI.NavButtons.Save:GetEnabled() then
+        return
+    end
+
     -- Save the settings
     Tome_Character.Prefix = string.gsub(Tome.UI.Layouts.Character.Prefix:GetText(), "Prefix", "")
     Tome_Character.Name = string.gsub(Tome.UI.Layouts.Character.Name:GetText(), "Name", "")
@@ -155,6 +184,12 @@ function Tome.UI.Show(data)
     Tome.UI.Layouts.Character.Flag:SetSelectedValue(data.Flag)
     Tome.UI.Layouts.Character.Appearance.Text:SetText(data.Appearance)
     Tome.UI.Layouts.Character.History.Text:SetText(data.History)
+
+    -- Set the title of the window
+    Tome.UI.Window:SetTitle(string.format("TOME: %s", string.upper((data.Name ~= "") and data.Name or "CHARACTER")))
+
+    -- Disable the save button
+    Tome.UI.NavButtons.Save:SetEnabled(false)
 
     -- Show the window
     Tome.UI.Window:SetVisible(true)
@@ -455,6 +490,7 @@ function Tome.UI.CreateCharacterLayout()
     Tome.UI.Layouts.Character.Appearance.Text = UI.CreateFrame("SimpleTextArea", "Tome_UI_Layout_Character_Appearance_Text", Tome.UI.Layouts.Character)
     Tome.UI.Layouts.Character.Appearance.Text:SetPoint("TOPLEFT", Tome.UI.Layouts.Character.Appearance.Label, "BOTTOMLEFT", 0, 5)
     Tome.UI.Layouts.Character.Appearance.Text:SetPoint("TOPRIGHT", Tome.UI.Layouts.Character.Appearance.Label, "BOTTOMRIGHT", 0, 5)
+    Tome.UI.Layouts.Character.Appearance.Text:SetHeight((Tome.UI.Window:GetContent():GetHeight() / 100) * 30)
     Tome.UI.Layouts.Character.Appearance.Text:SetBackgroundColor(0.0, 0.0, 0.0, 0.7)
     Tome.UI.Layouts.Character.Appearance.Text:EventAttach(
         Event.UI.Input.Key.Up,
@@ -474,6 +510,7 @@ function Tome.UI.CreateCharacterLayout()
     Tome.UI.Layouts.Character.History.Text = UI.CreateFrame("SimpleTextArea", "Tome_UI_Layout_Character_History_Text", Tome.UI.Layouts.Character)
     Tome.UI.Layouts.Character.History.Text:SetPoint("TOPLEFT", Tome.UI.Layouts.Character.History.Label, "BOTTOMLEFT", 0, 5)
     Tome.UI.Layouts.Character.History.Text:SetPoint("TOPRIGHT", Tome.UI.Layouts.Character.History.Label, "BOTTOMRIGHT", 0, 5)
+    Tome.UI.Layouts.Character.History.Text:SetHeight((Tome.UI.Window:GetContent():GetHeight() / 100) * 30)
     Tome.UI.Layouts.Character.History.Text:SetBackgroundColor(0.0, 0.0, 0.0, 0.7)
     Tome.UI.Layouts.Character.History.Text:EventAttach(
         Event.UI.Input.Key.Up,
