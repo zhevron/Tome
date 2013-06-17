@@ -244,20 +244,26 @@ function Tome.UI.CreateCharacterLayout()
     Tome.UI.Layouts.Character.Prefix:SetWidth(size)
     Tome.UI.Layouts.Character.Prefix:SetBackgroundColor(0.0, 0.0, 0.0, 0.7)
     Tome.UI.Layouts.Character.Prefix:SetText("Prefix")
-    -- TODO: Convert this event to the new system
-    --[[Tome.UI.Layouts.Character.Prefix.Event.KeyFocusGain = function()
-        -- Clear the text if it matches default
-        if Tome.UI.Layouts.Character.Prefix:GetText() == "Prefix" then
-            Tome.UI.Layouts.Character.Prefix:SetText("")
-        end
-    end]]--
-    -- TODO: Convert this event to the new system
-    --[[Tome.UI.Layouts.Character.Prefix.Event.KeyFocusLoss = function()
-        -- Set the default text if field is empty
-        if Tome.UI.Layouts.Character.Prefix:GetText() == "" then
-            Tome.UI.Layouts.Character.Prefix:SetText("Prefix")
-        end
-    end]]--
+    Tome.UI.Layouts.Character.Prefix:EventAttach(
+        Event.UI.Input.Key.Focus.Gain,
+        function(handle)
+            -- Clear the text if it matches default
+            if Tome.UI.Layouts.Character.Prefix:GetText() == "Prefix" then
+                Tome.UI.Layouts.Character.Prefix:SetText("")
+            end
+        end,
+        "Tome_UI_Layout_Character_Prefix_Focus_Gain"
+    )
+    Tome.UI.Layouts.Character.Prefix:EventAttach(
+        Event.UI.Input.Key.Focus.Loss,
+        function(handle)
+            -- Set the default text if field is empty
+            if Tome.UI.Layouts.Character.Prefix:GetText() == "" then
+                Tome.UI.Layouts.Character.Prefix:SetText("Prefix")
+            end
+        end,
+        "Tome_UI_Layout_Character_Prefix_Focus_Loss"
+    )
     Tome.UI.Layouts.Character.Prefix:EventAttach(
         Event.UI.Input.Key.Up,
         function(handle, key)
@@ -273,20 +279,26 @@ function Tome.UI.CreateCharacterLayout()
     Tome.UI.Layouts.Character.Suffix:SetWidth(size)
     Tome.UI.Layouts.Character.Suffix:SetBackgroundColor(0.0, 0.0, 0.0, 0.7)
     Tome.UI.Layouts.Character.Suffix:SetText("Suffix")
-    -- TODO: Convert this event to the new system
-    --[[Tome.UI.Layouts.Character.Suffix.Event.KeyFocusGain = function()
-        -- Clear the text if it matches default
-        if Tome.UI.Layouts.Character.Suffix:GetText() == "Suffix" then
-            Tome.UI.Layouts.Character.Suffix:SetText("")
-        end
-    end]]--
-    -- TODO: Convert this event to the new system
-    --[[Tome.UI.Layouts.Character.Suffix.Event.KeyFocusLoss = function()
-        -- Set the default text if field is empty
-        if Tome.UI.Layouts.Character.Suffix:GetText() == "" then
-            Tome.UI.Layouts.Character.Suffix:SetText("Suffix")
-        end
-    end]]--
+    Tome.UI.Layouts.Character.Suffix:EventAttach(
+        Event.UI.Input.Key.Focus.Gain,
+        function(handle)
+            -- Clear the text if it matches default
+            if Tome.UI.Layouts.Character.Suffix:GetText() == "Suffix" then
+                Tome.UI.Layouts.Character.Suffix:SetText("")
+            end
+        end,
+        "Tome_UI_Layout_Character_Suffix_Focus_Gain"
+    )
+    Tome.UI.Layouts.Character.Suffix:EventAttach(
+        Event.UI.Input.Key.Focus.Loss,
+        function(handle)
+            -- Set the default text if field is empty
+            if Tome.UI.Layouts.Character.Suffix:GetText() == "" then
+                Tome.UI.Layouts.Character.Suffix:SetText("Suffix")
+            end
+        end,
+        "Tome_UI_Layout_Character_Suffix_Focus_Loss"
+    )
     Tome.UI.Layouts.Character.Suffix:EventAttach(
         Event.UI.Input.Key.Up,
         function(handle, key)
@@ -303,20 +315,26 @@ function Tome.UI.CreateCharacterLayout()
     Tome.UI.Layouts.Character.Name:SetWidth(size)
     Tome.UI.Layouts.Character.Name:SetBackgroundColor(0.0, 0.0, 0.0, 0.7)
     Tome.UI.Layouts.Character.Name:SetText("Name")
-    -- TODO: Convert this event to the new system
-    --[[Tome.UI.Layouts.Character.Name.Event.KeyFocusGain = function()
-        -- Clear the text if it matches default
-        if Tome.UI.Layouts.Character.Name:GetText() == "Name" then
-            Tome.UI.Layouts.Character.Name:SetText("")
-        end
-    end]]--
-    -- TODO: Convert this event to the new system
-    --[[Tome.UI.Layouts.Character.Name.Event.KeyFocusLoss = function()
-        -- Set the default text if field is empty
-        if Tome.UI.Layouts.Character.Name:GetText() == "" then
-            Tome.UI.Layouts.Character.Name:SetText("Name")
-        end
-    end]]--
+    Tome.UI.Layouts.Character.Name:EventAttach(
+        Event.UI.Input.Key.Focus.Gain,
+        function(handle)
+            -- Clear the text if it matches default
+            if Tome.UI.Layouts.Character.Name:GetText() == "Name" then
+                Tome.UI.Layouts.Character.Name:SetText("")
+            end
+        end,
+        "Tome_UI_Layout_Character_Name_Focus_Gain"
+    )
+    Tome.UI.Layouts.Character.Name:EventAttach(
+        Event.UI.Input.Key.Focus.Loss,
+        function(handle)
+            -- Set the default text if field is empty
+            if Tome.UI.Layouts.Character.Name:GetText() == "" then
+                Tome.UI.Layouts.Character.Name:SetText("Name")
+            end
+        end,
+        "Tome_UI_Layout_Character_Name_Focus_Loss"
+    )
     Tome.UI.Layouts.Character.Name:EventAttach(
         Event.UI.Input.Key.Up,
         function(handle, key)
@@ -332,20 +350,26 @@ function Tome.UI.CreateCharacterLayout()
     Tome.UI.Layouts.Character.Title:SetPoint("TOPRIGHT", Tome.UI.Layouts.Character.Suffix, "BOTTOMRIGHT", 0, 10)
     Tome.UI.Layouts.Character.Title:SetBackgroundColor(0.0, 0.0, 0.0, 0.7)
     Tome.UI.Layouts.Character.Title:SetText("Title")
-    -- TODO: Convert this event to the new system
-    --[[Tome.UI.Layouts.Character.Title.Event.KeyFocusGain = function()
-        -- Clear the text if it matches default
-        if Tome.UI.Layouts.Character.Title:GetText() == "Title" then
-            Tome.UI.Layouts.Character.Title:SetText("")
-        end
-    end]]--
-    -- TODO: Convert this event to the new system
-    --[[Tome.UI.Layouts.Character.Title.Event.KeyFocusLoss = function()
-        -- Set the default text if field is empty
-        if Tome.UI.Layouts.Character.Title:GetText() == "" then
-            Tome.UI.Layouts.Character.Title:SetText("Title")
-        end
-    end]]--
+    Tome.UI.Layouts.Character.Title:EventAttach(
+        Event.UI.Input.Key.Focus.Gain,
+        function(handle)
+            -- Clear the text if it matches default
+            if Tome.UI.Layouts.Character.Title:GetText() == "Title" then
+                Tome.UI.Layouts.Character.Title:SetText("")
+            end
+        end,
+        "Tome_UI_Layout_Character_Title_Focus_Gain"
+    )
+    Tome.UI.Layouts.Character.Title:EventAttach(
+        Event.UI.Input.Key.Focus.Loss,
+        function(handle)
+            -- Set the default text if field is empty
+            if Tome.UI.Layouts.Character.Title:GetText() == "" then
+                Tome.UI.Layouts.Character.Title:SetText("Title")
+            end
+        end,
+        "Tome_UI_Layout_Character_Title_Focus_Loss"
+    )
     Tome.UI.Layouts.Character.Title:EventAttach(
         Event.UI.Input.Key.Up,
         function(handle, key)
@@ -409,17 +433,18 @@ function Tome.UI.CreateCharacterLayout()
         index = index + 1
     end
 
+    size = (((Tome.UI.Layouts.Character:GetWidth() / 100) * 35) - 5)
+
     -- Create the Flag dropdown menu
     Tome.UI.Layouts.Character.Flag = UI.CreateFrame("SimpleSelect", "Tome_UI_Layout_Character_Flag", Tome.UI.Layouts.Character)
-    Tome.UI.Layouts.Character.Flag:SetPoint("TOPLEFT", Tome.UI.Layouts.Character.Title, "TOPRIGHT", 5, 0)
-    --Tome.UI.Layouts.Character.Flag:SetSize((size * 2) + 5)
-    Tome.UI.Layouts.Character.Flag:SetBackgroundColor(0.0, 0.0, 0.0, 0.7)
     Tome.UI.Layouts.Character.Flag:SetItems(flagtext, flagvalue)
-    -- TODO: Convert this event to the new system
-    --[[Tome.UI.Layouts.Character.Flag.Event.ItemSelect = function(item, value, index)
+    Tome.UI.Layouts.Character.Flag:ResizeToFit()
+    Tome.UI.Layouts.Character.Flag:SetPoint("TOPLEFT", Tome.UI.Layouts.Character.Title, "TOPRIGHT", 8 + ((size - Tome.UI.Layouts.Character.Flag:GetWidth()) / 2), 1)
+    Tome.UI.Layouts.Character.Flag:SetBackgroundColor(0.0, 0.0, 0.0, 0.7)
+    Tome.UI.Layouts.Character.Flag.Event.ItemSelect = function(item, value, index)
         -- Enable the Save button
         Tome.UI.NavButtons.Save:SetEnabled(true)
-    end]]--
+    end
 
     -- Create the Appearance field
     Tome.UI.Layouts.Character.Appearance = {}
