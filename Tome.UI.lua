@@ -535,12 +535,18 @@ function Tome.UI.CreateCharacterLayout()
         "Tome_UI_Layout_Character_Height_Change"
     )
 
-    size = (((Tome.UI.Layouts.Character:GetWidth() / 100) * 35) - 10) / 2
+    size = (((Tome.UI.Layouts.Character:GetWidth() / 100) * 35) - 10)
+
+    -- Create the frame that holds the controls
+    Tome.UI.Layouts.Character.Controls = UI.CreateFrame("Frame", "Tome_UI_Layout_Character_Controls", Tome.UI.Layouts.Character)
+    Tome.UI.Layouts.Character.Controls:SetPoint("TOPLEFT", Tome.UI.Layouts.Character.Suffix, "TOPRIGHT", 5, 0)
+    Tome.UI.Layouts.Character.Controls:SetPoint("BOTTOMLEFT", Tome.UI.Layouts.Character.Weight, "BOTTOMRIGHT", 5, 0)
+    Tome.UI.Layouts.Character.Controls:SetWidth(size)
 
     -- Create the IC/OOC button
-    Tome.UI.Layouts.Character.InCharacter = UI.CreateFrame("RiftButton", "Tome_UI_Layout_Character_InCharacter", Tome.UI.Layouts.Character)
-    Tome.UI.Layouts.Character.InCharacter:SetPoint("TOPLEFT", Tome.UI.Layouts.Character.Suffix, "TOPRIGHT", 5, -7)
-    Tome.UI.Layouts.Character.InCharacter:SetWidth(size)
+    Tome.UI.Layouts.Character.InCharacter = UI.CreateFrame("RiftButton", "Tome_UI_Layout_Character_InCharacter", Tome.UI.Layouts.Character.Controls)
+    Tome.UI.Layouts.Character.InCharacter:SetPoint("TOPLEFT", Tome.UI.Layouts.Character.Controls, "TOPLEFT", 0, 0)
+    Tome.UI.Layouts.Character.InCharacter:SetWidth(size / 2)
     Tome.UI.Layouts.Character.InCharacter:SetText("IC/OOC")
     Tome.UI.Layouts.Character.InCharacter:EventAttach(
         Event.UI.Input.Mouse.Left.Click,
@@ -559,9 +565,9 @@ function Tome.UI.CreateCharacterLayout()
     )
 
     -- Create the Tutor button
-    Tome.UI.Layouts.Character.Tutor = UI.CreateFrame("RiftButton", "Tome_UI_Layout_Character_Tutor", Tome.UI.Layouts.Character)
+    Tome.UI.Layouts.Character.Tutor = UI.CreateFrame("RiftButton", "Tome_UI_Layout_Character_Tutor", Tome.UI.Layouts.Character.Controls)
     Tome.UI.Layouts.Character.Tutor:SetPoint("TOPLEFT", Tome.UI.Layouts.Character.InCharacter, "TOPRIGHT", 5, 0)
-    Tome.UI.Layouts.Character.Tutor:SetWidth(size)
+    Tome.UI.Layouts.Character.Tutor:SetWidth(size / 2)
     Tome.UI.Layouts.Character.Tutor:SetText("Tutor")
     Tome.UI.Layouts.Character.Tutor:EventAttach(
         Event.UI.Input.Mouse.Left.Click,
@@ -592,10 +598,10 @@ function Tome.UI.CreateCharacterLayout()
     size = (((Tome.UI.Layouts.Character:GetWidth() / 100) * 35) - 5)
 
     -- Create the Flag dropdown menu
-    Tome.UI.Layouts.Character.Flag = UI.CreateFrame("SimpleSelect", "Tome_UI_Layout_Character_Flag", Tome.UI.Layouts.Character)
+    Tome.UI.Layouts.Character.Flag = UI.CreateFrame("SimpleSelect", "Tome_UI_Layout_Character_Flag", Tome.UI.Layouts.Character.Controls)
     Tome.UI.Layouts.Character.Flag:SetItems(flagtext, flagvalue)
     Tome.UI.Layouts.Character.Flag:ResizeToFit()
-    Tome.UI.Layouts.Character.Flag:SetPoint("TOPLEFT", Tome.UI.Layouts.Character.Title, "TOPRIGHT", 8 + ((size - Tome.UI.Layouts.Character.Flag:GetWidth()) / 2), 1)
+    Tome.UI.Layouts.Character.Flag:SetPoint("TOPLEFT", Tome.UI.Layouts.Character.InCharacter, "BOTTOMLEFT", ((size - Tome.UI.Layouts.Character.Flag:GetWidth()) / 2), 10)
     Tome.UI.Layouts.Character.Flag:SetBackgroundColor(0.0, 0.0, 0.0, 0.7)
     Tome.UI.Layouts.Character.Flag.Event.ItemSelect = function(item, value, index)
         -- Enable the Save button
@@ -606,7 +612,7 @@ function Tome.UI.CreateCharacterLayout()
     Tome.UI.Layouts.Character.Appearance = {}
     Tome.UI.Layouts.Character.Appearance.Label = UI.CreateFrame("Text", "Tome_UI_Layout_Character_Appearance_Label", Tome.UI.Layouts.Character)
     Tome.UI.Layouts.Character.Appearance.Label:SetPoint("TOPLEFT", Tome.UI.Layouts.Character.Age, "BOTTOMLEFT", 0, 10)
-    --Tome.UI.Layouts.Character.Appearance.Label:SetPoint("TOPRIGHT", Tome.UI.Layouts.Character.Flag, "BOTTOMRIGHT", 0, 10)
+    Tome.UI.Layouts.Character.Appearance.Label:SetPoint("TOPRIGHT", Tome.UI.Layouts.Character.Controls, "BOTTOMRIGHT", 0, 10)
     Tome.UI.Layouts.Character.Appearance.Label:SetText("Appearance:")
     Tome.UI.Layouts.Character.Appearance.Text = UI.CreateFrame("SimpleTextArea", "Tome_UI_Layout_Character_Appearance_Text", Tome.UI.Layouts.Character)
     Tome.UI.Layouts.Character.Appearance.Text:SetPoint("TOPLEFT", Tome.UI.Layouts.Character.Appearance.Label, "BOTTOMLEFT", 0, 5)
