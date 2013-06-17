@@ -356,7 +356,6 @@ function Tome.UI.CreateCharacterLayout()
     -- Create the Flag dropdown menu
     Tome.UI.Layouts.Character.Flag = UI.CreateFrame("SimpleSelect", "Tome_UI_Layout_Character_Flag", Tome.UI.Layouts.Character)
     Tome.UI.Layouts.Character.Flag:SetPoint("TOPLEFT", Tome.UI.Layouts.Character.Title, "TOPRIGHT", 5, 0)
-    Tome.UI.Layouts.Character.Flag:SetPoint("TOPRIGHT", Tome.UI.Layouts.Character.Tutor, "BOTTOMRIGHT", 0, 5)
     Tome.UI.Layouts.Character.Flag:SetBackgroundColor(0.0, 0.0, 0.0, 0.7)
     Tome.UI.Layouts.Character.Flag:SetItems(flagtext, flagvalue)
     Tome.UI.Layouts.Character.Flag.Event.ItemSelect = function(item, value, index)
