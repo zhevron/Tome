@@ -207,7 +207,8 @@ function Tome.Event_Command_Slash(handle, commandline)
             return
         end
 
-        -- TODO: Show the character UI
+        -- Show the character UI
+        Tome.UI.Show(Tome_Cache[name])
     elseif (command == "set") then
         -- Abort if we have less than two parameters
         if (table.getn(parameters) < 2) then
