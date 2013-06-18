@@ -60,6 +60,7 @@ function Tome.Button.Event_Target(handle, unit)
     -- Reset the target if the player cleared the target
     if not unit then
         Tome.Button.Target = nil
+        Tome.Button.Frame:SetVisible(false)
         return
     end
 
