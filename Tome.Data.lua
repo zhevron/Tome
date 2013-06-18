@@ -156,8 +156,9 @@ function Tome.Data.Cache(name, data)
     -- Store the data in our cache
     Tome_Cache[string.upper(name)] = data
 
-    -- Notify the tooltip that we have an update in the cache
+    -- Notify the tooltip and button that we have an update in the cache
     Tome.Tooltip.NotifyUpdate(name)
+    Tome.Button.NotifyUpdate(name)
 end
 
 -- This function sends a data query to the target or broadcasts if not target is provided
