@@ -45,6 +45,7 @@ function Tome.ShowHelp()
     print("  set flag <int> - Sets your flag")
     print("  debug cpu - Prints CPU usage debug information")
     print("  debug data - Prints the serialized character data")
+    print("  debug cache - Prints information about the current cache status")
     print("  debug counters - Prints message counters")
     print("  debug merisioux - Prints message counters for Merisioux compatibility")
 end
@@ -69,6 +70,28 @@ function Tome.ShowDebug(command)
         -- Dump the serialized character information
         print("------- Character Info -------")
         print(Tome.Data.Serialize(Tome_Character))
+    elseif (command == "cache") then
+        -- Create variables to hold the total items in the cache and how many have expired
+        local total = 0
+        local expired = 0
+
+        -- Loop the cache
+        for _, item in pairs(Tome_Cache) do
+            -- Increment the total counter
+            total = total + 1
+
+            -- Check if data has expired
+            if (item.Timestamp + Tome_Config.Timeout) <= os.time() then
+                -- Increment the expired counter
+                expired = expired + 1
+            end
+        end
+
+        -- Print the current cache status
+        print("------- Cache Status -------")
+        print(string.format("Total: %d", total))
+        print(string.format("Expired: %d", expired))
+        print(string.format("Valid: %d", total - expired))
     elseif (command == "counters") then
         -- Show counters for message data (Tome)
         print("------- Message Statistics -------")
