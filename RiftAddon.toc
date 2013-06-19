@@ -27,7 +27,11 @@ RunOnStartup = {
     "Tome.Button.lua",
     "Tome.Data.lua",
     "Tome.Compat.Merisioux.lua",
-    "Tome.UI.lua"
+    "Tome.UI.lua",
+    "Tome.UI.Layout.Character.lua",
+    "Tome.UI.Layout.Guild.lua",
+    "Tome.UI.Layout.View.lua",
+    "Tome.UI.Layout.Settings.lua"
 }
 
 SavedVariables = {
