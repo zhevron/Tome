@@ -86,6 +86,17 @@ end
 
 -- This function adds specified data to the character data cache
 function Tome.Compat.Merisioux.Cache(name, data)
+    -- Check if we have this character in the cache. Data might be from Tome
+    if Tome_Cache[string.upper(name)] then
+        --
+        local cache = Tome_Cache[string.upper(name)]
+
+        -- If the data is from tome and it's not expired, abort
+        if cache.Origin == "Tome" and (cache.Timestamp + Tome_Config.Timeout) > os.time() then
+            return
+        end
+    end
+
     -- Interpret the Merisioux data and convert it to Tome data
     local tomedata = {
         Prefix = data.prefix and data.prefix or "",
