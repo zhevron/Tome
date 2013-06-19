@@ -75,38 +75,13 @@ function Tome.Compat.Merisioux.Serialize(data)
         merisiouxdata.flags = string.format("%sw", merisiouxdata.flags)
     end
 
-    -- Use the Data module to serialize the table to a string
-    local serialized = Utility.Serialize.Inline(merisiouxdata)
-
-    -- Instantiate ZLIB to deflate the data
-    local deflate = zlib.deflate(zlib.BEST_COMPRESSION)
-
-    -- Deflate the raw data
-    local deflated = deflate(serialized, "finish")
+    -- Use the Data module to serialize and compress the data
+    local serialized = Tome.Data.Serialize(data)
 
     -- Append the header prefix
-    deflated = string.format("merisioux_data\1%s", deflated)
+    serialized = string.format("merisioux_data\1%s", serialized)
 
-    return deflated
-end
-
--- This function deserializes data back into their objects
-function Tome.Compat.Merisioux.Deserialize(data)
-    -- Instantiate ZLIB to inflate the data
-    local inflate = zlib.inflate()
-
-    -- Inflate the compressed data
-    local inflated = inflate(data)
-
-    -- Deserialize using loadstring
-    local deserialized = loadstring(string.format("return %s", inflated))
-
-    -- If it was successful, return the result of the code. Else, return nil
-    if deserialized then
-        return deserialized()
-    else
-        return nil
-    end
+    return serialized
 end
 
 -- This function adds specified data to the character data cache
@@ -267,7 +242,7 @@ function Tome.Compat.Merisioux.Event_Message_Receive(handle, from, msgtype, chan
         Tome.Compat.Merisioux.Statistics.Data.Received = Tome.Compat.Merisioux.Statistics.Data.Received + 1
 
         -- It's a data packet. Unserialize the data
-        local deserialized = Tome.Compat.Merisioux.Deserialize(msgdata)
+        local deserialized = Tome.Data.Deserialize(msgdata)
 
         -- Check that the data is valid and exit if it isn't
         if (type(deserialized) ~= "table") then

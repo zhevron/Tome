@@ -54,63 +54,29 @@ Tome.Data.Error = {
 }
 
 -- Serializes a variable so it can be transmitted across the network
-function Tome.Data.Serialize(value, name, depth)
-    -- Set depth to 0 if we're just starting the serialization
-    depth = depth or 0
+function Tome.Data.Serialize(data)
+    -- Use the Rift API serializer to serialize the data
+    local serialized = Utility.Serialize.Inline(data)
 
-    -- Create the variable to store the serialized string
-    local serialized = ""
+    -- Instantiate ZLIB to deflate the data
+    local deflate = zlib.deflate(zlib.BEST_COMPRESSION)
 
-    -- If a variable name is provided, serialize it.
-    if name then
-        if (type(name) == "number") then
-            -- Name is a numeric value
-            serialized = string.format("%s[%d]=", serialized, name)
-        else
-            -- Name is a string value
-            serialized = string.format("%s%s=", serialized, name)
-        end
-    else
-        -- No variable name at 0 depth. Prepend return statement
-        if depth == 0 then
-            serialized = "return "
-        end
-    end
+    -- Deflate the raw data
+    local deflated = deflate(serialized, "finish")
 
-    -- Determine type of the value and serialize accordingly
-    if (type(value) == "table") then
-        -- Table value. Append opening bracket
-        serialized = string.format("%s{", serialized)
-
-        -- Recurse through the table and serialize all levels
-        for key, val in pairs(value) do
-            serialized = string.format("%s%s,", serialized, Tome.Data.Serialize(val, key, depth + 1))
-        end
-
-        -- Remove the last superflous comma
-        serialized = string.sub(serialized, 1, -2)
-
-        -- Append closing bracket
-        serialized = string.format("%s}", serialized)
-    elseif (type(value) == "number" or type(value) == "boolean") then
-        -- Integer or boolean. Convert to string and append to the serialized string
-        serialized = string.format("%s%s", serialized, tostring(value))
-    elseif (type(value) == "string") then
-        -- String type. Append to the end of the serialized string
-        serialized = string.format("%s\"%s\"", serialized, value)
-    else
-        -- Unsupported type. Print error and return nil
-        print(string.format("Attempted to serialize unsupported type '%s'!", type(value)))
-        return nil
-    end
-
-    return serialized;
+    return deflated
 end
 
 -- This function deserializes data back into their objects
 function Tome.Data.Deserialize(data)
+    -- Instantiate ZLIB to inflate the data
+    local inflate = zlib.inflate()
+
+    -- Inflate the compressed data
+    local inflated = inflate(data)
+    
     -- Deserialize using loadstring
-    local deserialized = loadstring(data)
+    local deserialized = loadstring(string.format("return %s", inflated))
 
     -- If it was successful, return the result of the code. Else, return nil
     if deserialized then
