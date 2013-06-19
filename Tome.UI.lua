@@ -49,106 +49,152 @@ Tome.UI.NavButtons = {}
 -- Create a table to hold the layouts
 Tome.UI.Layouts = {}
 
--- This function is called by the event API when the Character button is pressed
-function Tome.UI.Event_Button_Character(handle)
-    -- Abort if the button is disabled
-    if not Tome.UI.NavButtons.Character:GetEnabled() then
-        return
-    end
+-- Create the close button
+Tome.UI.NavButtons.Close = UI.CreateFrame("RiftButton", "Tome_UI_NavButton_Close", Tome.UI.Window)
+Tome.UI.NavButtons.Close:SetPoint("TOPRIGHT", Tome.UI.Window, "TOPRIGHT", -10, 17)
+Tome.UI.NavButtons.Close:SetSkin("close")
+Tome.UI.NavButtons.Close:EventAttach(
+    Event.UI.Input.Mouse.Left.Click,
+    function(handle)
+        -- Remove focus from all fields
+        Tome.UI.Window:SetKeyFocus(false)
 
-    -- Disable all layouts
-    for _, layout in pairs(Tome.UI.Layouts) do
-        layout:SetVisible(false)
-    end
+        -- Hide the window
+        Tome.UI.Window:SetVisible(false)
+    end,
+    "Tome_UI_NavButton_Close_Click"
+)
 
-    -- Show the Character tab
-    Tome.UI.Layouts.Character:SetVisible(true)
-end
+-- Create the Character tab button
+Tome.UI.NavButtons.Character = UI.CreateFrame("RiftButton", "Tome_UI_NavButton_Character", Tome.UI.Window)
+Tome.UI.NavButtons.Character:SetPoint("BOTTOMLEFT", Tome.UI.Window, "BOTTOMLEFT", 15, -15)
+Tome.UI.NavButtons.Character:SetText("Character")
+Tome.UI.NavButtons.Character:EventAttach(
+    Event.UI.Input.Mouse.Left.Click,
+    function(handle)
+        -- Abort if the button is disabled
+        if not Tome.UI.NavButtons.Character:GetEnabled() then
+            return
+        end
 
--- This function is called by the event API when the Guild button is pressed
-function Tome.UI.Event_Button_Guild(handle)
-    -- Abort if the button is disabled
-    if not Tome.UI.NavButtons.Guild:GetEnabled() then
-        return
-    end
+        -- Disable all layouts
+        for _, layout in pairs(Tome.UI.Layouts) do
+            layout:SetVisible(false)
+        end
 
-    -- Disable all layouts
-    for _, layout in pairs(Tome.UI.Layouts) do
-        layout:SetVisible(false)
-    end
+        -- Show the Character tab
+        Tome.UI.Layouts.Character:SetVisible(true)
+    end,
+    "Tome_UI_NavButton_Character_Click"
+)
 
-    -- Show the Guild tab
-    Tome.UI.Layouts.Guild:SetVisible(true)
-end
+-- Create the Guild tab button
+Tome.UI.NavButtons.Guild = UI.CreateFrame("RiftButton", "Tome_UI_NavButton_Guild", Tome.UI.Window)
+Tome.UI.NavButtons.Guild:SetPoint("BOTTOMLEFT", Tome.UI.NavButtons.Character, "BOTTOMRIGHT", 0, 0)
+Tome.UI.NavButtons.Guild:SetText("Guild")
+Tome.UI.NavButtons.Guild:SetEnabled(false)
+Tome.UI.NavButtons.Guild:EventAttach(
+    Event.UI.Input.Mouse.Left.Click,
+    function(handle)
+        -- Abort if the button is disabled
+        if not Tome.UI.NavButtons.Guild:GetEnabled() then
+            return
+        end
 
--- This function is called by the event API when the Preview button is pressed
-function Tome.UI.Event_Button_Preview(handle)
-    -- Abort if the button is disabled
-    if not Tome.UI.NavButtons.Preview:GetEnabled() then
-        return
-    end
+        -- Disable all layouts
+        for _, layout in pairs(Tome.UI.Layouts) do
+            layout:SetVisible(false)
+        end
 
-    -- Disable all layouts
-    for _, layout in pairs(Tome.UI.Layouts) do
-        layout:SetVisible(false)
-    end
+        -- Show the Guild tab
+        Tome.UI.Layouts.Guild:SetVisible(true)
+    end,
+    "Tome_UI_NavButton_Guild_Click"
+)
 
-    -- Show the Preview tab
-    Tome.UI.Layouts.Preview:SetVisible(true)
-end
+-- Create the Save button
+Tome.UI.NavButtons.Save = UI.CreateFrame("RiftButton", "Tome_UI_NavButton_Save", Tome.UI.Window)
+Tome.UI.NavButtons.Save:SetPoint("BOTTOMRIGHT", Tome.UI.Window, "BOTTOMRIGHT", -15, -15)
+Tome.UI.NavButtons.Save:SetText("Save")
+Tome.UI.NavButtons.Save:SetEnabled(false)
+Tome.UI.NavButtons.Save:EventAttach(
+    Event.UI.Input.Mouse.Left.Click,
+    function(handle)
+        -- Abort if the button is disabled
+        if not Tome.UI.NavButtons.Save:GetEnabled() then
+            return
+        end
 
--- This function is called by the event API when the Settings button is pressed
-function Tome.UI.Event_Button_Settings(handle)
-    -- Abort if the button is disabled
-    if not Tome.UI.NavButtons.Settings:GetEnabled() then
-        return
-    end
+        -- Save the settings
+        Tome_Character.Prefix = string.gsub(Tome.UI.Layouts.Character.Prefix:GetText(), "Prefix", "")
+        Tome_Character.Name = string.gsub(Tome.UI.Layouts.Character.Name:GetText(), "Name", "")
+        Tome_Character.Suffix = string.gsub(Tome.UI.Layouts.Character.Suffix:GetText(), "Suffix", "")
+        Tome_Character.Title = string.gsub(Tome.UI.Layouts.Character.Title:GetText(), "Title", "")
+        Tome_Character.Age = string.gsub(Tome.UI.Layouts.Character.Age:GetText(), "Age", "")
+        Tome_Character.Height = string.gsub(Tome.UI.Layouts.Character.Height:GetText(), "Height", "")
+        Tome_Character.Weight = string.gsub(Tome.UI.Layouts.Character.Weight:GetText(), "Weight", "")
+        Tome_Character.InCharacter = string.find(Tome.UI.Layouts.Character.InCharacter:GetText(), "IC") and true or false
+        Tome_Character.Tutor = string.find(Tome.UI.Layouts.Character.Tutor:GetText(), "Tutor: On") and true or false
+        Tome_Character.Flag = Tome.UI.Layouts.Character.Flag:GetSelectedValue()
+        Tome_Character.Appearance = Tome.UI.Layouts.Character.Appearance.Text:GetText()
+        Tome_Character.History = Tome.UI.Layouts.Character.History.Text:GetText()
 
-    -- Disable all layouts
-    for _, layout in pairs(Tome.UI.Layouts) do
-        layout:SetVisible(false)
-    end
+        -- Broadcast the new data
+        Tome.Data.Send(nil, true)
 
-    -- Show the Settings tab
-    Tome.UI.Layouts.Settings:SetVisible(true)
-end
+        -- Disable the save button
+        Tome.UI.NavButtons.Save:SetEnabled(false)
+    end,
+    "Tome_UI_NavButton_Save_Click"
+)
 
--- This function is called by the event API when the Save button is pressed
-function Tome.UI.Event_Button_Save(handle)
-    -- Abort if the button is disabled
-    if not Tome.UI.NavButtons.Save:GetEnabled() then
-        return
-    end
+-- Create the Settings tab button
+Tome.UI.NavButtons.Settings = UI.CreateFrame("RiftButton", "Tome_UI_NavButton_Settings", Tome.UI.Window)
+Tome.UI.NavButtons.Settings:SetPoint("BOTTOMRIGHT", Tome.UI.NavButtons.Save, "BOTTOMLEFT", 0, 0)
+Tome.UI.NavButtons.Settings:SetText("Settings")
+Tome.UI.NavButtons.Settings:SetEnabled(false)
+Tome.UI.NavButtons.Settings:EventAttach(
+    Event.UI.Input.Mouse.Left.Click,
+    function(handle)
+        -- Abort if the button is disabled
+        if not Tome.UI.NavButtons.Settings:GetEnabled() then
+            return
+        end
 
-    -- Save the settings
-    Tome_Character.Prefix = string.gsub(Tome.UI.Layouts.Character.Prefix:GetText(), "Prefix", "")
-    Tome_Character.Name = string.gsub(Tome.UI.Layouts.Character.Name:GetText(), "Name", "")
-    Tome_Character.Suffix = string.gsub(Tome.UI.Layouts.Character.Suffix:GetText(), "Suffix", "")
-    Tome_Character.Title = string.gsub(Tome.UI.Layouts.Character.Title:GetText(), "Title", "")
-    Tome_Character.Age = string.gsub(Tome.UI.Layouts.Character.Age:GetText(), "Age", "")
-    Tome_Character.Height = string.gsub(Tome.UI.Layouts.Character.Height:GetText(), "Height", "")
-    Tome_Character.Weight = string.gsub(Tome.UI.Layouts.Character.Weight:GetText(), "Weight", "")
-    Tome_Character.InCharacter = string.find(Tome.UI.Layouts.Character.InCharacter:GetText(), "IC") and true or false
-    Tome_Character.Tutor = string.find(Tome.UI.Layouts.Character.Tutor:GetText(), "Tutor: On") and true or false
-    Tome_Character.Flag = Tome.UI.Layouts.Character.Flag:GetSelectedValue()
-    Tome_Character.Appearance = Tome.UI.Layouts.Character.Appearance.Text:GetText()
-    Tome_Character.History = Tome.UI.Layouts.Character.History.Text:GetText()
+        -- Disable all layouts
+        for _, layout in pairs(Tome.UI.Layouts) do
+            layout:SetVisible(false)
+        end
 
-    -- Broadcast the new data
-    Tome.Data.Send(nil, true)
+        -- Show the Settings tab
+        Tome.UI.Layouts.Settings:SetVisible(true)
+    end,
+    "Tome_UI_NavButton_Settings_Click"
+)
 
-    -- Disable the save button
-    Tome.UI.NavButtons.Save:SetEnabled(false)
-end
+-- Create the Preview tab button
+Tome.UI.NavButtons.Preview = UI.CreateFrame("RiftButton", "Tome_UI_NavButton_Preview", Tome.UI.Window)
+Tome.UI.NavButtons.Preview:SetPoint("BOTTOMRIGHT", Tome.UI.NavButtons.Settings, "BOTTOMLEFT", 0, 0)
+Tome.UI.NavButtons.Preview:SetText("Preview")
+Tome.UI.NavButtons.Preview:SetEnabled(false)
+Tome.UI.NavButtons.Preview:EventAttach(
+    Event.UI.Input.Mouse.Left.Click,
+    function(handle)
+        -- Abort if the button is disabled
+        if not Tome.UI.NavButtons.Preview:GetEnabled() then
+            return
+        end
 
--- This function is called by the event API when the Close button is pressed
-function Tome.UI.Event_Button_Close(handle)
-    -- Remove focus from all fields
-    Tome.UI.Window:SetKeyFocus(false)
+        -- Disable all layouts
+        for _, layout in pairs(Tome.UI.Layouts) do
+            layout:SetVisible(false)
+        end
 
-    -- Hide the window
-    Tome.UI.Window:SetVisible(false)
-end
+        -- Show the Preview tab
+        Tome.UI.Layouts.Preview:SetVisible(true)
+    end,
+    "Tome_UI_NavButton_Preview_Click"
+)
 
 -- This function shows the character window
 function Tome.UI.Show(data)
@@ -203,71 +249,4 @@ function Tome.UI.Show(data)
 
     -- Show the window
     Tome.UI.Window:SetVisible(true)
-end
-
--- This function creates the navigation buttons
-function Tome.UI.CreateNavButtons()
-    -- Create the close button
-    Tome.UI.NavButtons.Close = UI.CreateFrame("RiftButton", "Tome_UI_NavButton_Close", Tome.UI.Window)
-    Tome.UI.NavButtons.Close:SetPoint("TOPRIGHT", Tome.UI.Window, "TOPRIGHT", -10, 17)
-    Tome.UI.NavButtons.Close:SetSkin("close")
-    Tome.UI.NavButtons.Close:EventAttach(
-        Event.UI.Input.Mouse.Left.Click,
-        Tome.UI.Event_Button_Close,
-        "Tome_UI_NavButton_Close_Click"
-    )
-
-    -- Create the Character tab button
-    Tome.UI.NavButtons.Character = UI.CreateFrame("RiftButton", "Tome_UI_NavButton_Character", Tome.UI.Window)
-    Tome.UI.NavButtons.Character:SetPoint("BOTTOMLEFT", Tome.UI.Window, "BOTTOMLEFT", 15, -15)
-    Tome.UI.NavButtons.Character:SetText("Character")
-    Tome.UI.NavButtons.Character:EventAttach(
-        Event.UI.Input.Mouse.Left.Click,
-        Tome.UI.Event_Button_Character,
-        "Tome_UI_NavButton_Character_Click"
-    )
-
-    -- Create the Guild tab button
-    Tome.UI.NavButtons.Guild = UI.CreateFrame("RiftButton", "Tome_UI_NavButton_Guild", Tome.UI.Window)
-    Tome.UI.NavButtons.Guild:SetPoint("BOTTOMLEFT", Tome.UI.NavButtons.Character, "BOTTOMRIGHT", 0, 0)
-    Tome.UI.NavButtons.Guild:SetText("Guild")
-    Tome.UI.NavButtons.Guild:SetEnabled(false)
-    Tome.UI.NavButtons.Guild:EventAttach(
-        Event.UI.Input.Mouse.Left.Click,
-        Tome.UI.Event_Button_Guild,
-        "Tome_UI_NavButton_Guild_Click"
-    )
-
-    -- Create the Save button
-    Tome.UI.NavButtons.Save = UI.CreateFrame("RiftButton", "Tome_UI_NavButton_Save", Tome.UI.Window)
-    Tome.UI.NavButtons.Save:SetPoint("BOTTOMRIGHT", Tome.UI.Window, "BOTTOMRIGHT", -15, -15)
-    Tome.UI.NavButtons.Save:SetText("Save")
-    Tome.UI.NavButtons.Save:SetEnabled(false)
-    Tome.UI.NavButtons.Save:EventAttach(
-        Event.UI.Input.Mouse.Left.Click,
-        Tome.UI.Event_Button_Save,
-        "Tome_UI_NavButton_Save_Click"
-    )
-
-    -- Create the Settings tab button
-    Tome.UI.NavButtons.Settings = UI.CreateFrame("RiftButton", "Tome_UI_NavButton_Settings", Tome.UI.Window)
-    Tome.UI.NavButtons.Settings:SetPoint("BOTTOMRIGHT", Tome.UI.NavButtons.Save, "BOTTOMLEFT", 0, 0)
-    Tome.UI.NavButtons.Settings:SetText("Settings")
-    Tome.UI.NavButtons.Settings:SetEnabled(false)
-    Tome.UI.NavButtons.Settings:EventAttach(
-        Event.UI.Input.Mouse.Left.Click,
-        Tome.UI.Event_Button_Settings,
-        "Tome_UI_NavButton_Settings_Click"
-    )
-
-    -- Create the Preview tab button
-    Tome.UI.NavButtons.Preview = UI.CreateFrame("RiftButton", "Tome_UI_NavButton_Preview", Tome.UI.Window)
-    Tome.UI.NavButtons.Preview:SetPoint("BOTTOMRIGHT", Tome.UI.NavButtons.Settings, "BOTTOMLEFT", 0, 0)
-    Tome.UI.NavButtons.Preview:SetText("Preview")
-    Tome.UI.NavButtons.Preview:SetEnabled(false)
-    Tome.UI.NavButtons.Preview:EventAttach(
-        Event.UI.Input.Mouse.Left.Click,
-        Tome.UI.Event_Button_Preview,
-        "Tome_UI_NavButton_Preview_Click"
-    )
 end
