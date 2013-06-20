@@ -50,10 +50,10 @@ Tome.UI.NavButtons = {}
 Tome.UI.Layouts = {}
 
 -- Create the close button
-Tome.UI.NavButtons.Close = UI.CreateFrame("RiftButton", "Tome_UI_NavButton_Close", Tome.UI.Window)
-Tome.UI.NavButtons.Close:SetPoint("TOPRIGHT", Tome.UI.Window, "TOPRIGHT", -10, 17)
-Tome.UI.NavButtons.Close:SetSkin("close")
-Tome.UI.NavButtons.Close:EventAttach(
+Tome.UI.Close = UI.CreateFrame("RiftButton", "Tome_UI_NavButton_Close", Tome.UI.Window)
+Tome.UI.Close:SetPoint("TOPRIGHT", Tome.UI.Window, "TOPRIGHT", -10, 17)
+Tome.UI.Close:SetSkin("close")
+Tome.UI.Close:EventAttach(
     Event.UI.Input.Mouse.Left.Click,
     function(handle)
         -- Remove focus from all layouts
@@ -64,7 +64,7 @@ Tome.UI.NavButtons.Close:EventAttach(
         -- Hide the window
         Tome.UI.Window:SetVisible(false)
     end,
-    "Tome_UI_NavButton_Close_Click"
+    "Tome_UI_Close_Click"
 )
 
 -- Create the Character tab button
