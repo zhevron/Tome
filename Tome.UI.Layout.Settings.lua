@@ -24,3 +24,8 @@ Tome.UI.Layouts.Settings = UI.CreateFrame("Frame", "Tome_UI_Layout_Settings", To
 -- Set the points for the layout
 Tome.UI.Layouts.Settings:SetPoint("TOPLEFT", Tome.UI.Window:GetContent(), "TOPLEFT", 20, 15)
 Tome.UI.Layouts.Settings:SetPoint("BOTTOMRIGHT", Tome.UI.Window:GetContent(), "BOTTOMRIGHT", -20, -15)
+
+-- This function removed key focus from all the text fields
+function Tome.UI.Layouts.Settings.ClearFocus()
+    --
+end

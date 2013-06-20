@@ -56,8 +56,10 @@ Tome.UI.NavButtons.Close:SetSkin("close")
 Tome.UI.NavButtons.Close:EventAttach(
     Event.UI.Input.Mouse.Left.Click,
     function(handle)
-        -- Remove focus from all fields
-        Tome.UI.Window:SetKeyFocus(false)
+        -- Remove focus from all layouts
+        for _, layout in pairs(Tome.UI.Layouts) do
+            layout.ClearFocus()
+        end
 
         -- Hide the window
         Tome.UI.Window:SetVisible(false)

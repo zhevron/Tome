@@ -386,3 +386,15 @@ Tome.UI.Layouts.Character.History.Text:EventAttach(
     end,
     "Tome_UI_Layout_Character_History_Text_Change"
 )
+
+-- This function removed key focus from all the text fields
+function Tome.UI.Layouts.Character.ClearFocus()
+    Tome.UI.Layouts.Character.Prefix:SetKeyFocus(false)
+    Tome.UI.Layouts.Character.Name:SetKeyFocus(false)
+    Tome.UI.Layouts.Character.Suffix:SetKeyFocus(false)
+    Tome.UI.Layouts.Character.Age:SetKeyFocus(false)
+    Tome.UI.Layouts.Character.Height:SetKeyFocus(false)
+    Tome.UI.Layouts.Character.Weight:SetKeyFocus(false)
+    Tome.UI.Layouts.Character.Appearance:SetKeyFocus(false)
+    Tome.UI.Layouts.Character.History:SetKeyFocus(false)
+end
