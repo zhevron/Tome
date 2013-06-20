@@ -145,7 +145,12 @@ function Tome.UI.Layouts.View.Populate(data)
     else
         Tome.UI.Layouts.View.Weight:SetText("")
     end
-    local flag = Tome.Data.Flags[data.Flag].text
+    local flag = ""
+    for _, item in pairs(Tome.Data.Flags) do
+        if item.id == data.Flag then
+            flag = item.text
+        end
+    end
     if data.Tutor then
         flag = string.format("%s (Tutor)", flag)
     end
