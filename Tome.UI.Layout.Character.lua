@@ -395,8 +395,8 @@ function Tome.UI.Layouts.Character.ClearFocus()
     Tome.UI.Layouts.Character.Age:SetKeyFocus(false)
     Tome.UI.Layouts.Character.Height:SetKeyFocus(false)
     Tome.UI.Layouts.Character.Weight:SetKeyFocus(false)
-    Tome.UI.Layouts.Character.Appearance:SetKeyFocus(false)
-    Tome.UI.Layouts.Character.History:SetKeyFocus(false)
+    Tome.UI.Layouts.Character.Appearance.Text:SetKeyFocus(false)
+    Tome.UI.Layouts.Character.History.Text:SetKeyFocus(false)
 end
 
 -- This function sets all the fields to match the supplied data
