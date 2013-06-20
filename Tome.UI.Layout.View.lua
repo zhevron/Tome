@@ -28,7 +28,16 @@ Tome.UI.Layouts.View:SetPoint("BOTTOMRIGHT", Tome.UI.Window:GetContent(), "BOTTO
 -- Create the container frame for the fluid layout
 Tome.UI.Layouts.View.Container = UI.CreateFrame("Frame", "Tome_UI_Layout_View_Container", Tome.UI.Layouts.View)
 Tome.UI.Layouts.View.Container:SetPoint("TOPLEFT", Tome.UI.Layouts.View, "TOPLEFT", 10, 0)
-Tome.UI.Layouts.View.Container:SetPoint("BOTTOMRIGHT", Tome.UI.Layouts.View, "TOPRIGHT", 0, 80)
+Tome.UI.Layouts.View.Container:SetPoint("BOTTOMRIGHT", Tome.UI.Layouts.View, "TOPRIGHT", 10, 80)
+
+-- Create the Flag label
+Tome.UI.Layouts.View.Flag = UI.CreateFrame("Text", "Tome_UI_Layout_View_Flag", Tome.UI.Layouts.View.Container)
+Tome.UI.Layouts.View.Flag:SetPoint("TOPLEFT", Tome.UI.Layouts.View.Container, "TOPLEFT", 0, -5)
+Tome.UI.Layouts.View.Flag:SetFontColor(0.2, 0.5, 0.9, 1.0)
+
+-- Create the IC/OCC label
+Tome.UI.Layouts.View.InCharacter = UI.CreateFrame("Text", "Tome_UI_Layout_View_InCharacter", Tome.UI.Layouts.View.Container)
+Tome.UI.Layouts.View.InCharacter:SetPoint("TOPRIGHT", Tome.UI.Layouts.View.Container, "TOPRIGHT", 0, -5)
 
 -- Create the Name label
 Tome.UI.Layouts.View.Name = UI.CreateFrame("Text", "Tome_UI_Layout_View_Name", Tome.UI.Layouts.View.Container)
@@ -136,7 +145,18 @@ function Tome.UI.Layouts.View.Populate(data)
     else
         Tome.UI.Layouts.View.Weight:SetText("")
     end
-    -- TODO: Set flag, tutor status and IC/OOC status
+    local flag = Tome.Data.Flags[data.Flag].text
+    if data.Tutor then
+        flag = string.format("%s (Tutor)", flag)
+    end
+    Tome.UI.Layouts.View.Flag:SetText(flag)
+    if data.InCharacter then
+        Tome.UI.Layouts.View.InCharacter:SetText("In Character")
+        Tome.UI.Layouts.View.InCharacter:SetFontColor(0.0, 1.0, 0.0, 1.0)
+    else
+        Tome.UI.Layouts.View.InCharacter:SetText("Out of Character")
+        Tome.UI.Layouts.View.InCharacter:SetFontColor(0.78, 0.08, 0.08, 1.0)
+    end
     Tome.UI.Layouts.View.Appearance.Text:SetText(data.Appearance)
     Tome.UI.Layouts.View.History.Text:SetText(data.History)
 
