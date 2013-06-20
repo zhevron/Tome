@@ -27,10 +27,11 @@ Tome.UI.Layouts.View:SetPoint("BOTTOMRIGHT", Tome.UI.Window:GetContent(), "BOTTO
 
 -- This function removed key focus from all the text fields
 function Tome.UI.Layouts.View.ClearFocus()
-    --
+    -- This layout has no fields, return
+    return
 end
 
 -- This function sets all the fields to match the supplied data
-function Tome.UI.Layouts.View.Populate(data)
+function Tome.UI.Layouts.View.Populate(self, data)
     --
 end

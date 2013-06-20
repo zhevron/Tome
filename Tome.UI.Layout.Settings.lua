@@ -31,6 +31,6 @@ function Tome.UI.Layouts.Settings.ClearFocus()
 end
 
 -- This function sets all the fields to match the supplied data
-function Tome.UI.Layouts.Settings.Populate(data)
+function Tome.UI.Layouts.Settings.Populate(self, data)
     --
 end
