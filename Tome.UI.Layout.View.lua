@@ -32,7 +32,7 @@ Tome.UI.Layouts.View.Container:SetPoint("BOTTOMRIGHT", Tome.UI.Layouts.View, "TO
 
 -- Create the Name label
 Tome.UI.Layouts.View.Name = UI.CreateFrame("Text", "Tome_UI_Layout_View_Name", Tome.UI.Layouts.View.Container)
-Tome.UI.Layouts.View.Name:SetFontSize(18)
+Tome.UI.Layouts.View.Name:SetFontSize(22)
 
 -- Create the Title label
 Tome.UI.Layouts.View.Title = UI.CreateFrame("Text", "Tome_UI_Layout_View_Title", Tome.UI.Layouts.View.Container)
@@ -94,7 +94,7 @@ function Tome.UI.Layouts.View.UpdateLayout()
     offset = ((width - Tome.UI.Layouts.View.Title:GetWidth()) / 2) - offset
 
     -- Reposition the Title label
-    Tome.UI.Layouts.View.Title:SetPoint("TOPLEFT", Tome.UI.Layouts.View.Name, "BOTTOMLEFT", offset, 5)
+    Tome.UI.Layouts.View.Title:SetPoint("TOPLEFT", Tome.UI.Layouts.View.Name, "BOTTOMLEFT", offset, -3)
 
     -- Calculate the offset for the Height label
     offset = (width - Tome.UI.Layouts.View.Height:GetWidth()) / 2
@@ -121,9 +121,21 @@ function Tome.UI.Layouts.View.Populate(data)
 
     Tome.UI.Layouts.View.Name:SetText(name)
     Tome.UI.Layouts.View.Title:SetText(data.Title)
-    Tome.UI.Layouts.View.Age:SetText(string.format("Age: %s", data.Age))
-    Tome.UI.Layouts.View.Height:SetText(string.format("Height: %s", data.Height))
-    Tome.UI.Layouts.View.Weight:SetText(string.format("Weight: %s", data.Weight))
+    if data.Age ~= "" then
+        Tome.UI.Layouts.View.Age:SetText(string.format("Age: %s", data.Age))
+    else
+        Tome.UI.Layouts.View.Age:SetText("")
+    end
+    if data.Height ~= "" then
+        Tome.UI.Layouts.View.Height:SetText(string.format("Height: %s", data.Height))
+    else
+        Tome.UI.Layouts.View.Height:SetText("")
+    end
+    if data.Weight ~= "" then
+        Tome.UI.Layouts.View.Weight:SetText(string.format("Weight: %s", data.Weight))
+    else
+        Tome.UI.Layouts.View.Weight:SetText("")
+    end
     -- TODO: Set flag, tutor status and IC/OOC status
     Tome.UI.Layouts.View.Appearance.Text:SetText(data.Appearance)
     Tome.UI.Layouts.View.History.Text:SetText(data.History)
