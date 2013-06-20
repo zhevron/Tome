@@ -57,7 +57,7 @@ Tome.UI.Layouts.Character.Prefix:EventAttach(
     Event.UI.Input.Key.Up,
     function(handle, key)
         -- Enable the Save button
-        Tome.UI.NavButtons.Save:SetEnabled(true)
+        Tome.UI.Save:SetEnabled(true)
     end,
     "Tome_UI_Layout_Character_Prefix_Change"
 )
@@ -92,7 +92,7 @@ Tome.UI.Layouts.Character.Suffix:EventAttach(
     Event.UI.Input.Key.Up,
     function(handle, key)
         -- Enable the Save button
-        Tome.UI.NavButtons.Save:SetEnabled(true)
+        Tome.UI.Save:SetEnabled(true)
     end,
     "Tome_UI_Layout_Character_Suffix_Change"
 )
@@ -128,7 +128,7 @@ Tome.UI.Layouts.Character.Name:EventAttach(
     Event.UI.Input.Key.Up,
     function(handle, key)
         -- Enable the Save button
-        Tome.UI.NavButtons.Save:SetEnabled(true)
+        Tome.UI.Save:SetEnabled(true)
     end,
     "Tome_UI_Layout_Character_Name_Change"
 )
@@ -163,7 +163,7 @@ Tome.UI.Layouts.Character.Title:EventAttach(
     Event.UI.Input.Key.Up,
     function(handle, key)
         -- Enable the Save button
-        Tome.UI.NavButtons.Save:SetEnabled(true)
+        Tome.UI.Save:SetEnabled(true)
     end,
     "Tome_UI_Layout_Character_Title_Change"
 )
@@ -198,7 +198,7 @@ Tome.UI.Layouts.Character.Age:EventAttach(
     Event.UI.Input.Key.Up,
     function(handle, key)
         -- Enable the Save button
-        Tome.UI.NavButtons.Save:SetEnabled(true)
+        Tome.UI.Save:SetEnabled(true)
     end,
     "Tome_UI_Layout_Character_Age_Change"
 )
@@ -233,7 +233,7 @@ Tome.UI.Layouts.Character.Weight:EventAttach(
     Event.UI.Input.Key.Up,
     function(handle, key)
         -- Enable the Save button
-        Tome.UI.NavButtons.Save:SetEnabled(true)
+        Tome.UI.Save:SetEnabled(true)
     end,
     "Tome_UI_Layout_Character_Weight_Change"
 )
@@ -269,7 +269,7 @@ Tome.UI.Layouts.Character.Height:EventAttach(
     Event.UI.Input.Key.Up,
     function(handle, key)
         -- Enable the Save button
-        Tome.UI.NavButtons.Save:SetEnabled(true)
+        Tome.UI.Save:SetEnabled(true)
     end,
     "Tome_UI_Layout_Character_Height_Change"
 )
@@ -298,7 +298,7 @@ Tome.UI.Layouts.Character.InCharacter:EventAttach(
         end
 
         -- Enable the Save button
-        Tome.UI.NavButtons.Save:SetEnabled(true)
+        Tome.UI.Save:SetEnabled(true)
     end,
     "Tome_UI_Layout_Character_InCharacter_Click"
 )
@@ -319,7 +319,7 @@ Tome.UI.Layouts.Character.Tutor:EventAttach(
         end
 
         -- Enable the Save button
-        Tome.UI.NavButtons.Save:SetEnabled(true)
+        Tome.UI.Save:SetEnabled(true)
     end,
     ""
 )
@@ -344,7 +344,7 @@ Tome.UI.Layouts.Character.Flag:SetPoint("TOPLEFT", Tome.UI.Layouts.Character.InC
 Tome.UI.Layouts.Character.Flag:SetBackgroundColor(0.0, 0.0, 0.0, 0.7)
 Tome.UI.Layouts.Character.Flag.Event.ItemSelect = function(item, value, index)
     -- Enable the Save button
-    Tome.UI.NavButtons.Save:SetEnabled(true)
+    Tome.UI.Save:SetEnabled(true)
 end
 
 -- Create the Appearance field
@@ -362,7 +362,7 @@ Tome.UI.Layouts.Character.Appearance.Text:EventAttach(
     Event.UI.Input.Key.Up,
     function(handle, key)
         -- Enable the Save button
-        Tome.UI.NavButtons.Save:SetEnabled(true)
+        Tome.UI.Save:SetEnabled(true)
     end,
     "Tome_UI_Layout_Character_Appearance_Text_Change"
 )
@@ -382,7 +382,7 @@ Tome.UI.Layouts.Character.History.Text:EventAttach(
     Event.UI.Input.Key.Up,
     function(handle, key)
         -- Enable the Save button
-        Tome.UI.NavButtons.Save:SetEnabled(true)
+        Tome.UI.Save:SetEnabled(true)
     end,
     "Tome_UI_Layout_Character_History_Text_Change"
 )

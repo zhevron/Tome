@@ -91,6 +91,12 @@ Tome.UI.NavButtons.Character:EventAttach(
         if Tome.UI.ShowingSelf then
             -- Show the Character tab
             Tome.UI.Layouts.Character:SetVisible(true)
+
+            -- Enable all buttons and disable this button
+            for _, button in pairs(Tome.UI.NavButtons) do
+                button:SetEnabled(true)
+            end
+            Tome.UI.NavButtons.Character:SetEnabled(false)
         else
             -- Show the View layout
             Tome.UI.Layouts.View:SetVisible(true)
@@ -103,7 +109,6 @@ Tome.UI.NavButtons.Character:EventAttach(
 Tome.UI.NavButtons.Guild = UI.CreateFrame("RiftButton", "Tome_UI_NavButton_Guild", Tome.UI.Window)
 Tome.UI.NavButtons.Guild:SetPoint("BOTTOMLEFT", Tome.UI.NavButtons.Character, "BOTTOMRIGHT", 0, 0)
 Tome.UI.NavButtons.Guild:SetText("Guild")
-Tome.UI.NavButtons.Guild:SetEnabled(false)
 Tome.UI.NavButtons.Guild:EventAttach(
     Event.UI.Input.Mouse.Left.Click,
     function(handle)
@@ -119,20 +124,26 @@ Tome.UI.NavButtons.Guild:EventAttach(
 
         -- Show the Guild tab
         Tome.UI.Layouts.Guild:SetVisible(true)
+
+        -- Enable all buttons and disable this button
+            for _, button in pairs(Tome.UI.NavButtons) do
+                button:SetEnabled(true)
+            end
+            Tome.UI.NavButtons.Guild:SetEnabled(false)
     end,
     "Tome_UI_NavButton_Guild_Click"
 )
 
 -- Create the Save button
-Tome.UI.NavButtons.Save = UI.CreateFrame("RiftButton", "Tome_UI_NavButton_Save", Tome.UI.Window)
-Tome.UI.NavButtons.Save:SetPoint("BOTTOMRIGHT", Tome.UI.Window, "BOTTOMRIGHT", -15, -15)
-Tome.UI.NavButtons.Save:SetText("Save")
-Tome.UI.NavButtons.Save:SetEnabled(false)
-Tome.UI.NavButtons.Save:EventAttach(
+Tome.UI.Save = UI.CreateFrame("RiftButton", "Tome_UI_NavButton_Save", Tome.UI.Window)
+Tome.UI.Save:SetPoint("BOTTOMRIGHT", Tome.UI.Window, "BOTTOMRIGHT", -15, -15)
+Tome.UI.Save:SetText("Save")
+Tome.UI.Save:SetEnabled(false)
+Tome.UI.Save:EventAttach(
     Event.UI.Input.Mouse.Left.Click,
     function(handle)
         -- Abort if the button is disabled
-        if not Tome.UI.NavButtons.Save:GetEnabled() then
+        if not Tome.UI.Save:GetEnabled() then
             return
         end
 
@@ -154,16 +165,15 @@ Tome.UI.NavButtons.Save:EventAttach(
         Tome.Data.Send(nil, true)
 
         -- Disable the save button
-        Tome.UI.NavButtons.Save:SetEnabled(false)
+        Tome.UI.Save:SetEnabled(false)
     end,
     "Tome_UI_NavButton_Save_Click"
 )
 
 -- Create the Settings tab button
 Tome.UI.NavButtons.Settings = UI.CreateFrame("RiftButton", "Tome_UI_NavButton_Settings", Tome.UI.Window)
-Tome.UI.NavButtons.Settings:SetPoint("BOTTOMRIGHT", Tome.UI.NavButtons.Save, "BOTTOMLEFT", 0, 0)
+Tome.UI.NavButtons.Settings:SetPoint("BOTTOMRIGHT", Tome.UI.Save, "BOTTOMLEFT", 0, 0)
 Tome.UI.NavButtons.Settings:SetText("Settings")
-Tome.UI.NavButtons.Settings:SetEnabled(false)
 Tome.UI.NavButtons.Settings:EventAttach(
     Event.UI.Input.Mouse.Left.Click,
     function(handle)
@@ -179,6 +189,12 @@ Tome.UI.NavButtons.Settings:EventAttach(
 
         -- Show the Settings tab
         Tome.UI.Layouts.Settings:SetVisible(true)
+
+        -- Enable all buttons and disable this button
+            for _, button in pairs(Tome.UI.NavButtons) do
+                button:SetEnabled(true)
+            end
+            Tome.UI.NavButtons.Settings:SetEnabled(false)
     end,
     "Tome_UI_NavButton_Settings_Click"
 )
@@ -205,6 +221,12 @@ Tome.UI.NavButtons.Preview:EventAttach(
 
         -- Show the View layout
         Tome.UI.Layouts.View:SetVisible(true)
+
+        -- Enable all buttons and disable this button
+            for _, button in pairs(Tome.UI.NavButtons) do
+                button:SetEnabled(true)
+            end
+            Tome.UI.NavButtons.Preview:SetEnabled(false)
     end,
     "Tome_UI_NavButton_Preview_Click"
 )
@@ -222,6 +244,9 @@ function Tome.UI.Show(data)
         for _, button in pairs(Tome.UI.NavButtons) do
             button:SetVisible(false)
         end
+
+        -- Disable the save button
+        Tome.UI.Save:SetVisible(false)
 
         -- Enable the character and guild buttons
         Tome.UI.NavButtons.Character:SetVisible(true)
@@ -243,6 +268,9 @@ function Tome.UI.Show(data)
             button:SetVisible(true)
         end
 
+        -- Disable the character button
+        Tome.UI.NavButtons.Character:SetEnabled(false)
+
         -- Enable the Character layout
         Tome.UI.Layouts.Character:SetVisible(true)
 
@@ -255,8 +283,9 @@ function Tome.UI.Show(data)
         -- Populate the Character layout
         Tome.UI.Layouts.Character.Populate(data)
 
-        -- Disable the save button
-        Tome.UI.NavButtons.Save:SetEnabled(false)
+        -- Show and disable the save button
+        Tome.UI.Save:SetVisible(true)
+        Tome.UI.Save:SetEnabled(false)
     end
 
     -- Set the title of the window
