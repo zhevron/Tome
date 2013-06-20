@@ -49,6 +49,9 @@ Tome.UI.NavButtons = {}
 -- Create a table to hold the layouts
 Tome.UI.Layouts = {}
 
+-- Store a variable referring to whether the player is viewing their own data
+Tome.UI.ShowingSelf = false
+
 -- Create the close button
 Tome.UI.Close = UI.CreateFrame("RiftButton", "Tome_UI_NavButton_Close", Tome.UI.Window)
 Tome.UI.Close:SetPoint("TOPRIGHT", Tome.UI.Window, "TOPRIGHT", -10, 17)
@@ -84,8 +87,14 @@ Tome.UI.NavButtons.Character:EventAttach(
             layout:SetVisible(false)
         end
 
-        -- Show the Character tab
-        Tome.UI.Layouts.Character:SetVisible(true)
+        -- Check if this is the players own data
+        if Tome.UI.ShowingSelf then
+            -- Show the Character tab
+            Tome.UI.Layouts.Character:SetVisible(true)
+        else
+            -- Show the View layout
+            Tome.UI.Layouts.View:SetVisible(true)
+        end
     end,
     "Tome_UI_NavButton_Character_Click"
 )
@@ -212,6 +221,16 @@ function Tome.UI.Show(data)
             button:SetVisible(false)
         end
 
+        -- Enable the character and guild buttons
+        Tome.UI.NavButtons.Character:SetVisible(true)
+        Tome.UI.NavButtons.Guild:SetVisible(true)
+
+        -- Store that this is not the players own data
+        Tome.UI.ShowingSelf = false
+
+        -- Populate the View layout
+        TOme.UI.Layouts.View:Populate(data)
+
         -- Enable the View layout
         Tome.UI.Layouts.View:SetVisible(true)
 
@@ -225,22 +244,14 @@ function Tome.UI.Show(data)
         -- Enable the Character layout
         Tome.UI.Layouts.Character:SetVisible(true)
 
+        -- Store that this is the players own data
+        Tome.UI.ShowingSelf = true
+
         -- Get the player data instead
         data = Tome_Character
 
-        -- Set all the fields to current data
-        Tome.UI.Layouts.Character.Prefix:SetText((data.Prefix ~= "") and data.Prefix or "Prefix")
-        Tome.UI.Layouts.Character.Name:SetText((data.Name ~= "") and data.Name or "Name")
-        Tome.UI.Layouts.Character.Suffix:SetText((data.Suffix ~= "") and data.Suffix or "Suffix")
-        Tome.UI.Layouts.Character.Title:SetText((data.Title ~= "") and data.Title or "Title")
-        Tome.UI.Layouts.Character.Age:SetText((data.Age ~= "") and data.Age or "Age")
-        Tome.UI.Layouts.Character.Height:SetText((data.Height ~= "") and data.Height or "Height")
-        Tome.UI.Layouts.Character.Weight:SetText((data.Weight ~= "") and data.Weight or "Weight")
-        Tome.UI.Layouts.Character.InCharacter:SetText(data.InCharacter and "IC" or "OOC")
-        Tome.UI.Layouts.Character.Tutor:SetText(data.Tutor and "Tutor: On" or "Tutor: Off")
-        Tome.UI.Layouts.Character.Flag:SetSelectedValue(data.Flag)
-        Tome.UI.Layouts.Character.Appearance.Text:SetText(data.Appearance)
-        Tome.UI.Layouts.Character.History.Text:SetText(data.History)
+        -- Populate the Character layout
+        Tome.UI.Layouts.Character:Populate(data)
 
         -- Disable the save button
         Tome.UI.NavButtons.Save:SetEnabled(false)

@@ -398,3 +398,19 @@ function Tome.UI.Layouts.Character.ClearFocus()
     Tome.UI.Layouts.Character.Appearance:SetKeyFocus(false)
     Tome.UI.Layouts.Character.History:SetKeyFocus(false)
 end
+
+-- This function sets all the fields to match the supplied data
+function Tome.UI.Layouts.Character.Populate(data)
+    Tome.UI.Layouts.Character.Prefix:SetText((data.Prefix ~= "") and data.Prefix or "Prefix")
+    Tome.UI.Layouts.Character.Name:SetText((data.Name ~= "") and data.Name or "Name")
+    Tome.UI.Layouts.Character.Suffix:SetText((data.Suffix ~= "") and data.Suffix or "Suffix")
+    Tome.UI.Layouts.Character.Title:SetText((data.Title ~= "") and data.Title or "Title")
+    Tome.UI.Layouts.Character.Age:SetText((data.Age ~= "") and data.Age or "Age")
+    Tome.UI.Layouts.Character.Height:SetText((data.Height ~= "") and data.Height or "Height")
+    Tome.UI.Layouts.Character.Weight:SetText((data.Weight ~= "") and data.Weight or "Weight")
+    Tome.UI.Layouts.Character.InCharacter:SetText(data.InCharacter and "IC" or "OOC")
+    Tome.UI.Layouts.Character.Tutor:SetText(data.Tutor and "Tutor: On" or "Tutor: Off")
+    Tome.UI.Layouts.Character.Flag:SetSelectedValue(data.Flag)
+    Tome.UI.Layouts.Character.Appearance.Text:SetText(data.Appearance)
+    Tome.UI.Layouts.Character.History.Text:SetText(data.History)
+end

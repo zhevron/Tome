@@ -29,3 +29,8 @@ Tome.UI.Layouts.View:SetPoint("BOTTOMRIGHT", Tome.UI.Window:GetContent(), "BOTTO
 function Tome.UI.Layouts.View.ClearFocus()
     --
 end
+
+-- This function sets all the fields to match the supplied data
+function Tome.UI.Layouts.View.Populate(data)
+    --
+end

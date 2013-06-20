@@ -29,3 +29,8 @@ Tome.UI.Layouts.Guild:SetPoint("BOTTOMRIGHT", Tome.UI.Window:GetContent(), "BOTT
 function Tome.UI.Layouts.Guild.ClearFocus()
     --
 end
+
+-- This function sets all the fields to match the supplied data
+function Tome.UI.Layouts.Guild.Populate(data)
+    --
+end
