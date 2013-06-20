@@ -187,7 +187,6 @@ Tome.UI.NavButtons.Settings:EventAttach(
 Tome.UI.NavButtons.Preview = UI.CreateFrame("RiftButton", "Tome_UI_NavButton_Preview", Tome.UI.Window)
 Tome.UI.NavButtons.Preview:SetPoint("BOTTOMRIGHT", Tome.UI.NavButtons.Settings, "BOTTOMLEFT", 0, 0)
 Tome.UI.NavButtons.Preview:SetText("Preview")
-Tome.UI.NavButtons.Preview:SetEnabled(false)
 Tome.UI.NavButtons.Preview:EventAttach(
     Event.UI.Input.Mouse.Left.Click,
     function(handle)
@@ -201,8 +200,11 @@ Tome.UI.NavButtons.Preview:EventAttach(
             layout:SetVisible(false)
         end
 
-        -- Show the Preview tab
-        Tome.UI.Layouts.Preview:SetVisible(true)
+        -- Populate the View layout
+        Tome.UI.Layouts.View.Populate(Tome_Character)
+
+        -- Show the View layout
+        Tome.UI.Layouts.View:SetVisible(true)
     end,
     "Tome_UI_NavButton_Preview_Click"
 )
