@@ -400,7 +400,7 @@ function Tome.UI.Layouts.Character.ClearFocus()
 end
 
 -- This function sets all the fields to match the supplied data
-function Tome.UI.Layouts.Character.Populate(self, data)
+function Tome.UI.Layouts.Character.Populate(data)
     Tome.UI.Layouts.Character.Prefix:SetText((data.Prefix ~= "") and data.Prefix or "Prefix")
     Tome.UI.Layouts.Character.Name:SetText((data.Name ~= "") and data.Name or "Name")
     Tome.UI.Layouts.Character.Suffix:SetText((data.Suffix ~= "") and data.Suffix or "Suffix")

@@ -31,6 +31,6 @@ function Tome.UI.Layouts.Guild.ClearFocus()
 end
 
 -- This function sets all the fields to match the supplied data
-function Tome.UI.Layouts.Guild.Populate(self, data)
+function Tome.UI.Layouts.Guild.Populate(data)
     --
 end

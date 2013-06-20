@@ -103,7 +103,7 @@ function Tome.UI.Layouts.View.ClearFocus()
 end
 
 -- This function sets all the fields to match the supplied data
-function Tome.UI.Layouts.View.Populate(self, data)
+function Tome.UI.Layouts.View.Populate(data)
     local name = data.Name
     if data.Prefix and data.Prefix ~= "" then
         name = string.format("%s %s", data.Prefix, name)

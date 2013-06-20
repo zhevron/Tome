@@ -229,7 +229,7 @@ function Tome.UI.Show(data)
         Tome.UI.ShowingSelf = false
 
         -- Populate the View layout
-        TOme.UI.Layouts.View:Populate(data)
+        Tome.UI.Layouts.View.Populate(data)
 
         -- Enable the View layout
         Tome.UI.Layouts.View:SetVisible(true)
@@ -251,7 +251,7 @@ function Tome.UI.Show(data)
         data = Tome_Character
 
         -- Populate the Character layout
-        Tome.UI.Layouts.Character:Populate(data)
+        Tome.UI.Layouts.Character.Populate(data)
 
         -- Disable the save button
         Tome.UI.NavButtons.Save:SetEnabled(false)
