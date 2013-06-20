@@ -1,6 +1,10 @@
 Tome - A RIFT Roleplaying Immersion Addon
 =========================================
 
+## NOTICE!
+
+Tome is currently in beta at version 0.1-beta. Please report all issues on our [issue tracker](https://github.com/zhevron/Tome/issues).
+
 ## Installation
 
 [Download the latest version](https://github.com/zhevron/Tome/archive/master.zip) and unzip the contents into your addon directory.
@@ -18,6 +22,11 @@ If you want to contribute to the development of DoTrack, please [fork](https://g
 Make a new branch based on the `develop` branch and commit the changes you make there.
 
 Then make a [pull request](https://github.com/zhevron/Tome/pulls) back to the `develop` branch in the main repository.
+
+## Maintainers
+
+* Lyrai @ Faeblight NA
+* Maiiel @ Faeblight NA
 
 ## Credits
 
