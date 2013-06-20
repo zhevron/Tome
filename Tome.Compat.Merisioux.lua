@@ -76,7 +76,7 @@ function Tome.Compat.Merisioux.Serialize(data)
     end
 
     -- Use the Data module to serialize and compress the data
-    local serialized = Tome.Data.Serialize(data)
+    local serialized = Tome.Data.Serialize(merisiouxdata)
 
     -- Append the header prefix
     serialized = string.format("merisioux_data\1%s", serialized)
