@@ -320,9 +320,34 @@ function Tome.Event_Command_Slash(handle, commandline)
     end
 end
 
+-- This function
+function Tome.Event_Loaded(addonidentifier)
+    if addonidentifier == Inspect.Addon.Current() then
+        -- Get the addon version
+        local version = Tome.GetVersion()
+
+        -- Print a loaded message
+        print(string.format(
+            "Tome version %d.%d%s loaded!",
+            version.Major,
+            version.Minor,
+            version.Beta and "-beta" or ""
+        ))
+        print("Type '/tome' to open the character window")
+        print("Type '/tome help' for a listing of commands")
+    end
+end
+
 -- Attach to the slash command event using the "/tome" prefix
 Command.Event.Attach(
     Command.Slash.Register("tome"),
     Tome.Event_Command_Slash,
     "Tome_Event_Command_Slash"
+)
+
+-- Attach to the addon loaded event
+Command.Event.Attach(
+    Event.Addon.Load.End,
+    Tome.Event_Loaded,
+    "Tome_Event_Loaded"
 )
