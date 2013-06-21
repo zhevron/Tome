@@ -24,6 +24,59 @@ Tome = {}
 -- Create a global table that UI modules than hook into
 Tome.UI = {}
 
+-- This function returns the version of the addon
+function Tome.GetVersion()
+    -- Make a table for storing the version data
+    local version = {}
+
+    -- Get the addon information from the API
+    local addon = Inspect.Addon.Detail(Inspect.Addon.Current())
+
+    -- Check if this is a beta version
+    if string.find(addon.toc.Version, "-beta") then
+        version.Beta = true
+    else
+        version.Beta = false
+    end
+
+    -- Split the version string
+    local tbl = {}
+    for key, value in string.gmatch(string.gsub(addon.toc.Version, "-beta", ""), ".") do
+        if key ~= "." then
+            table.insert(tbl, key)
+        end
+    end
+
+    -- Check that it is valid
+    if not table.getn(tbl) ~= 2 then
+        return nil
+    end
+    if not tonumber(tbl[1]) or not tonumber(tbl[2]) then
+        return nil
+    end
+
+    version.Major = tonumber(tbl[1])
+    version.Minor = tonumber(tbl[2])
+
+    return version
+end
+
+-- This function checks a version against the current version and notifies the player of updates
+function Tome.CheckVersion(version)
+    -- Get the local addon version
+    local addon = Tome.GetVersion()
+
+    -- Check if we have a new major version
+    if not version.Beta and (version.Major > addon.Major or version.Minor > addon.Minor) then
+        -- A newer version is available. Notify the player
+        print(string.format(
+            "A new version (%s.%s) is available! Download it from RiftUI, Curse or http://zhevron.github.io/Tome",
+            version.Major,
+            version.Minor
+        ))
+    end
+end
+
 -- This function prints the help message
 function Tome.ShowHelp()
     print("Available commands:")

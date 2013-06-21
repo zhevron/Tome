@@ -54,6 +54,9 @@ Tome.Data.Error = {
 
 -- Serializes a variable so it can be transmitted across the network
 function Tome.Data.Serialize(data)
+    -- Append the version to the data table
+    data.Version = Tome.GetVersion()
+
     -- Use the Rift API serializer to serialize the data
     local serialized = Utility.Serialize.Inline(data)
 
@@ -238,6 +241,11 @@ function Tome.Data.Event_Message_Receive(handle, from, msgtype, channel, identif
         -- Check that the data is valid and exit if it isn't
         if (type(deserialized) ~= "table") then
             return
+        end
+
+        -- Run a version check on the data
+        if deserialized.Version then
+            Tome.CheckVersion(deserialized.Version)
         end
 
         -- Store the data in our cache
