@@ -22,7 +22,8 @@
 local detail = Inspect.Unit.Detail("player")
 
 Tome_Config = {
-    Timeout = 3600
+    Timeout = 3600,
+    Throttle = 60
 }
 
 Tome_Character = {
@@ -42,3 +43,5 @@ Tome_Character = {
 }
 
 Tome_Cache = {}
+
+Tome_Throttle = {}

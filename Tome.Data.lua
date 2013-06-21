@@ -49,8 +49,7 @@ Tome.Data.Statistics = {
 -- Store a table that contains the send error data
 Tome.Data.Error = {
     Target = "",
-    Type = "",
-    Count = 0
+    Type = ""
 }
 
 -- Serializes a variable so it can be transmitted across the network
@@ -74,7 +73,7 @@ function Tome.Data.Deserialize(data)
 
     -- Inflate the compressed data
     local inflated = inflate(data)
-    
+
     -- Deserialize using loadstring
     local deserialized = loadstring(string.format("return %s", inflated))
 
@@ -136,7 +135,15 @@ function Tome.Data.Query(target, broadcast)
 
     -- Check if this is a broadcast
     if not broadcast then
-        -- Store the target name in case we have to try again
+        -- Check that the query should not be throttled
+        if Tome_Throttle[string.upper(target)] and Tome_Throttle[string.upper(target)] < os.time() then
+            return
+        end
+
+        -- Set the throttle time
+        Tome_Throttle[string.upper(target)] = os.time() + Tome_Config.Throttle
+
+        -- Store the target name and message type
         Tome.Data.Error.Target = target
         Tome.Data.Error.Type = "Query"
 
@@ -165,7 +172,7 @@ function Tome.Data.Send(target, broadcast)
 
     -- Check if this is a broadcast
     if not broadcast then
-        -- Store the target name in case we have to try again
+        -- Store the target name and message type
         Tome.Data.Error.Target = target
         Tome.Data.Error.Type = "Send"
 
@@ -193,16 +200,6 @@ function Tome.Data.SendCallback(failure, message)
             -- Reset the error counter
             Tome.Data.Error.Count = 0
             return
-        end
-
-        -- Increase failure count
-        Tome.Data.Error.Count = Tome.Data.Error.Count + 1
-
-        -- Attempt to send again
-        if (Tome.Data.Error.Type == "Query") then
-            Tome.Data.Query(Tome.Data.Error.Target)
-        elseif (Tome.Data.Error.Type == "Send") then
-            Tome.Data.Send(Tome.Data.Error.Target)
         end
     else
         -- Increment the statistics sent counter
