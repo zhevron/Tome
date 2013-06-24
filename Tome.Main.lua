@@ -48,7 +48,7 @@ function Tome.GetVersion()
     end
 
     -- Check that it is valid
-    if not table.getn(tbl) ~= 2 then
+    if table.getn(tbl) ~= 2 then
         return nil
     end
     if not tonumber(tbl[1]) or not tonumber(tbl[2]) then
@@ -345,7 +345,7 @@ function Tome.SetDefaults(defaults, current)
 end
 
 -- This function is fired by the event API when the variables for Tome are loaded
-function Tome.Event_Loaded(addonidentifier)
+function Tome.Event_Loaded(handle, addonidentifier)
     if addonidentifier == Inspect.Addon.Current() then
         -- Set the default variables
         Tome_Config = Tome.SetDefaults(Tome_Defaults, Tome_Config)
