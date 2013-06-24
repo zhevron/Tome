@@ -120,9 +120,9 @@ function Tome.ShowDebug(command)
             print("Unable to get CPU usage information!")
         end
     elseif (command == "data") then
-        -- Dump the serialized character information
+        -- Dump the character information
         print("------- Character Info -------")
-        print(Tome.Data.Serialize(Tome_Character))
+        print(Tome_Character)
     elseif (command == "cache") then
         -- Create variables to hold the total items in the cache and how many have expired
         local total = 0
