@@ -320,9 +320,36 @@ function Tome.Event_Command_Slash(handle, commandline)
     end
 end
 
--- This function
+-- This function sets the default saved variables and should be able to upgrade from any version
+function Tome.SetDefaults(defaults, current)
+    -- Check that the defaults table is valid
+    if type(defaults) ~= "table" then
+        return
+    end
+
+    -- Loop the defaults table
+    for key, value in pairs(defaults) do
+        -- Check if the value is a table
+        if type(value) == "table" then
+            -- Recursively run this function on the value table
+            current[key] = Tome.SetDefaults(value, current[key])
+        else
+            -- Check if the key exists in the current table
+            if current[key] == nil then
+                current[key] = value
+            end
+        end
+    end
+
+    return current
+end
+
+-- This function is fired by the event API when the variables for Tome are loaded
 function Tome.Event_Loaded(addonidentifier)
     if addonidentifier == Inspect.Addon.Current() then
+        -- Set the default variables
+        Tome_Config = Tome.SetDefaults(Tome_Defaults, Tome_Config)
+
         -- Get the addon version
         local version = Tome.GetVersion()
 
@@ -345,9 +372,9 @@ Command.Event.Attach(
     "Tome_Event_Command_Slash"
 )
 
--- Attach to the addon loaded event
+-- Attach to the SavedVariables loaded event
 Command.Event.Attach(
-    Event.Addon.Load.End,
+    Event.Addon.SavedVariables.Load.End,
     Tome.Event_Loaded,
     "Tome_Event_Loaded"
 )
