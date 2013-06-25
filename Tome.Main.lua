@@ -66,8 +66,8 @@ function Tome.CheckVersion(version)
     -- Get the local addon version
     local addon = Tome.GetVersion()
 
-    -- Check if we have a new major version
-    if not version.Beta and (version.Major > addon.Major or version.Minor > addon.Minor) then
+    -- Check if we have a new version only if both versions are either beta or release
+    if addon.Beta == version.Beta and (version.Major > addon.Major or version.Minor > addon.Minor) then
         -- A newer version is available. Notify the player
         print(string.format(
             "A new version (%s.%s) is available! Download it from RiftUI, Curse or http://zhevron.github.io/Tome",
