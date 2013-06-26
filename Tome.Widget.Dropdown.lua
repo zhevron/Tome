@@ -243,6 +243,9 @@ function Tome.Widget.Dropdown.SetItems(self, items)
         count = count + 1
     end
 
+    -- Resize the item container to fit all the items
+    self.ItemContainer:SetHeight(self.ItemFrames[1]:GetHeight * #self.ItemFrames)
+
     -- Resize the dropdown to fit the items
     self:SizeToFit()
 end
