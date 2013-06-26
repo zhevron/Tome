@@ -71,8 +71,8 @@ Tome.UI.Layouts.View.Appearance.Text:SetBackgroundColor(0.0, 0.0, 0.0, 0.7)
 -- Create the History label
 Tome.UI.Layouts.View.History = {}
 Tome.UI.Layouts.View.History.Label = UI.CreateFrame("Text", "Tome_UI_Layout_View_History_Header", Tome.UI.Layouts.View)
-Tome.UI.Layouts.View.History.Label:SetPoint("TOPLEFT", Tome.UI.Layouts.View.Appearance.Text, "BOTTOMLEFT", 0, 10)
-Tome.UI.Layouts.View.History.Label:SetPoint("TOPRIGHT", Tome.UI.Layouts.View.Appearance.Text, "BOTTOMRIGHT", 0, 10)
+Tome.UI.Layouts.View.History.Label:SetPoint("TOPLEFT", Tome.UI.Layouts.View.Appearance.Text.Container, "BOTTOMLEFT", 0, 10)
+Tome.UI.Layouts.View.History.Label:SetPoint("TOPRIGHT", Tome.UI.Layouts.View.Appearance.Text.Container, "BOTTOMRIGHT", 0, 10)
 Tome.UI.Layouts.View.History.Label:SetFontSize(13)
 Tome.UI.Layouts.View.History.Label:SetText("History:")
 Tome.UI.Layouts.View.History.Text = Tome.Widget.TextArea.Create(

@@ -368,8 +368,8 @@ Tome.UI.Layouts.Character.Appearance.Text:SetBackgroundColor(0.0, 0.0, 0.0, 0.7)
 -- Create the History field
 Tome.UI.Layouts.Character.History = {}
 Tome.UI.Layouts.Character.History.Label = UI.CreateFrame("Text", "Tome_UI_Layout_Character_History_Label", Tome.UI.Layouts.Character)
-Tome.UI.Layouts.Character.History.Label:SetPoint("TOPLEFT", Tome.UI.Layouts.Character.Appearance.Text, "BOTTOMLEFT", 0, 10)
-Tome.UI.Layouts.Character.History.Label:SetPoint("TOPRIGHT", Tome.UI.Layouts.Character.Appearance.Text, "BOTTOMRIGHT", 0, 10)
+Tome.UI.Layouts.Character.History.Label:SetPoint("TOPLEFT", Tome.UI.Layouts.Character.Appearance.Text.Container, "BOTTOMLEFT", 0, 10)
+Tome.UI.Layouts.Character.History.Label:SetPoint("TOPRIGHT", Tome.UI.Layouts.Character.Appearance.Text.Container, "BOTTOMRIGHT", 0, 10)
 Tome.UI.Layouts.Character.History.Label:SetText("History:")
 Tome.UI.Layouts.Character.History.Text = Tome.Widget.TextArea.Create(
     Tome.UI.Layouts.Character,

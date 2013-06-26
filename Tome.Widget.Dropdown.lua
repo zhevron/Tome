@@ -38,6 +38,7 @@ function Tome.Widget.Dropdown.Create(parent, name, callback)
     widget.Container = UI.CreateFrame("Frame", string.format("%s_Container", name), parent)
     widget.Selected = UI.CreateFrame("Text", string.format("%s_Selected", name), widget.Container)
     widget.ItemContainer = UI.CreateFrame("Frame", string.format("%s_ItemContainer", name), widget.Container)
+    widget.Hidden = UI.CreateFrame("Text", string.format("%s_Hidden", name), widget.Container)
 
     -- Set the anchor points for the frames
     widget.Selected:SetPoint("TOPLEFT", widget.Container, "TOPLEFT", 0, 0)
@@ -48,6 +49,9 @@ function Tome.Widget.Dropdown.Create(parent, name, callback)
     -- Hide the item container by default
     widget.ItemContainer:SetVisible(false)
 
+    -- Hide the hidden frame
+    widget.Hidden:SetVisible(false)
+
     -- Attach to the left mouse click event of the selected text label
     widget.Selected:EventAttach(
         Event.UI.Input.Mouse.Left.Click,
@@ -57,6 +61,9 @@ function Tome.Widget.Dropdown.Create(parent, name, callback)
 
     -- Store a reference to the widget in the container frame
     widget.Container.Widget = widget
+
+    -- Store the name of the dropdown
+    widget.Name = name
 
     -- Create a variable to hold the item frames
     widget.ItemFrames = {}
@@ -69,6 +76,7 @@ function Tome.Widget.Dropdown.Create(parent, name, callback)
     widget.SelectedValue = nil
 
     -- Attach the module methods
+    widget.GetName = Tome.Widget.Dropdown.GetName
     widget.GetHeight = Tome.Widget.Dropdown.GetHeight
     widget.SetHeight = Tome.Widget.Dropdown.SetHeight
     widget.GetWidth = Tome.Widget.Dropdown.GetWidth
@@ -122,6 +130,12 @@ function Tome.Widget.Dropdown.CreateItemFrame(parent, name)
     return frame
 end
 
+-- This function returns the name of the dropdown
+function Tome.Widget.Dropdown.GetName(self)
+    -- Get the name of the widget
+    return self.Name
+end
+
 -- This function returns the height of the dropdown
 function Tome.Widget.Dropdown.GetHeight(self)
     -- Get the height of the container frame
@@ -143,9 +157,9 @@ end
 
 -- This function sets the width of the dropdown
 function Tome.Widget.Dropdown.SetWidth(self, width)
-    -- Set the width of the container and selected item frames
+    -- Set the width of the container frame
     self.Container:SetWidth(width)
-    self.Selected:SetWidth(width)
+    print(width)
 end
 
 -- This function resizes the dropdown to fit the text
@@ -156,27 +170,29 @@ function Tome.Widget.Dropdown.SizeToFit(self)
     end
 
     -- Get the text height
-    local height = self.Items[1]:GetHeight()
+    local height = self.ItemFrames[1]:GetHeight()
 
     -- Set the height
     self:SetHeight(height)
 
     -- Get the width of the widest item
-    local width = 0
     for _, item in ipairs(self.ItemFrames) do
-        if item:GetWidth() > width then
-            width = item:GetWidth()
+        self.Hidden:SetText(item:GetText())
+        if self.Hidden:GetWidth() > self:GetWidth() then
+            self:SetWidth(self.Hidden:GetWidth())
         end
     end
-
-    -- Set the width
-    self:SetWidth(width)
 end
 
 -- This function sets the background color of the dropdown
 function Tome.Widget.Dropdown.SetBackgroundColor(self, r, g, b, a)
     -- Call SetBackgroundColor on the container frame
     self.Container:SetBackgroundColor(r, g, b, a)
+
+    -- Call SetBackgroundColor on all the item frames too
+    for _, item in ipairs(self.ItemFrames) do
+        item:SetBackgroundColor(r, g, b, a)
+    end
 end
 
 -- This function sets a specified anchor point for the dropdown
@@ -205,11 +221,6 @@ function Tome.Widget.Dropdown.SetItems(self, items)
     -- Overwrite the Items table
     self.Items = items
 
-    -- Abort if the table is empty
-    if #self.Items == 0 then
-        return
-    end
-
     -- Loop the items and set up the frames
     local count = 1
     for key, value in pairs(self.Items) do
@@ -224,8 +235,10 @@ function Tome.Widget.Dropdown.SetItems(self, items)
             -- Anchor the new frame
             if count == 1 then
                 self.ItemFrames[count]:SetPoint("TOPLEFT", self.ItemContainer, "TOPLEFT", 0, 0)
+                self.ItemFrames[count]:SetPoint("TOPRIGHT", self.ItemContainer, "TOPRIGHT", 0, 0)
             else
                 self.ItemFrames[count]:SetPoint("TOPLEFT", self.ItemFrames[count - 1], "BOTTOMLEFT", 0, 0)
+                self.ItemFrames[count]:SetPoint("TOPRIGHT", self.ItemFrames[count - 1], "BOTTOMRIGHT", 0, 0)
             end
         end
 
@@ -243,8 +256,13 @@ function Tome.Widget.Dropdown.SetItems(self, items)
         count = count + 1
     end
 
+    -- Abort if we have no frames
+    if #self.ItemFrames == 0 then
+        return
+    end
+
     -- Resize the item container to fit all the items
-    self.ItemContainer:SetHeight(self.ItemFrames[1]:GetHeight * #self.ItemFrames)
+    self.ItemContainer:SetHeight(self.ItemFrames[1]:GetHeight() * #self.ItemFrames)
 
     -- Resize the dropdown to fit the items
     self:SizeToFit()
@@ -312,7 +330,7 @@ end
 -- This function is fired by the event API when the cursor is over a dropdown item
 function Tome.Widget.Dropdown.Event_ItemFrame_MouseIn(handle)
     -- Get the parent frame
-    local widget = handle:GetParent()
+    local widget = handle:GetParent():GetParent()
 
     -- Get the parent alpha value
     local _, _, _, a = widget:GetBackgroundColor()
@@ -324,7 +342,7 @@ end
 -- This function is fired by the event API when the cursor moves off a dropdown item
 function Tome.Widget.Dropdown.Event_ItemFrame_MouseOut(handle)
     -- Get the parent frame
-    local widget = handle:GetParent()
+    local widget = handle:GetParent():GetParent()
 
     -- Get the parent background color
     local r, g, b, a = widget:GetBackgroundColor()
@@ -336,7 +354,7 @@ end
 -- This function is fired by the event API when a dropdown item is clicked
 function Tome.Widget.Dropdown.Event_ItemFrame_LeftMouse(handle)
     -- Get the parent frame
-    local widget = handle:GetParent().Widget
+    local widget = handle:GetParent():GetParent().Widget
 
     -- Check if this is the same key that was already selected
     if widget.SelectedKey ~= handle:GetText() then
