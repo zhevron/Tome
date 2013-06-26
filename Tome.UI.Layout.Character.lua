@@ -325,27 +325,25 @@ Tome.UI.Layouts.Character.Tutor:EventAttach(
 )
 
 -- Create a list of all the available flags
-local flagtext = {}
-local flagvalue = {}
-local index = 1
+local flags = {}
 for _, item in ipairs(Tome.Data.Flags) do
-    flagtext[index] = item.text
-    flagvalue[index] = item.id
-    index = index + 1
+    flags[item.text] = item.id
 end
 
 size = (((Tome.UI.Layouts.Character:GetWidth() / 100) * 35) - 5)
 
 -- Create the Flag dropdown menu
-Tome.UI.Layouts.Character.Flag = UI.CreateFrame("SimpleSelect", "Tome_UI_Layout_Character_Flag", Tome.UI.Layouts.Character.Controls)
-Tome.UI.Layouts.Character.Flag:SetItems(flagtext, flagvalue)
-Tome.UI.Layouts.Character.Flag:ResizeToFit()
+Tome.UI.Layouts.Character.Flag = Tome.Widget.Dropdown.Create(
+    Tome.UI.Layouts.Character.Controls,
+    "Tome_UI_Layout_Character_Flag",
+    function()
+        -- Enable the save button
+        Tome.UI.Save:SetEnabled(true)
+    end
+)
+Tome.UI.Layouts.Character.Flag:SetItems(flags)
 Tome.UI.Layouts.Character.Flag:SetPoint("TOPLEFT", Tome.UI.Layouts.Character.InCharacter, "BOTTOMLEFT", ((size - Tome.UI.Layouts.Character.Flag:GetWidth()) / 2), 10)
 Tome.UI.Layouts.Character.Flag:SetBackgroundColor(0.0, 0.0, 0.0, 0.7)
-Tome.UI.Layouts.Character.Flag.Event.ItemSelect = function(item, value, index)
-    -- Enable the Save button
-    Tome.UI.Save:SetEnabled(true)
-end
 
 -- Create the Appearance field
 Tome.UI.Layouts.Character.Appearance = {}
