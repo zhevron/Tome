@@ -45,6 +45,9 @@ function Tome.Widget.Dropdown.Create(parent, name, callback)
     widget.ItemContainer:SetPoint("TOPLEFT", widget.Selected, "BOTTOMLEFT", 0, 0)
     widget.ItemContainer:SetPoint("TOPRIGHT", widget.Selected, "BOTTOMRIGHT", 0, 0)
 
+    -- Hide the item container by default
+    widget.ItemContainer:SetVisible(false)
+
     -- Attach to the left mouse click event of the selected text label
     widget.Selected:EventAttach(
         Event.UI.Input.Mouse.Left.Click,
