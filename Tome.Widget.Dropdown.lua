@@ -52,6 +52,9 @@ function Tome.Widget.Dropdown.Create(parent, name, callback)
         string.format("%s_Selected_Event_LeftMouse", name)
     )
 
+    -- Store a reference to the widget in the container frame
+    widget.Container.Widget = widget
+
     -- Create a variable to hold the item frames
     widget.ItemFrames = {}
 
@@ -284,7 +287,7 @@ end
 -- This function is fired by the event API when the dropdown is clicked
 function Tome.Widget.Dropdown.Event_Selected_LeftMouse(handle)
     -- Get the parent frame
-    local widget = handle:GetParent():GetParent()
+    local widget = handle:GetParent().Widget
 
     -- Toggle the dropdown menu
     widget.ItemContainer:SetVisible(not widget.ItemContainer:GetVisible())
@@ -317,7 +320,7 @@ end
 -- This function is fired by the event API when a dropdown item is clicked
 function Tome.Widget.Dropdown.Event_ItemFrame_LeftMouse(handle)
     -- Get the parent frame
-    local widget = handle:GetParent():GetParent()
+    local widget = handle:GetParent().Widget
 
     -- Check if this is the same key that was already selected
     if widget.SelectedKey ~= handle:GetText() then
