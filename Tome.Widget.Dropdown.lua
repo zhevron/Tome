@@ -283,14 +283,20 @@ end
 
 -- This function is fired by the event API when the dropdown is clicked
 function Tome.Widget.Dropdown.Event_Selected_LeftMouse(handle)
+    -- Get the parent frame
+    local widget = handle:GetParent()
+
     -- Toggle the dropdown menu
-    handle:GetParent().ItemContainer:SetVisible(not handle:GetParent().ItemContainer:GetVisible())
+    widget.ItemContainer:SetVisible(not widget.ItemContainer:GetVisible())
 end
 
 -- This function is fired by the event API when the cursor is over a dropdown item
 function Tome.Widget.Dropdown.Event_ItemFrame_MouseIn(handle)
+    -- Get the parent frame
+    local widget = handle:GetParent()
+
     -- Get the parent alpha value
-    local _, _, _, a = handle:GetParent().Container:GetBackgroundColor()
+    local _, _, _, a = widget.Container:GetBackgroundColor()
 
     -- Set the background color
     handle:SetBackgroundColor(1.0, 0.8, 0.4, a)
@@ -298,8 +304,11 @@ end
 
 -- This function is fired by the event API when the cursor moves off a dropdown item
 function Tome.Widget.Dropdown.Event_ItemFrame_MouseOut(handle)
+    -- Get the parent frame
+    local widget = handle:GetParent()
+
     -- Get the parent background color
-    local r, g, b, a = handle:GetParent().Container:GetBackgroundColor()
+    local r, g, b, a = widget.Container:GetBackgroundColor()
 
     -- Set the background color
     handle:SetBackgroundColor(r, g, b, a)
@@ -307,10 +316,13 @@ end
 
 -- This function is fired by the event API when a dropdown item is clicked
 function Tome.Widget.Dropdown.Event_ItemFrame_LeftMouse(handle)
+    -- Get the parent frame
+    local widget = handle:GetParent()
+
     -- Check if this is the same key that was already selected
-    if handle:GetParent().SelectedKey ~= handle:GetText() then
+    if widget.SelectedKey ~= handle:GetText() then
         -- Get the value of the item that was clicked
-        local value = handle:GetParent().Items[handle:GetText()]
+        local value = widget.Items[handle:GetText()]
 
         -- Abort if the value was not found
         if not value then
@@ -318,11 +330,11 @@ function Tome.Widget.Dropdown.Event_ItemFrame_LeftMouse(handle)
         end
 
         -- Set the selected item
-        handle:GetParent().SelectedKey = handle:GetText()
-        handle:GetParent().SelectedValue = value
+        widget.SelectedKey = handle:GetText()
+        widget.SelectedValue = value
 
         -- Update the selected item text
-        handle:GetParent().Selected:SetText(handle:GetText())
+        widget.Selected:SetText(handle:GetText())
 
         -- Trigger the callback function
         if widget.Callback and type(widget.Callback) == "function" then
@@ -331,5 +343,5 @@ function Tome.Widget.Dropdown.Event_ItemFrame_LeftMouse(handle)
     end
 
     -- Hide the dropdown menu
-    handle:GetParent().ItemContainer:SetVisible(false)
+    widget.ItemContainer:SetVisible(false)
 end
