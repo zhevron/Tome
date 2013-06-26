@@ -351,19 +351,19 @@ Tome.UI.Layouts.Character.Appearance.Label = UI.CreateFrame("Text", "Tome_UI_Lay
 Tome.UI.Layouts.Character.Appearance.Label:SetPoint("TOPLEFT", Tome.UI.Layouts.Character.Age, "BOTTOMLEFT", 0, 10)
 Tome.UI.Layouts.Character.Appearance.Label:SetPoint("TOPRIGHT", Tome.UI.Layouts.Character.Controls, "BOTTOMRIGHT", 0, 10)
 Tome.UI.Layouts.Character.Appearance.Label:SetText("Appearance:")
-Tome.UI.Layouts.Character.Appearance.Text = UI.CreateFrame("SimpleTextArea", "Tome_UI_Layout_Character_Appearance_Text", Tome.UI.Layouts.Character)
+Tome.UI.Layouts.Character.Appearance.Text = Tome.Widget.TextArea.Create(
+    Tome.UI.Layouts.Character,
+    "Tome_UI_Layout_Character_Appearance_Text",
+    true,
+    function()
+        -- Enable the save button
+        Tome.UI.Save:SetEnabled(true)
+    end
+)
 Tome.UI.Layouts.Character.Appearance.Text:SetPoint("TOPLEFT", Tome.UI.Layouts.Character.Appearance.Label, "BOTTOMLEFT", 0, 5)
 Tome.UI.Layouts.Character.Appearance.Text:SetPoint("TOPRIGHT", Tome.UI.Layouts.Character.Appearance.Label, "BOTTOMRIGHT", 0, 5)
 Tome.UI.Layouts.Character.Appearance.Text:SetHeight((Tome.UI.Window:GetContent():GetHeight() / 100) * 25)
 Tome.UI.Layouts.Character.Appearance.Text:SetBackgroundColor(0.0, 0.0, 0.0, 0.7)
-Tome.UI.Layouts.Character.Appearance.Text:EventAttach(
-    Event.UI.Input.Key.Up,
-    function(handle, key)
-        -- Enable the Save button
-        Tome.UI.Save:SetEnabled(true)
-    end,
-    "Tome_UI_Layout_Character_Appearance_Text_Change"
-)
 
 -- Create the History field
 Tome.UI.Layouts.Character.History = {}
@@ -371,19 +371,19 @@ Tome.UI.Layouts.Character.History.Label = UI.CreateFrame("Text", "Tome_UI_Layout
 Tome.UI.Layouts.Character.History.Label:SetPoint("TOPLEFT", Tome.UI.Layouts.Character.Appearance.Text, "BOTTOMLEFT", 0, 10)
 Tome.UI.Layouts.Character.History.Label:SetPoint("TOPRIGHT", Tome.UI.Layouts.Character.Appearance.Text, "BOTTOMRIGHT", 0, 10)
 Tome.UI.Layouts.Character.History.Label:SetText("History:")
-Tome.UI.Layouts.Character.History.Text = UI.CreateFrame("SimpleTextArea", "Tome_UI_Layout_Character_History_Text", Tome.UI.Layouts.Character)
+Tome.UI.Layouts.Character.History.Text = Tome.Widget.TextArea.Create(
+    Tome.UI.Layouts.Character,
+    "Tome_UI_Layout_Character_History_Text",
+    true,
+    function()
+        -- Enable the save button
+        Tome.UI.Save:SetEnabled(true)
+    end
+)
 Tome.UI.Layouts.Character.History.Text:SetPoint("TOPLEFT", Tome.UI.Layouts.Character.History.Label, "BOTTOMLEFT", 0, 5)
 Tome.UI.Layouts.Character.History.Text:SetPoint("TOPRIGHT", Tome.UI.Layouts.Character.History.Label, "BOTTOMRIGHT", 0, 5)
 Tome.UI.Layouts.Character.History.Text:SetHeight((Tome.UI.Window:GetContent():GetHeight() / 100) * 25)
 Tome.UI.Layouts.Character.History.Text:SetBackgroundColor(0.0, 0.0, 0.0, 0.7)
-Tome.UI.Layouts.Character.History.Text:EventAttach(
-    Event.UI.Input.Key.Up,
-    function(handle, key)
-        -- Enable the Save button
-        Tome.UI.Save:SetEnabled(true)
-    end,
-    "Tome_UI_Layout_Character_History_Text_Change"
-)
 
 -- This function removed key focus from all the text fields
 function Tome.UI.Layouts.Character.ClearFocus()
