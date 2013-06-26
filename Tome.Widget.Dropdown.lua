@@ -88,8 +88,15 @@ end
 
 -- This function creates a new item frame and attaches the events
 function Tome.Widget.Dropdown.CreateItemFrame(parent, name)
+    -- Get the widget from the parent frame
+    local widget = parent:GetParent().Widget
+
     -- Create the new frame
     local frame = UI.CreateFrame("Text", name, parent)
+
+    -- Set the background color to match that of the widget
+    local r, g, b, a = widget.Container:GetBackgroundColor()
+    frame:SetBackgroundColor(r, g, b, a)
 
     -- Attach to the mouse in event of the frame
     frame:EventAttach(
@@ -208,10 +215,13 @@ function Tome.Widget.Dropdown.SetItems(self, items)
     for key, value in pairs(self.Items) do
         -- Check if the frame exists and create it if not
         if not self.ItemFrames[count] then
+            -- Create a new item frame
             self.ItemFrames[count] = Tome.Widget.Dropdown.CreateItemFrame(
                 self.ItemContainer,
                 string.format("%s_ItemFrame_%d", self:GetName(), count)
             )
+
+            -- Anchor the new frame
             if count == 1 then
                 self.ItemFrames[count]:SetPoint("TOPLEFT", self.ItemContainer, "TOPLEFT", 0, 0)
             else
