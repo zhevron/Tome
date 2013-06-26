@@ -284,7 +284,7 @@ end
 -- This function is fired by the event API when the dropdown is clicked
 function Tome.Widget.Dropdown.Event_Selected_LeftMouse(handle)
     -- Get the parent frame
-    local widget = handle:GetParent()
+    local widget = handle:GetParent():GetParent()
 
     -- Toggle the dropdown menu
     widget.ItemContainer:SetVisible(not widget.ItemContainer:GetVisible())
@@ -296,7 +296,7 @@ function Tome.Widget.Dropdown.Event_ItemFrame_MouseIn(handle)
     local widget = handle:GetParent()
 
     -- Get the parent alpha value
-    local _, _, _, a = widget.Container:GetBackgroundColor()
+    local _, _, _, a = widget:GetBackgroundColor()
 
     -- Set the background color
     handle:SetBackgroundColor(1.0, 0.8, 0.4, a)
@@ -308,7 +308,7 @@ function Tome.Widget.Dropdown.Event_ItemFrame_MouseOut(handle)
     local widget = handle:GetParent()
 
     -- Get the parent background color
-    local r, g, b, a = widget.Container:GetBackgroundColor()
+    local r, g, b, a = widget:GetBackgroundColor()
 
     -- Set the background color
     handle:SetBackgroundColor(r, g, b, a)
@@ -317,7 +317,7 @@ end
 -- This function is fired by the event API when a dropdown item is clicked
 function Tome.Widget.Dropdown.Event_ItemFrame_LeftMouse(handle)
     -- Get the parent frame
-    local widget = handle:GetParent()
+    local widget = handle:GetParent():GetParent()
 
     -- Check if this is the same key that was already selected
     if widget.SelectedKey ~= handle:GetText() then
