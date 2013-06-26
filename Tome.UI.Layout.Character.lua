@@ -278,7 +278,7 @@ size = (((Tome.UI.Layouts.Character:GetWidth() / 100) * 35) - 10)
 
 -- Create the frame that holds the controls
 Tome.UI.Layouts.Character.Controls = UI.CreateFrame("Frame", "Tome_UI_Layout_Character_Controls", Tome.UI.Layouts.Character)
-Tome.UI.Layouts.Character.Controls:SetPoint("TOPLEFT", Tome.UI.Layouts.Character.Suffix, "TOPRIGHT", 5, 0)
+Tome.UI.Layouts.Character.Controls:SetPoint("TOPLEFT", Tome.UI.Layouts.Character.Suffix, "TOPRIGHT", 5, -5)
 Tome.UI.Layouts.Character.Controls:SetPoint("BOTTOMLEFT", Tome.UI.Layouts.Character.Weight, "BOTTOMRIGHT", 5, 0)
 Tome.UI.Layouts.Character.Controls:SetWidth(size)
 
@@ -342,7 +342,7 @@ Tome.UI.Layouts.Character.Flag = Tome.Widget.Dropdown.Create(
     end
 )
 Tome.UI.Layouts.Character.Flag:SetItems(flags)
-Tome.UI.Layouts.Character.Flag:SetPoint("TOPLEFT", Tome.UI.Layouts.Character.InCharacter, "BOTTOMLEFT", ((size - Tome.UI.Layouts.Character.Flag:GetWidth()) / 2), 10)
+Tome.UI.Layouts.Character.Flag:SetPoint("TOPLEFT", Tome.UI.Layouts.Character.Weight, "TOPRIGHT", ((size - Tome.UI.Layouts.Character.Flag:GetWidth()) / 2), 0)
 Tome.UI.Layouts.Character.Flag:SetBackgroundColor(0.0, 0.0, 0.0, 0.7)
 
 -- Create the Appearance field
