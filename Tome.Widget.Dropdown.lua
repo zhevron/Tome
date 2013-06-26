@@ -159,7 +159,6 @@ end
 function Tome.Widget.Dropdown.SetWidth(self, width)
     -- Set the width of the container frame
     self.Container:SetWidth(width)
-    print(width)
 end
 
 -- This function resizes the dropdown to fit the text
