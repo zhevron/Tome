@@ -40,14 +40,15 @@ function Tome.Widget.TextArea.Create(parent, name, editable, callback)
     -- Create the widget frames
     widget.Container = UI.CreateFrame("Frame", string.format("%s_Container", name), parent)
     widget.Scrollbar = UI.CreateFrame("RiftScrollbar", string.format("%s_Scrollbar", name), widget.Container)
-    widget.Hidden = UI.CreateFrame("Text", string.format("%s_Hidden", name), widget.Container)
 
     -- If the text area is editable, create a textfield. Else, create a text label and enable word wrapping
     if widget.Editable then
         widget.Textfield = UI.CreateFrame("RiftTextfield", string.format("%s_Textfield", name), widget.Container)
+        widget.Hidden = UI.CreateFrame("RiftTextfield", string.format("%s_Hidden", name), widget.Container)
     else
         widget.Textfield = UI.CreateFrame("Text", string.format("%s_Textfield", name), widget.Container)
         widget.Textfield:SetWordwrap(true)
+        widget.Hidden = UI.CreateFrame("Text", string.format("%s_Hidden", name), widget.Container)
         widget.Hidden:SetWordwrap(true)
     end
 
@@ -55,7 +56,7 @@ function Tome.Widget.TextArea.Create(parent, name, editable, callback)
     widget.Scrollbar:SetPoint("TOPRIGHT", widget.Container, "TOPRIGHT", 0, 0)
     widget.Scrollbar:SetPoint("BOTTOMRIGHT", widget.Container, "BOTTOMRIGHT", 0, 0)
     widget.Textfield:SetPoint("TOPLEFT", widget.Container, "TOPLEFT", 0, 0)
-    widget.Textfield:SetPoint("BOTTOMRIGHT", widget.Scrollbar, "BOTTOMLEFT", 0, 0)
+    widget.Textfield:SetPoint("TOPRIGHT", widget.Scrollbar, "TOPLEFT", 0, 0)
     widget.Hidden:SetPoint("TOPLEFT", widget.Container, "TOPLEFT", 0, 0)
     widget.Hidden:SetPoint("TOPRIGHT", widget.Scrollbar, "TOPLEFT", 0, 0)
 
@@ -191,7 +192,20 @@ end
 
 -- This function updates the scrollbar when the content changes
 function Tome.Widget.TextArea.UpdateScrollbar(self)
-    -- TODO: Implement this
+    -- Transfer current text to the hidden field for height calculations
+    self.Hidden:SetText(self.Textfield:GetText())
+
+    -- Get the height of the text
+    local height = self.Hidden:GetHeight()
+
+    -- Check if we need to show the scrollbar
+    if height <= self.Textfield:GetHeight() then
+        -- Hide the scrollbar
+        self.Scrollbar:SetVisible(false)
+    else
+        -- Show the scrollbar
+        self.Scrollbar:SetVisible(true)
+    end
 end
 
 -- This function is fired by the event API when the container frame gains focus
