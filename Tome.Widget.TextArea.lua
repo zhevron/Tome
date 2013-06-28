@@ -39,29 +39,26 @@ function Tome.Widget.TextArea.Create(parent, name, editable, callback)
 
     -- Create the widget frames
     widget.Container = UI.CreateFrame("Frame", string.format("%s_Container", name), parent)
+    widget.Mask = UI.CreateFrame("Mask", string.format("%s_Mask", name), widget.Container)
     widget.Scrollbar = UI.CreateFrame("RiftScrollbar", string.format("%s_Scrollbar", name), widget.Container)
 
     -- If the text area is editable, create a textfield. Else, create a text label and enable word wrapping
     if widget.Editable then
-        widget.Textfield = UI.CreateFrame("RiftTextfield", string.format("%s_Textfield", name), widget.Container)
-        widget.Hidden = UI.CreateFrame("RiftTextfield", string.format("%s_Hidden", name), widget.Container)
+        widget.Textfield = UI.CreateFrame("RiftTextfield", string.format("%s_Textfield", name), widget.Mask)
     else
-        widget.Textfield = UI.CreateFrame("Text", string.format("%s_Textfield", name), widget.Container)
+        widget.Textfield = UI.CreateFrame("Text", string.format("%s_Textfield", name), widget.Mask)
         widget.Textfield:SetWordwrap(true)
-        widget.Hidden = UI.CreateFrame("Text", string.format("%s_Hidden", name), widget.Container)
-        widget.Hidden:SetWordwrap(true)
     end
 
     -- Anchor the frames
+    widget.Mask:SetPoint("TOPLEFT", widget.Container, "TOPLEFT", 0, 0)
+    widget.Mask:SetPoint("BOTTOMRIGHT", widget.Container, "BOTTOMRIGHT", 0, 0)
     widget.Scrollbar:SetPoint("TOPRIGHT", widget.Container, "TOPRIGHT", 0, 0)
     widget.Scrollbar:SetPoint("BOTTOMRIGHT", widget.Container, "BOTTOMRIGHT", 0, 0)
     widget.Textfield:SetPoint("TOPLEFT", widget.Container, "TOPLEFT", 0, 0)
-    widget.Textfield:SetPoint("TOPRIGHT", widget.Scrollbar, "TOPLEFT", 0, 0)
-    widget.Hidden:SetPoint("TOPLEFT", widget.Container, "TOPLEFT", 0, 0)
-    widget.Hidden:SetPoint("TOPRIGHT", widget.Scrollbar, "TOPLEFT", 0, 0)
 
-    -- Set the hidden frame to non-visible
-    widget.Hidden:SetVisible(false)
+    -- Set the width of the text field frame
+    widget.Textfield:SetWidth(widget.Container:SetWidth() - widget.Scrollbar:GetWidth())
 
     -- Attach to the focus gain event of the container frame
     widget.Container:EventAttach(
@@ -113,10 +110,12 @@ function Tome.Widget.TextArea.Create(parent, name, editable, callback)
     widget.SetKeyFocus = Tome.Widget.TextArea.SetKeyFocus
     widget.SetBackgroundColor = Tome.Widget.TextArea.SetBackgroundColor
     widget.SetPoint = Tome.Widget.TextArea.SetPoint
-    widget.UpdateScrollbar = Tome.Widget.TextArea.UpdateScrollbar
+    widget.UpdateScrollbar = Tome.TextArea.UpdateScrollbar
+    widget.UpdatePosition = Tome.Widget.TextArea.UpdatePosition
 
-    -- Update the scrollbar
+    -- Update the scrollbar and content position
     widget:UpdateScrollbar()
+    widget:UpdatePosition()
 
     return widget
 end
@@ -132,8 +131,9 @@ function Tome.Widget.TextArea.SetText(self, text)
     -- Set the text of the textfield frame
     self.Textfield:SetText(text)
 
-    -- Update the scrollbar
-    self:UpdateScrollbar()
+    -- Update the scrollbar and content position
+    self.UpdateScrollbar()
+    self:UpdatePosition()
 end
 
 -- This function returns the height of the text area
@@ -147,8 +147,9 @@ function Tome.Widget.TextArea.SetHeight(self, height)
     -- Set the height of the container frame
     self.Container:SetHeight(height)
 
-    -- Update the scrollbar
+    -- Update the scrollbar and content position
     self:UpdateScrollbar()
+    self:UpdatePosition()
 end
 
 -- This function returns the width of the text area
@@ -162,8 +163,12 @@ function Tome.Widget.TextArea.SetWidth(self, width)
     -- Set the width of the container frame
     self.Container:SetWidth(width)
 
-    -- Update the scrollbar
+    -- Set the width of the text area frame
+    self.Textfield:SetWidth(width - self.Scrollbar:GetWidth())
+
+    -- Update the scrollbar and content position
     self:UpdateScrollbar()
+    self:UpdatePosition()
 end
 
 -- This function sets the key focus for the text area
@@ -188,24 +193,38 @@ function Tome.Widget.TextArea.SetPoint(self, sourcepoint, targetframe, targetpoi
 
     -- Call SetPoint on the container frame
     self.Container:SetPoint(sourcepoint, targetframe, targetpoint, x, y)
+
+    -- Update the scrollbar and content position
+    self:UpdateScrollbar()
+    self:UpdatePosition()
 end
 
--- This function updates the scrollbar when the content changes
+-- This function updates the scrollbar settings
 function Tome.Widget.TextArea.UpdateScrollbar(self)
-    -- Transfer current text to the hidden field for height calculations
-    self.Hidden:SetText(self.Textfield:GetText())
-
     -- Get the height of the text
-    local height = self.Hidden:GetHeight()
+    local height = self.Textfield:GetHeight()
 
     -- Check if we need to show the scrollbar
-    if height <= self.Textfield:GetHeight() then
+    if height <= self.Container:GetHeight() then
         -- Hide the scrollbar
         self.Scrollbar:SetVisible(false)
-    else
-        -- Show the scrollbar
-        self.Scrollbar:SetVisible(true)
+        return
     end
+
+    -- Set the scrollbar range
+    self.Scrollbar:SetRange(0, (height - self.Container:GetHeight()))
+
+    -- Show the scrollbar
+    self.Scrollbar:SetVisible(true)
+end
+
+-- This function updates the content position
+function Tome.Widget.TextArea.UpdatePosition(self)
+    -- Get the offset from the scrollbar
+    local offset = self.Scrollbar:GetPosition()
+
+    -- Set the new anchor point for the text field frame based on the offset
+    self.Texfield:SetPoint("TOPLEFT", self.Container, "TOPLEFT", 0, -offset)
 end
 
 -- This function is fired by the event API when the container frame gains focus
@@ -231,8 +250,8 @@ function Tome.Widget.TextArea.Event_Scrollbar_Changed(handle)
     -- Get the widget from the parent
     local widget = handle:GetParent().Widget
 
-    -- Update the scrollbar
-    widget:UpdateScrollbar()
+    -- Update the content position
+    widget:UpdatePosition()
 end
 
 -- This function is fired by the event API when a key is released inside the textfield frame
