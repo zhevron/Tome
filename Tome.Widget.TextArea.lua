@@ -142,7 +142,7 @@ function Tome.Widget.TextArea.SetText(self, text)
     self.Textfield:SetText(text)
 
     -- Update the scrollbar and content position
-    self.UpdateScrollbar()
+    self:UpdateScrollbar()
     self:UpdatePosition()
 end
 
@@ -234,7 +234,7 @@ function Tome.Widget.TextArea.UpdatePosition(self)
     local offset = self.Scrollbar:GetPosition()
 
     -- Set the new anchor point for the text field frame based on the offset
-    self.Texfield:SetPoint("TOPLEFT", self.Container, "TOPLEFT", 0, -offset)
+    self.Textfield:SetPoint("TOPLEFT", self.Container, "TOPLEFT", 0, -offset)
 end
 
 -- This function is fired by the event API when the container frame gains focus
