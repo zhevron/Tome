@@ -96,7 +96,7 @@ function Tome.Widget.TextArea.Create(parent, name, editable, callback)
         widget.Textfield:EventAttach(
             Event.UI.Input.Key.Up,
             Tome.Widget.TextArea.Event_Textfield_KeyUp,
-            string.format("%s_Textfield_Event_KeyUp")
+            string.format("%s_Textfield_Event_KeyUp", name)
         )
     end
 
