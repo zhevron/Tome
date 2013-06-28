@@ -58,7 +58,7 @@ function Tome.Widget.TextArea.Create(parent, name, editable, callback)
     widget.Textfield:SetPoint("TOPLEFT", widget.Container, "TOPLEFT", 0, 0)
 
     -- Set the width of the text field frame
-    widget.Textfield:SetWidth(widget.Container:SetWidth() - widget.Scrollbar:GetWidth())
+    widget.Textfield:SetWidth(widget.Container:GetWidth() - widget.Scrollbar:GetWidth())
 
     -- Attach to the focus gain event of the container frame
     widget.Container:EventAttach(
