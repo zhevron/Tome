@@ -28,6 +28,7 @@ RunOnStartup = {
     "Tome.Data.lua",
     "Tome.Compat.Merisioux.lua",
     "Tome.Widget.Border.lua",
+    "Tome.Widget.Draggable.lua",
     "Tome.Widget.Dropdown.lua",
     "Tome.Widget.TextArea.lua",
     "Tome.UI.lua",
