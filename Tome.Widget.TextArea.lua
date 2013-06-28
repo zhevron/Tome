@@ -114,7 +114,7 @@ function Tome.Widget.TextArea.Create(parent, name, editable, callback)
     widget.SetKeyFocus = Tome.Widget.TextArea.SetKeyFocus
     widget.SetBackgroundColor = Tome.Widget.TextArea.SetBackgroundColor
     widget.SetPoint = Tome.Widget.TextArea.SetPoint
-    widget.UpdateScrollbar = Tome.TextArea.UpdateScrollbar
+    widget.UpdateScrollbar = Tome.Widget.TextArea.UpdateScrollbar
     widget.UpdatePosition = Tome.Widget.TextArea.UpdatePosition
 
     -- Update the scrollbar and content position
