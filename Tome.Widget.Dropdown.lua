@@ -18,6 +18,11 @@
 -- along with Tome. If not, see <http://www.gnu.org/licenses/>.
 --
 
+-- Store the texture locations in variables
+local ARROW_NORMAL = "Textures/arrow-normal.png"
+local ARROW_HOVER = "Textures/arrow-hover.png"
+local ARROW_DOWN = "Textures/arrow-down.png"
+
 -- Create the global module table for Tome.Widget if it doesn't exist
 if not Tome.Widget then
     Tome.Widget = {}
@@ -36,13 +41,18 @@ function Tome.Widget.Dropdown.Create(parent, name, callback)
 
     -- Create the widget frames
     widget.Container = UI.CreateFrame("Frame", string.format("%s_Container", name), parent)
+    widget.Arrow = UI.CreateFrame("Texture", string.format("%s_Arrow", name), widget.Container)
     widget.Selected = UI.CreateFrame("Text", string.format("%s_Selected", name), widget.Container)
     widget.ItemContainer = UI.CreateFrame("Frame", string.format("%s_ItemContainer", name), widget.Container)
     widget.Hidden = UI.CreateFrame("Text", string.format("%s_Hidden", name), widget.Container)
 
+    -- Set the default arrow texture
+    widget.Arrow:SetTexture(Inspect.Addon.Current(), ARROW_NORMAL)
+
     -- Set the anchor points for the frames
+    widget.Arrow:SetPoint("TOPRIGHT", widget.Container, "TOPRIGHT", 0, 0)
     widget.Selected:SetPoint("TOPLEFT", widget.Container, "TOPLEFT", 0, 0)
-    widget.Selected:SetPoint("TOPRIGHT", widget.Container, "TOPRIGHT", 0, 0)
+    widget.Selected:SetPoint("TOPRIGHT", widget.Arrow, "TOPLEFT", 0, 0)
     widget.ItemContainer:SetPoint("TOPLEFT", widget.Selected, "BOTTOMLEFT", 0, 0)
     widget.ItemContainer:SetPoint("TOPRIGHT", widget.Selected, "BOTTOMRIGHT", 0, 0)
 
@@ -51,6 +61,20 @@ function Tome.Widget.Dropdown.Create(parent, name, callback)
 
     -- Hide the hidden frame
     widget.Hidden:SetVisible(false)
+
+    -- Attach to the mouse over event of the selected text label
+    widget.Selected:EventAttach(
+        Event.UI.Input.Mouse.Cursor.In,
+        Tome.Widget.Dropdown.Event_Selected_MouseIn,
+        string.format("%s_Selected_Event_MouseIn", name)
+    )
+
+    -- Attach to the mouse out event of the selected text label
+    widget.Selected:EventAttach(
+        Event.UI.Input.Mouse.Cursor.Out,
+        Tome.Widget.Dropdown.Event_Selected_MouseOut,
+        string.format("%s_Selected_Event_MouseOut", name)
+    )
 
     -- Attach to the left mouse click event of the selected text label
     widget.Selected:EventAttach(
@@ -178,7 +202,7 @@ function Tome.Widget.Dropdown.SizeToFit(self)
     for _, item in ipairs(self.ItemFrames) do
         self.Hidden:SetText(item:GetText())
         if self.Hidden:GetWidth() > self:GetWidth() then
-            self:SetWidth(self.Hidden:GetWidth())
+            self:SetWidth(self.Hidden:GetWidth() + self.Arrow:GetWidth())
         end
     end
 end
@@ -317,13 +341,49 @@ function Tome.Widget.Dropdown.SetSelectedValue(self, value)
     self.Selected:SetText(key)
 end
 
+-- This function is fired by the event API when the cursor is over the selected item
+function Tome.Widget.Dropdown.Event_Selected_MouseIn(handle)
+    -- Get the parent frame
+    local widget = handle:GetParent().Widget
+
+    -- Only set the texture if the dropdown is not active
+    if not widget.ItemContainer:GetVisible() then
+        -- Set the arrow texture to hover
+        widget.Arrow:SetTexture(Inspect.Addon.Current(), ARROW_HOVER)
+    end
+end
+
+-- This function is fired by the event API when the cursor moves off the selected item
+function Tome.Widget.Dropdown.Event_Selected_MouseOut(handle)
+    -- Get the parent frame
+    local widget = handle:GetParent().Widget
+
+    -- Only set the texture if the dropdown is not active
+    if not widget.ItemContainer:GetVisible() then
+        -- Set the arrow texture to normal
+        widget.Arrow:SetTexture(Inspect.Addon.Current(), ARROW_NORMAL)
+    end
+end
+
 -- This function is fired by the event API when the dropdown is clicked
 function Tome.Widget.Dropdown.Event_Selected_LeftMouse(handle)
     -- Get the parent frame
     local widget = handle:GetParent().Widget
 
     -- Toggle the dropdown menu
-    widget.ItemContainer:SetVisible(not widget.ItemContainer:GetVisible())
+    if not widget.ItemContainer:GetVisible() then
+        -- Set the arrow texture to pressed
+        widget.Arrow:SetTexture(Inspect.Addon.Current(), ARROW_DOWN)
+
+        -- Enable the dropdown menu
+        widget.ItemContainer:SetVisible(true)
+    else
+        -- Set the arrow texture to normal
+        widget.Arrow:SetTexture(Inspect.Addon.Current(), ARROW_NORMAL)
+
+        -- Disable the dropdown menu
+        widget.ItemContainer:SetVisible(false)
+    end
 end
 
 -- This function is fired by the event API when the cursor is over a dropdown item
@@ -377,6 +437,9 @@ function Tome.Widget.Dropdown.Event_ItemFrame_LeftMouse(handle)
             widget.Callback()
         end
     end
+
+    -- Set the arrow texture to normal
+    widget.Arrow:SetTexture(Inspect.Addon.Current(), ARROW_NORMAL)
 
     -- Hide the dropdown menu
     widget.ItemContainer:SetVisible(false)
