@@ -204,6 +204,12 @@ function Tome.Widget.TextArea.SetPoint(self, sourcepoint, targetframe, targetpoi
     -- Call SetPoint on the container frame
     self.Container:SetPoint(sourcepoint, targetframe, targetpoint, x, y)
 
+    -- Update height in case it has changed
+    self:SetHeight(self.Container:GetHeight())
+
+    -- Update width in case it has changed
+    self:SetWidth(self.Container:GetWidth())
+
     -- Update the scrollbar and content position
     self:UpdateScrollbar()
     self:UpdatePosition()
@@ -267,7 +273,7 @@ end
 -- This function is fired by the event API when a key is released inside the textfield frame
 function Tome.Widget.TextArea.Event_Textfield_KeyUp(handle, key)
     -- Get the widget from the parent
-    local widget = handle:GetParent().Widget
+    local widget = handle:GetParent():GetParent().Widget
 
     -- Check if the key pressed was TAB
     if key == "Tab" then
