@@ -201,7 +201,7 @@ function Tome.Widget.Dropdown.SizeToFit(self)
     -- Get the width of the widest item
     for _, item in ipairs(self.ItemFrames) do
         self.Hidden:SetText(item:GetText())
-        if self.Hidden:GetWidth() > self:GetWidth() then
+        if (self.Hidden:GetWidth() + self.Arrow:GetWidth()) > self:GetWidth() then
             self:SetWidth(self.Hidden:GetWidth() + self.Arrow:GetWidth())
         end
     end
