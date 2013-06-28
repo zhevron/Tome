@@ -28,7 +28,7 @@ Tome.UI.Context = UI.CreateContext("Tome_Character_Context")
 Tome.UI.Window = UI.CreateFrame("RiftWindow", "Tome_Character_Window", Tome.UI.Context)
 
 -- Make the window draggable
-Tome.UI.Window.Draggable = Tome.Widget.Draggable.Create(Tome.UI.Window)
+Tome.Widget.Draggable.Create(Tome.UI.Window)
 
 -- Set the initial window width
 local width = (UIParent:GetWidth() / 100) * 40
