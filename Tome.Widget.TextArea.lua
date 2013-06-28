@@ -204,11 +204,8 @@ function Tome.Widget.TextArea.SetPoint(self, sourcepoint, targetframe, targetpoi
     -- Call SetPoint on the container frame
     self.Container:SetPoint(sourcepoint, targetframe, targetpoint, x, y)
 
-    -- Update height in case it has changed
-    self:SetHeight(self.Container:GetHeight())
-
     -- Update width in case it has changed
-    self:SetWidth(self.Container:GetWidth())
+    self.Textfield:SetWidth(self.Container:GetWidth() - self.Scrollbar:GetWidth())
 
     -- Update the scrollbar and content position
     self:UpdateScrollbar()
