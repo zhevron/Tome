@@ -100,7 +100,11 @@ function Tome.Widget.TextArea.Create(parent, name, editable, callback)
     -- Store a reference to the widget in the container frame
     widget.Container.Widget = widget
 
+    -- Store the name of the text area
+    widget.Name = name
+
     -- Attach the module methods
+    widget.GetName = Tome.Widget.TextArea.GetName
     widget.GetText = Tome.Widget.TextArea.GetText
     widget.SetText = Tome.Widget.TextArea.SetText
     widget.GetHeight = Tome.Widget.TextArea.GetHeight
@@ -118,6 +122,12 @@ function Tome.Widget.TextArea.Create(parent, name, editable, callback)
     widget:UpdatePosition()
 
     return widget
+end
+
+-- This function returns the name of the text area
+function Tome.Widget.TextArea.GetName(self)
+    -- Get the name of the widget
+    return self.Name
 end
 
 -- This function returns the text in the text area
