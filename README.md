@@ -3,7 +3,7 @@ Tome - A RIFT Roleplaying Immersion Addon
 
 ## NOTICE!
 
-Tome is currently in beta at version 0.1-beta. Please report all issues on our [issue tracker](https://github.com/zhevron/Tome/issues).
+Tome is currently at version 0.2-beta. Please report all issues on our [issue tracker](https://github.com/zhevron/Tome/issues).
 
 ## Installation
 
@@ -17,7 +17,7 @@ In case you have any questions about the addon itself, direct them to [me](https
 
 ## Contibuting
 
-If you want to contribute to the development of DoTrack, please [fork](https://github.com/zhevron/Tome/fork) the main repository.
+If you want to contribute to the development of Tome, please [fork](https://github.com/zhevron/Tome/fork) the main repository.
 
 Make a new branch based on the `develop` branch and commit the changes you make there.
 
@@ -27,7 +27,3 @@ Then make a [pull request](https://github.com/zhevron/Tome/pulls) back to the `d
 
 * Lyrai @ Faeblight NA
 * Maiiel @ Faeblight NA
-
-## Credits
-
-Thanks to [doxxx](http://www.riftui.com/forums/member.php?action=getinfo&userid=68) for his [LibSimpleWidgets](http://www.riftui.com/downloads/info108-LibSimpleWidgets.html)
