@@ -351,6 +351,7 @@ Tome.UI.Layouts.Character.Flag = Tome.Widget.Dropdown.Create(
 Tome.UI.Layouts.Character.Flag:SetItems(flags)
 Tome.UI.Layouts.Character.Flag:SetPoint("TOPLEFT", Tome.UI.Layouts.Character.Weight, "TOPRIGHT", ((size - Tome.UI.Layouts.Character.Flag:GetWidth()) / 2), 0)
 Tome.UI.Layouts.Character.Flag:SetBackgroundColor(0.0, 0.0, 0.0, 0.7)
+Tome.UI.Layouts.Character.Flag.Border = Tome.Widget.Border.Create(Tome.UI.Layouts.Character.Flag.Container, 1)
 
 -- Create the Appearance field
 Tome.UI.Layouts.Character.Appearance = {}
