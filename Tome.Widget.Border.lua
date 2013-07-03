@@ -31,29 +31,26 @@ function Tome.Widget.Border.Create(frame, thickness)
     -- Create a table to hold the border widget
     local border = {}
 
-    -- Create a context to render the borders with
-    border.Context = UI.CreateContext(string.format("%s_Border_Context", frame:GetName()))
-
     -- Create a table to hold the border frames
     border.Frames = {}
 
     -- Create and position the frame for the top border
-    border.Frames.Top = UI.CreateFrame("Frame", string.format("%s_Border_Top", frame:GetName()), border.Context)
+    border.Frames.Top = UI.CreateFrame("Frame", string.format("%s_Border_Top", frame:GetName()), frame)
     border.Frames.Top:SetPoint("BOTTOMLEFT", frame, "TOPLEFT", 0, 0)
     border.Frames.Top:SetPoint("BOTTOMRIGHT", frame, "TOPRIGHT", 0, 0)
 
     -- Create and position the frame for the bottom border
-    border.Frames.Bottom = UI.CreateFrame("Frame", string.format("%s_Border_Bottom", frame:GetName()), border.Context)
+    border.Frames.Bottom = UI.CreateFrame("Frame", string.format("%s_Border_Bottom", frame:GetName()), frame)
     border.Frames.Bottom:SetPoint("TOPLEFT", frame, "BOTTOMLEFT", 0, 0)
     border.Frames.Bottom:SetPoint("TOPRIGHT", frame, "BOTTOMRIGHT", 0, 0)
 
     -- Create and position the frame for the left border
-    border.Frames.Left = UI.CreateFrame("Frame", string.format("%s_Border_Left", frame:GetName()), border.Context)
+    border.Frames.Left = UI.CreateFrame("Frame", string.format("%s_Border_Left", frame:GetName()), frame)
     border.Frames.Left:SetPoint("TOPRIGHT", border.Frames.Top, "TOPLEFT", 0, 0)
     border.Frames.Left:SetPoint("BOTTOMRIGHT", border.Frames.Bottom, "BOTTOMLEFT", 0, 0)
 
     -- Create and position the frame for the right border
-    border.Frames.Right = UI.CreateFrame("Frame", string.format("%s_Border_Right", frame:GetName()), border.Context)
+    border.Frames.Right = UI.CreateFrame("Frame", string.format("%s_Border_Right", frame:GetName()), frame)
     border.Frames.Right:SetPoint("TOPLEFT", border.Frames.Top, "TOPRIGHT", 0, 0)
     border.Frames.Right:SetPoint("BOTTOMLEFT", border.Frames.Bottom, "BOTTOMRIGHT", 0, 0)
 
