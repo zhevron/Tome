@@ -67,6 +67,7 @@ Tome.UI.Layouts.View.Appearance.Text:SetPoint("TOPLEFT", Tome.UI.Layouts.View.Ap
 Tome.UI.Layouts.View.Appearance.Text:SetPoint("TOPRIGHT", Tome.UI.Layouts.View.Appearance.Label, "BOTTOMRIGHT", 0, 5)
 Tome.UI.Layouts.View.Appearance.Text:SetHeight((Tome.UI.Window:GetContent():GetHeight() / 100) * 25)
 Tome.UI.Layouts.View.Appearance.Text:SetBackgroundColor(0.0, 0.0, 0.0, 0.7)
+Tome.UI.Layouts.View.Appearance.Text.Border = Tome.Widget.Border.Create(Tome.UI.Layouts.View.Appearance.Text.Container, 1)
 
 -- Create the History label
 Tome.UI.Layouts.View.History = {}
@@ -83,6 +84,7 @@ Tome.UI.Layouts.View.History.Text:SetPoint("TOPLEFT", Tome.UI.Layouts.View.Histo
 Tome.UI.Layouts.View.History.Text:SetPoint("TOPRIGHT", Tome.UI.Layouts.View.History.Label, "BOTTOMRIGHT", 0, 5)
 Tome.UI.Layouts.View.History.Text:SetHeight((Tome.UI.Window:GetContent():GetHeight() / 100) * 25)
 Tome.UI.Layouts.View.History.Text:SetBackgroundColor(0.0, 0.0, 0.0, 0.7)
+Tome.UI.Layouts.View.History.Text.Border = Tome.Widget.Border.Create(Tome.UI.Layouts.View.History.Text.Container, 1)
 
 -- Create the Age label
 Tome.UI.Layouts.View.Age = UI.CreateFrame("Text", "Tome_UI_Layout_View_Age", Tome.UI.Layouts.View.Container)

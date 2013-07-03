@@ -33,6 +33,7 @@ Tome.UI.Layouts.Character.Prefix:SetPoint("TOPLEFT", Tome.UI.Layouts.Character, 
 Tome.UI.Layouts.Character.Prefix:SetWidth(size)
 Tome.UI.Layouts.Character.Prefix:SetBackgroundColor(0.0, 0.0, 0.0, 0.7)
 Tome.UI.Layouts.Character.Prefix:SetText("Prefix")
+Tome.UI.Layouts.Character.Prefix.Border = Tome.Widget.Border.Create(Tome.UI.Layouts.Character.Prefix, 1)
 Tome.UI.Layouts.Character.Prefix:EventAttach(
     Event.UI.Input.Key.Focus.Gain,
     function(handle)
@@ -68,6 +69,7 @@ Tome.UI.Layouts.Character.Suffix:SetPoint("TOPRIGHT", Tome.UI.Layouts.Character,
 Tome.UI.Layouts.Character.Suffix:SetWidth(size)
 Tome.UI.Layouts.Character.Suffix:SetBackgroundColor(0.0, 0.0, 0.0, 0.7)
 Tome.UI.Layouts.Character.Suffix:SetText("Suffix")
+Tome.UI.Layouts.Character.Suffix.Border = Tome.Widget.Border.Create(Tome.UI.Layouts.Character.Suffix, 1)
 Tome.UI.Layouts.Character.Suffix:EventAttach(
     Event.UI.Input.Key.Focus.Gain,
     function(handle)
@@ -104,6 +106,7 @@ Tome.UI.Layouts.Character.Name:SetPoint("TOPRIGHT", Tome.UI.Layouts.Character.Su
 Tome.UI.Layouts.Character.Name:SetWidth(size)
 Tome.UI.Layouts.Character.Name:SetBackgroundColor(0.0, 0.0, 0.0, 0.7)
 Tome.UI.Layouts.Character.Name:SetText("Name")
+Tome.UI.Layouts.Character.Prefix.Name = Tome.Widget.Border.Create(Tome.UI.Layouts.Character.Name, 1)
 Tome.UI.Layouts.Character.Name:EventAttach(
     Event.UI.Input.Key.Focus.Gain,
     function(handle)
@@ -139,6 +142,7 @@ Tome.UI.Layouts.Character.Title:SetPoint("TOPLEFT", Tome.UI.Layouts.Character.Pr
 Tome.UI.Layouts.Character.Title:SetPoint("TOPRIGHT", Tome.UI.Layouts.Character.Suffix, "BOTTOMRIGHT", 0, 5)
 Tome.UI.Layouts.Character.Title:SetBackgroundColor(0.0, 0.0, 0.0, 0.7)
 Tome.UI.Layouts.Character.Title:SetText("Title")
+Tome.UI.Layouts.Character.Prefix.Title = Tome.Widget.Border.Create(Tome.UI.Layouts.Character.Title, 1)
 Tome.UI.Layouts.Character.Title:EventAttach(
     Event.UI.Input.Key.Focus.Gain,
     function(handle)
@@ -174,6 +178,7 @@ Tome.UI.Layouts.Character.Age:SetPoint("TOPLEFT", Tome.UI.Layouts.Character.Titl
 Tome.UI.Layouts.Character.Age:SetWidth(size)
 Tome.UI.Layouts.Character.Age:SetBackgroundColor(0.0, 0.0, 0.0, 0.7)
 Tome.UI.Layouts.Character.Age:SetText("Age")
+Tome.UI.Layouts.Character.Age.Border = Tome.Widget.Border.Create(Tome.UI.Layouts.Character.Age, 1)
 Tome.UI.Layouts.Character.Age:EventAttach(
     Event.UI.Input.Key.Focus.Gain,
     function(handle)
@@ -209,6 +214,7 @@ Tome.UI.Layouts.Character.Weight:SetPoint("TOPRIGHT", Tome.UI.Layouts.Character.
 Tome.UI.Layouts.Character.Weight:SetWidth(size)
 Tome.UI.Layouts.Character.Weight:SetBackgroundColor(0.0, 0.0, 0.0, 0.7)
 Tome.UI.Layouts.Character.Weight:SetText("Weight")
+Tome.UI.Layouts.Character.Weight.Border = Tome.Widget.Border.Create(Tome.UI.Layouts.Character.Weight, 1)
 Tome.UI.Layouts.Character.Weight:EventAttach(
     Event.UI.Input.Key.Focus.Gain,
     function(handle)
@@ -245,6 +251,7 @@ Tome.UI.Layouts.Character.Height:SetPoint("TOPRIGHT", Tome.UI.Layouts.Character.
 Tome.UI.Layouts.Character.Height:SetWidth(size)
 Tome.UI.Layouts.Character.Height:SetBackgroundColor(0.0, 0.0, 0.0, 0.7)
 Tome.UI.Layouts.Character.Height:SetText("Height")
+Tome.UI.Layouts.Character.Height.Border = Tome.Widget.Border.Create(Tome.UI.Layouts.Character.Height, 1)
 Tome.UI.Layouts.Character.Height:EventAttach(
     Event.UI.Input.Key.Focus.Gain,
     function(handle)
@@ -364,6 +371,7 @@ Tome.UI.Layouts.Character.Appearance.Text:SetPoint("TOPLEFT", Tome.UI.Layouts.Ch
 Tome.UI.Layouts.Character.Appearance.Text:SetPoint("TOPRIGHT", Tome.UI.Layouts.Character.Appearance.Label, "BOTTOMRIGHT", 0, 5)
 Tome.UI.Layouts.Character.Appearance.Text:SetHeight((Tome.UI.Window:GetContent():GetHeight() / 100) * 25)
 Tome.UI.Layouts.Character.Appearance.Text:SetBackgroundColor(0.0, 0.0, 0.0, 0.7)
+Tome.UI.Layouts.Character.Appearance.Text.Border = Tome.Widget.Border.Create(Tome.UI.Layouts.Character.Appearance.Text.Container, 1)
 
 -- Create the History field
 Tome.UI.Layouts.Character.History = {}
@@ -384,6 +392,7 @@ Tome.UI.Layouts.Character.History.Text:SetPoint("TOPLEFT", Tome.UI.Layouts.Chara
 Tome.UI.Layouts.Character.History.Text:SetPoint("TOPRIGHT", Tome.UI.Layouts.Character.History.Label, "BOTTOMRIGHT", 0, 5)
 Tome.UI.Layouts.Character.History.Text:SetHeight((Tome.UI.Window:GetContent():GetHeight() / 100) * 25)
 Tome.UI.Layouts.Character.History.Text:SetBackgroundColor(0.0, 0.0, 0.0, 0.7)
+Tome.UI.Layouts.Character.History.Text.Border = Tome.Widget.Border.Create(Tome.UI.Layouts.Character.History.Text.Container, 1)
 
 -- This function removed key focus from all the text fields
 function Tome.UI.Layouts.Character.ClearFocus()
