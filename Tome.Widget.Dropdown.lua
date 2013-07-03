@@ -54,7 +54,10 @@ function Tome.Widget.Dropdown.Create(parent, name, callback)
     widget.Selected:SetPoint("TOPLEFT", widget.Container, "TOPLEFT", 0, 0)
     widget.Selected:SetPoint("TOPRIGHT", widget.Arrow, "TOPLEFT", 0, 0)
     widget.ItemContainer:SetPoint("TOPLEFT", widget.Selected, "BOTTOMLEFT", 0, 0)
-    widget.ItemContainer:SetPoint("TOPRIGHT", widget.Selected, "BOTTOMRIGHT", 0, 0)
+    widget.ItemContainer:SetPoint("TOPRIGHT", widget.Arrow, "BOTTOMRIGHT", 0, 0)
+
+    -- Create the border for the item container
+    widget.ItemContainer.Border = Tome.Widget.Border.Create(widget.ItemContainer, 1)
 
     -- Set the layer of the item container to be above everything else
     widget.ItemContainer:SetLayer(99)
@@ -64,6 +67,13 @@ function Tome.Widget.Dropdown.Create(parent, name, callback)
 
     -- Hide the hidden frame
     widget.Hidden:SetVisible(false)
+
+    -- Attach to the left mouse click event of the arrow texture
+    widget.Arrow:EventAttach(
+        Event.UI.Input.Mouse.Left.Click,
+        Tome.Widget.Dropdown.Event_Selected_LeftMouse,
+        string.format("%s_Arrow_Event_LeftMouse", name)
+    )
 
     -- Attach to the mouse over event of the selected text label
     widget.Selected:EventAttach(
