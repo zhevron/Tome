@@ -18,6 +18,12 @@
 -- along with Tome. If not, see <http://www.gnu.org/licenses/>.
 --
 
+-- Store the normal line height for an editable textfield
+local LINE_HEIGHT = 12.65
+
+-- Store the normal line padding for an editable textfield
+local LINE_PADDING = 4
+
 -- Create the global module table for Tome.Widget if it doesn't exist
 if not Tome.Widget then
     Tome.Widget = {}
@@ -55,7 +61,7 @@ function Tome.Widget.TextArea.Create(parent, name, editable, callback)
     widget.Mask:SetPoint("BOTTOMRIGHT", widget.Container, "BOTTOMRIGHT", 0, 0)
     widget.Scrollbar:SetPoint("TOPRIGHT", widget.Container, "TOPRIGHT", 0, 0)
     widget.Scrollbar:SetPoint("BOTTOMRIGHT", widget.Container, "BOTTOMRIGHT", 0, 0)
-    widget.Textfield:SetPoint("TOPLEFT", widget.Container, "TOPLEFT", 0, 0)
+    widget.Textfield:SetPoint("TOPLEFT", widget.Mask, "TOPLEFT", 0, 0)
 
     -- Set the width of the text field frame
     widget.Textfield:SetWidth(widget.Container:GetWidth() - widget.Scrollbar:GetWidth())
@@ -103,6 +109,9 @@ function Tome.Widget.TextArea.Create(parent, name, editable, callback)
     -- Store the name of the text area
     widget.Name = name
 
+    -- Store the current scrollbar offset
+    widget.Offset = 1
+
     -- Attach the module methods
     widget.GetName = Tome.Widget.TextArea.GetName
     widget.GetText = Tome.Widget.TextArea.GetText
@@ -112,6 +121,8 @@ function Tome.Widget.TextArea.Create(parent, name, editable, callback)
     widget.GetWidth = Tome.Widget.TextArea.GetWidth
     widget.SetWidth = Tome.Widget.TextArea.SetWidth
     widget.SetKeyFocus = Tome.Widget.TextArea.SetKeyFocus
+    widget.GetLineCount = Tome.Widget.TextArea.GetLineCount
+    widget.SizeToFit = Tome.Widget.TextArea.SizeToFit
     widget.SetBackgroundColor = Tome.Widget.TextArea.SetBackgroundColor
     widget.SetPoint = Tome.Widget.TextArea.SetPoint
     widget.UpdateScrollbar = Tome.Widget.TextArea.UpdateScrollbar
@@ -140,6 +151,11 @@ end
 function Tome.Widget.TextArea.SetText(self, text)
     -- Set the text of the textfield frame
     self.Textfield:SetText(text)
+
+    -- Resize the internal textfield to fit the text
+    if self.Editable then
+        self:SizeToFit()
+    end
 
     -- Update the scrollbar and content position
     self:UpdateScrollbar()
@@ -189,6 +205,26 @@ function Tome.Widget.TextArea.SetKeyFocus(self, focus)
     end
 end
 
+-- This function counts the number of lines in the entered text
+function Tome.Widget.TextArea.GetLineCount(self, text)
+    -- Default to the stored text if none is specified
+    text = text or self.Textfield:GetText()
+
+    -- Count the number of newlines in the text
+    local lines = 1
+    for item in string.gmatch(text, "[\r\n]") do
+        lines = lines + 1
+    end
+
+    return lines
+end
+
+-- This function resizes the internal textfield to fit the entered text
+function Tome.Widget.TextArea.SizeToFit(self)
+    -- Calculate the new height of the textfield and set it
+    self.Textfield:SetHeight(LINE_HEIGHT * self:GetLineCount() + LINE_PADDING * 2)
+end
+
 -- This function sets the background color of the text area
 function Tome.Widget.TextArea.SetBackgroundColor(self, r, g, b, a)
     -- Call SetBackgroundColor on the container frame
@@ -214,30 +250,14 @@ end
 
 -- This function updates the scrollbar settings
 function Tome.Widget.TextArea.UpdateScrollbar(self)
-    -- Get the height of the text
-    local height = self.Textfield:GetHeight()
-
-    -- Check if we need to show the scrollbar
-    if height <= self.Container:GetHeight() then
-        -- Hide the scrollbar
-        self.Scrollbar:SetVisible(false)
-        return
-    end
-
-    -- Set the scrollbar range
-    self.Scrollbar:SetRange(0, (height - self.Container:GetHeight()))
-
-    -- Show the scrollbar
-    self.Scrollbar:SetVisible(true)
+    -- Set the position of the scrollbar to match the offset
+    self.Scrollbar:SetPosition(self.Offset)
 end
 
 -- This function updates the content position
 function Tome.Widget.TextArea.UpdatePosition(self)
-    -- Get the offset from the scrollbar
-    local offset = self.Scrollbar:GetPosition()
-
-    -- Set the new anchor point for the text field frame based on the offset
-    self.Textfield:SetPoint("TOPLEFT", self.Container, "TOPLEFT", 0, -offset)
+    -- Set the position of the content to the current offset
+    self.Textfield:SetPoint("TOPLEFT", self.Container, "TOPLEFT", 0, -self.Offset)
 end
 
 -- This function is fired by the event API when the container frame gains focus
@@ -249,13 +269,13 @@ end
 -- This function is fired by the event API when the scrollwheel on the mouse is moved forward
 function Tome.Widget.TextArea.Event_MouseWheel_Forward(handle)
     -- Move the scrollbar up
-    handle.Widget.Scrollbar:Nudge(-3)
+    handle.Widget.Scrollbar:Nudge(-(LINE_HEIGHT + LINE_PADDING))
 end
 
 -- THis function is fired by the event API when the scrollwheel on the mouse is moved backwards
 function Tome.Widget.TextArea.Event_MouseWheel_Back(handle)
     -- Move the scrollbar down
-    handle.Widget.Scrollbar:Nudge(3)
+    handle.Widget.Scrollbar:Nudge(LINE_HEIGHT + LINE_PADDING)
 end
 
 -- This function is fired by the event API when the position on the scrollbar changes
@@ -263,29 +283,71 @@ function Tome.Widget.TextArea.Event_Scrollbar_Changed(handle)
     -- Get the widget from the parent
     local widget = handle:GetParent().Widget
 
+    -- Store the new scrollbar offset
+    widget.Offset = handle:GetPosition()
+
     -- Update the content position
     widget:UpdatePosition()
 end
 
 -- This function is fired by the event API when a key is released inside the textfield frame
-function Tome.Widget.TextArea.Event_Textfield_KeyUp(handle, key)
+function Tome.Widget.TextArea.Event_Textfield_KeyUp(handle, unused, key)
     -- Get the widget from the parent
     local widget = handle:GetParent():GetParent().Widget
 
+    -- Get the cursor position
+    local cursor = widget.Textfield:GetCursor()
+
+    -- Get the text before and after the cursor
+    local prefix = string.sub(widget.Textfield:GetText(), 1, cursor)
+    local suffix = string.sub(widget.Textfield:GetText(), cursor + 1)
+
     -- Check if the key pressed was TAB
     if key == "Tab" then
-        -- Append a tab character
-        handle:SetText(string.format("%s\t", handle:GetText()))
+        -- Add a tab character to the textfield
+        widget.Textfield:SetText(string.format("%s\t%s", prefix, suffix))
+
+        -- Move the cursor
+        widget.Textfield:SetSelection(cursor + 1, cursor + 2)
     end
 
     -- Check if the key pressed was ENTER
     if key == "Return" then
-        -- Append a newline character
-        handle:SetText(string.format("%s\r", handle:GetText()))
+        -- Add a newline character to the textfield
+        widget.Textfield:SetText(string.format("%s\n%s", prefix, suffix))
+
+        -- Move the cursor
+        widget.Textfield:SetSelection(cursor, cursor + 1)
     end
 
-    -- Update the scrollbar
-    widget:UpdateScrollbar()
+    -- Size the text area to fit the text
+    widget:SizeToFit()
+
+    -- Update the cursor position in case it has changed with a key hook
+    cursor = widget.Textfield:GetCursor()
+
+    -- Update the prefix text in case it changed with a key hook
+    prefix = string.sub(widget.Textfield:GetText(), 1, cursor)
+
+    -- Get the current line the cursor is on
+    local line = widget:GetLineCount(prefix)
+
+    -- Calculate the cursor offset
+    local offset = (line - 1) * LINE_HEIGHT + LINE_PADDING
+
+    if offset < widget.Offset then
+        --
+        widget.Scrollbar:SetPosition(math.max(offset, 0))
+    elseif offset > widget.Offset + widget:GetHeight() - LINE_HEIGHT then
+        --
+        widget.Scrollbar:SetPosition(
+            math.min(offset - widget:GetHeight() + LINE_HEIGHT + LINE_PADDING,
+                math.max(0, widget.Textfield:GetHeight() - widget:GetHeight())
+            )
+        )
+    end
+
+    print(string.format("CURSOR=%d,OFFSET=%d", offset, widget.Offset))
 
     -- Fire the callback function
     if widget.Callback and type(widget.Callback) == "function" then
