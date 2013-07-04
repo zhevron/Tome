@@ -347,8 +347,6 @@ function Tome.Widget.TextArea.Event_Textfield_KeyUp(handle, unused, key)
         )
     end
 
-    print(string.format("CURSOR=%d,OFFSET=%d", offset, widget.Offset))
-
     -- Fire the callback function
     if widget.Callback and type(widget.Callback) == "function" then
         widget.Callback()
