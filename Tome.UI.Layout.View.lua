@@ -23,7 +23,7 @@ Tome.UI.Layouts.View = UI.CreateFrame("Frame", "Tome_UI_Layout_View", Tome.UI.Wi
 
 -- Set the points for the layout
 Tome.UI.Layouts.View:SetPoint("TOPLEFT", Tome.UI.Window:GetContent(), "TOPLEFT", 20, 15)
-Tome.UI.Layouts.View:SetPoint("BOTTOMRIGHT", Tome.UI.Window:GetContent(), "BOTTOMRIGHT", -20, -15)
+Tome.UI.Layouts.View:SetPoint("BOTTOMRIGHT", Tome.UI.Window:GetContent(), "BOTTOMRIGHT", -40, -15)
 
 -- Create the container frame for the fluid layout
 Tome.UI.Layouts.View.Container = UI.CreateFrame("Frame", "Tome_UI_Layout_View_Container", Tome.UI.Layouts.View)
