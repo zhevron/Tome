@@ -25,7 +25,10 @@ Tome.UI = {}
 Tome.UI.Context = UI.CreateContext("Tome_Character_Context")
 
 -- Create the window that will hold the controls
-Tome.UI.Window = UI.CreateFrame("SimpleWindow", "Tome_Character_Window", Tome.UI.Context)
+Tome.UI.Window = UI.CreateFrame("RiftWindow", "Tome_Character_Window", Tome.UI.Context)
+
+-- Make the window draggable
+Tome.Widget.Draggable.Create(Tome.UI.Window)
 
 -- Set the initial window width
 local width = (UIParent:GetWidth() / 100) * 40
