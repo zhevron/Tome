@@ -62,7 +62,7 @@ function Tome.Widget.Border.Create(frame, thickness)
     border:SetThickness(thickness)
 
     -- Assign the default white color to the borders
-    border:SetBackgroundColor(1.0, 1.0, 1.0, 1.0)
+    border:SetBackgroundColor(0.86, 0.74, 0.22, 1.0)
 
     return border
 end
