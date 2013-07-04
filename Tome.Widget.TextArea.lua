@@ -250,6 +250,11 @@ end
 
 -- This function updates the scrollbar settings
 function Tome.Widget.TextArea.UpdateScrollbar(self)
+    -- Update the range of the scrollbar
+    if math.max(0, self.Textfield:GetHeight() - self:GetHeight()) > 0 then
+        self.Scrollbar:SetRange(1, math.max(0, self.Textfield:GetHeight() - self:GetHeight()))
+    end
+
     -- Set the position of the scrollbar to match the offset
     self.Scrollbar:SetPosition(self.Offset)
 end
@@ -340,11 +345,10 @@ function Tome.Widget.TextArea.Event_Textfield_KeyUp(handle, unused, key)
         widget.Scrollbar:SetPosition(math.max(offset, 0))
     elseif offset > widget.Offset + widget:GetHeight() - LINE_HEIGHT then
         --
-        widget.Scrollbar:SetPosition(
-            math.min(offset - widget:GetHeight() + LINE_HEIGHT + LINE_PADDING,
-                math.max(0, widget.Textfield:GetHeight() - widget:GetHeight())
-            )
-        )
+        _, max = widget.Scrollbar:GetRange()
+
+        --
+        widget.Scrollbar:SetPosition(math.min(offset - widget:GetHeight() + LINE_HEIGHT + LINE_PADDING, max))
     end
 
     -- Fire the callback function
