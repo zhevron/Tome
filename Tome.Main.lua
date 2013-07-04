@@ -78,9 +78,10 @@ function Tome.CheckVersion(version)
     if addon.Beta == version.Beta and (version.Major > addon.Major or version.Minor > addon.Minor) then
         -- A newer version is available. Notify the player
         print(string.format(
-            "A new version (%s.%s) is available! Download it from RiftUI, Curse or http://zhevron.github.io/Tome",
+            "A new version (%s.%s%s) is available! Download it from RiftUI, Curse or http://zhevron.github.io/Tome",
             version.Major,
-            version.Minor
+            version.Minor,
+            version.Beta and "-beta" or ""
         ))
     end
 
