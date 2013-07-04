@@ -24,6 +24,9 @@ Tome = {}
 -- Create a global table that UI modules than hook into
 Tome.UI = {}
 
+-- Store the last time we notified the player of an update
+Tome.LastUpdateNotify = 0
+
 -- This function returns the version of the addon
 function Tome.GetVersion()
     -- Make a table for storing the version data
@@ -63,6 +66,11 @@ end
 
 -- This function checks a version against the current version and notifies the player of updates
 function Tome.CheckVersion(version)
+    -- Check if this notification should be throttled
+    if (Tome.LastUpdateNotify + 3600) > os.time() then
+        return
+    end
+
     -- Get the local addon version
     local addon = Tome.GetVersion()
 
@@ -75,6 +83,9 @@ function Tome.CheckVersion(version)
             version.Minor
         ))
     end
+
+    -- Update the last notified time
+    Tome.LastUpdateNotify = os.time()
 end
 
 -- This function prints the help message
