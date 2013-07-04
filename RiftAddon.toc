@@ -1,7 +1,7 @@
 Identifier = "Tome"
 Name = "Tome"
 NameShort = "Tome"
-Version = "0.1-beta"
+Version = "0.2-beta"
 Description = "A Roleplaying Immersion Addon"
 
 Author = "Lyrai @ Faeblight NA"
@@ -11,12 +11,10 @@ Email = "thomas@lokshall.com"
 Environment = "2.3"
 
 Dependencies = {
-    LibSimpleWidgets = { "required", "before" },
     LibUnitChange = { "required", "before" }
 }
 
 Embed = {
-    LibSimpleWidgets = true,
     LibUnitChange = true
 }
 
@@ -27,6 +25,10 @@ RunOnStartup = {
     "Tome.Button.lua",
     "Tome.Data.lua",
     "Tome.Compat.Merisioux.lua",
+    "Tome.Widget.Border.lua",
+    "Tome.Widget.Draggable.lua",
+    "Tome.Widget.Dropdown.lua",
+    "Tome.Widget.TextArea.lua",
     "Tome.UI.lua",
     "Tome.UI.Layout.Character.lua",
     "Tome.UI.Layout.Guild.lua",

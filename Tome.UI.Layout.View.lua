@@ -23,7 +23,7 @@ Tome.UI.Layouts.View = UI.CreateFrame("Frame", "Tome_UI_Layout_View", Tome.UI.Wi
 
 -- Set the points for the layout
 Tome.UI.Layouts.View:SetPoint("TOPLEFT", Tome.UI.Window:GetContent(), "TOPLEFT", 20, 15)
-Tome.UI.Layouts.View:SetPoint("BOTTOMRIGHT", Tome.UI.Window:GetContent(), "BOTTOMRIGHT", -20, -15)
+Tome.UI.Layouts.View:SetPoint("BOTTOMRIGHT", Tome.UI.Window:GetContent(), "BOTTOMRIGHT", -40, -15)
 
 -- Create the container frame for the fluid layout
 Tome.UI.Layouts.View.Container = UI.CreateFrame("Frame", "Tome_UI_Layout_View_Container", Tome.UI.Layouts.View)
@@ -59,24 +59,32 @@ Tome.UI.Layouts.View.Appearance.Label:SetPoint("TOPLEFT", Tome.UI.Layouts.View.C
 Tome.UI.Layouts.View.Appearance.Label:SetPoint("TOPRIGHT", Tome.UI.Layouts.View.Container, "BOTTOMRIGHT", 0, 10)
 Tome.UI.Layouts.View.Appearance.Label:SetFontSize(13)
 Tome.UI.Layouts.View.Appearance.Label:SetText("Appearance:")
-Tome.UI.Layouts.View.Appearance.Text = UI.CreateFrame("SimpleTextArea", "Tome_UI_Layout_View_Appearance_Text", Tome.UI.Layouts.View)
+Tome.UI.Layouts.View.Appearance.Text = Tome.Widget.TextArea.Create(
+    Tome.UI.Layouts.View,
+    "Tome_UI_Layout_View_Appearance_Text"
+)
 Tome.UI.Layouts.View.Appearance.Text:SetPoint("TOPLEFT", Tome.UI.Layouts.View.Appearance.Label, "BOTTOMLEFT", 0, 5)
 Tome.UI.Layouts.View.Appearance.Text:SetPoint("TOPRIGHT", Tome.UI.Layouts.View.Appearance.Label, "BOTTOMRIGHT", 0, 5)
 Tome.UI.Layouts.View.Appearance.Text:SetHeight((Tome.UI.Window:GetContent():GetHeight() / 100) * 25)
 Tome.UI.Layouts.View.Appearance.Text:SetBackgroundColor(0.0, 0.0, 0.0, 0.7)
+Tome.UI.Layouts.View.Appearance.Text.Border = Tome.Widget.Border.Create(Tome.UI.Layouts.View.Appearance.Text.Container, 1)
 
 -- Create the History label
 Tome.UI.Layouts.View.History = {}
 Tome.UI.Layouts.View.History.Label = UI.CreateFrame("Text", "Tome_UI_Layout_View_History_Header", Tome.UI.Layouts.View)
-Tome.UI.Layouts.View.History.Label:SetPoint("TOPLEFT", Tome.UI.Layouts.View.Appearance.Text, "BOTTOMLEFT", 0, 10)
-Tome.UI.Layouts.View.History.Label:SetPoint("TOPRIGHT", Tome.UI.Layouts.View.Appearance.Text, "BOTTOMRIGHT", 0, 10)
+Tome.UI.Layouts.View.History.Label:SetPoint("TOPLEFT", Tome.UI.Layouts.View.Appearance.Text.Container, "BOTTOMLEFT", 0, 10)
+Tome.UI.Layouts.View.History.Label:SetPoint("TOPRIGHT", Tome.UI.Layouts.View.Appearance.Text.Container, "BOTTOMRIGHT", 0, 10)
 Tome.UI.Layouts.View.History.Label:SetFontSize(13)
 Tome.UI.Layouts.View.History.Label:SetText("History:")
-Tome.UI.Layouts.View.History.Text = UI.CreateFrame("SimpleTextArea", "Tome_UI_Layout_View_History_Text", Tome.UI.Layouts.View)
+Tome.UI.Layouts.View.History.Text = Tome.Widget.TextArea.Create(
+    Tome.UI.Layouts.View,
+    "Tome_UI_Layout_View_History_Text"
+)
 Tome.UI.Layouts.View.History.Text:SetPoint("TOPLEFT", Tome.UI.Layouts.View.History.Label, "BOTTOMLEFT", 0, 5)
 Tome.UI.Layouts.View.History.Text:SetPoint("TOPRIGHT", Tome.UI.Layouts.View.History.Label, "BOTTOMRIGHT", 0, 5)
 Tome.UI.Layouts.View.History.Text:SetHeight((Tome.UI.Window:GetContent():GetHeight() / 100) * 25)
 Tome.UI.Layouts.View.History.Text:SetBackgroundColor(0.0, 0.0, 0.0, 0.7)
+Tome.UI.Layouts.View.History.Text.Border = Tome.Widget.Border.Create(Tome.UI.Layouts.View.History.Text.Container, 1)
 
 -- Create the Age label
 Tome.UI.Layouts.View.Age = UI.CreateFrame("Text", "Tome_UI_Layout_View_Age", Tome.UI.Layouts.View.Container)

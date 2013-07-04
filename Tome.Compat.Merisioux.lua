@@ -38,8 +38,7 @@ Tome.Compat.Merisioux.Statistics = {
 -- Store a table that contains the send error data
 Tome.Compat.Merisioux.Error = {
     Target = "",
-    Type = "",
-    Count = 0
+    Type = ""
 }
 
 -- Serializes a variable so it can be transmitted across the network
@@ -140,7 +139,15 @@ function Tome.Compat.Merisioux.Query(target, broadcast)
 
     -- Check if this is a broadcast
     if not broadcast then
-        -- Store the target name in case we have to try again
+        -- Check that the query should not be throttled
+        if Tome_Throttle[string.upper(target)] and Tome_Throttle[string.upper(target)] < os.time() then
+            return
+        end
+
+        -- Set the throttle time
+        Tome_Throttle[string.upper(target)] = os.time() + Tome_Config.Throttle
+
+        -- Store the target name and message type
         Tome.Data.Error.Target = target
         Tome.Data.Error.Type = "Query"
 
@@ -169,7 +176,7 @@ function Tome.Compat.Merisioux.Send(target, broadcast)
 
     -- Check if this is a broadcast
     if not broadcast then
-        -- Store the target name in case we have to try again
+        -- Store the target name and message type
         Tome.Data.Error.Target = target
         Tome.Data.Error.Type = "Send"
 
@@ -197,16 +204,6 @@ function Tome.Compat.Merisioux.SendCallback(failure, message)
             -- Reset the error counter
             Tome.Compat.Merisioux.Error.Count = 0
             return
-        end
-
-        -- Increase failure count
-        Tome.Compat.Merisioux.Error.Count = Tome.Compat.Merisioux.Error.Count + 1
-
-        -- Attempt to send again
-        if (Tome.Compat.Merisioux.Error.Type == "Query") then
-            Tome.Compat.Merisioux.Query(Tome.Compat.Merisioux.Error.Target)
-        elseif (Tome.Compat.Merisioux.Error.Type == "Send") then
-            Tome.Compat.Merisioux.Send(Tome.Compat.Merisioux.Error.Target)
         end
     else
         -- Increment the statistics sent counter

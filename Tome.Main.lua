@@ -24,6 +24,71 @@ Tome = {}
 -- Create a global table that UI modules than hook into
 Tome.UI = {}
 
+-- Store the last time we notified the player of an update
+Tome.LastUpdateNotify = 0
+
+-- This function returns the version of the addon
+function Tome.GetVersion()
+    -- Make a table for storing the version data
+    local version = {}
+
+    -- Get the addon information from the API
+    local addon = Inspect.Addon.Detail(Inspect.Addon.Current())
+
+    -- Check if this is a beta version
+    if string.find(addon.toc.Version, "-beta") then
+        version.Beta = true
+    else
+        version.Beta = false
+    end
+
+    -- Split the version string
+    local tbl = {}
+    for key, value in string.gmatch(string.gsub(addon.toc.Version, "-beta", ""), ".") do
+        if key ~= "." then
+            table.insert(tbl, key)
+        end
+    end
+
+    -- Check that it is valid
+    if table.getn(tbl) ~= 2 then
+        return nil
+    end
+    if not tonumber(tbl[1]) or not tonumber(tbl[2]) then
+        return nil
+    end
+
+    version.Major = tonumber(tbl[1])
+    version.Minor = tonumber(tbl[2])
+
+    return version
+end
+
+-- This function checks a version against the current version and notifies the player of updates
+function Tome.CheckVersion(version)
+    -- Check if this notification should be throttled
+    if (Tome.LastUpdateNotify + 3600) > os.time() then
+        return
+    end
+
+    -- Get the local addon version
+    local addon = Tome.GetVersion()
+
+    -- Check if we have a new version only if both versions are either beta or release
+    if addon.Beta == version.Beta and (version.Major > addon.Major or version.Minor > addon.Minor) then
+        -- A newer version is available. Notify the player
+        print(string.format(
+            "A new version (%s.%s%s) is available! Download it from RiftUI, Curse or http://zhevron.github.io/Tome",
+            version.Major,
+            version.Minor,
+            version.Beta and "-beta" or ""
+        ))
+    end
+
+    -- Update the last notified time
+    Tome.LastUpdateNotify = os.time()
+end
+
 -- This function prints the help message
 function Tome.ShowHelp()
     print("Available commands:")
@@ -67,9 +132,9 @@ function Tome.ShowDebug(command)
             print("Unable to get CPU usage information!")
         end
     elseif (command == "data") then
-        -- Dump the serialized character information
+        -- Dump the character information
         print("------- Character Info -------")
-        print(Tome.Data.Serialize(Tome_Character))
+        print(Tome_Character)
     elseif (command == "cache") then
         -- Create variables to hold the total items in the cache and how many have expired
         local total = 0
@@ -267,9 +332,61 @@ function Tome.Event_Command_Slash(handle, commandline)
     end
 end
 
+-- This function sets the default saved variables and should be able to upgrade from any version
+function Tome.SetDefaults(defaults, current)
+    -- Check that the defaults table is valid
+    if type(defaults) ~= "table" then
+        return
+    end
+
+    -- Loop the defaults table
+    for key, value in pairs(defaults) do
+        -- Check if the value is a table
+        if type(value) == "table" then
+            -- Recursively run this function on the value table
+            current[key] = Tome.SetDefaults(value, current[key])
+        else
+            -- Check if the key exists in the current table
+            if current[key] == nil then
+                current[key] = value
+            end
+        end
+    end
+
+    return current
+end
+
+-- This function is fired by the event API when the variables for Tome are loaded
+function Tome.Event_Loaded(handle, addonidentifier)
+    if addonidentifier == Inspect.Addon.Current() then
+        -- Set the default variables
+        Tome_Config = Tome.SetDefaults(Tome_Defaults, Tome_Config)
+
+        -- Get the addon version
+        local version = Tome.GetVersion()
+
+        -- Print a loaded message
+        print(string.format(
+            "Tome version %d.%d%s loaded!",
+            version.Major,
+            version.Minor,
+            version.Beta and "-beta" or ""
+        ))
+        print("Type '/tome' to open the character window")
+        print("Type '/tome help' for a listing of commands")
+    end
+end
+
 -- Attach to the slash command event using the "/tome" prefix
 Command.Event.Attach(
     Command.Slash.Register("tome"),
     Tome.Event_Command_Slash,
     "Tome_Event_Command_Slash"
+)
+
+-- Attach to the SavedVariables loaded event
+Command.Event.Attach(
+    Event.Addon.SavedVariables.Load.End,
+    Tome.Event_Loaded,
+    "Tome_Event_Loaded"
 )

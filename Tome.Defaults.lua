@@ -21,8 +21,9 @@
 -- Get the character details
 local detail = Inspect.Unit.Detail("player")
 
-Tome_Config = {
-    Timeout = 3600
+Tome_Defaults = {
+    Timeout = 3600,
+    Throttle = 60
 }
 
 Tome_Character = {
@@ -42,3 +43,7 @@ Tome_Character = {
 }
 
 Tome_Cache = {}
+
+Tome_Throttle = {}
+
+Tome_Config = Tome_Defaults
