@@ -395,6 +395,9 @@ Tome.UI.Layouts.Character.History.Text:SetHeight((Tome.UI.Window:GetContent():Ge
 Tome.UI.Layouts.Character.History.Text:SetBackgroundColor(0.0, 0.0, 0.0, 0.7)
 Tome.UI.Layouts.Character.History.Text.Border = Tome.Widget.Border.Create(Tome.UI.Layouts.Character.History.Text.Container, 1)
 
+-- Force the dropdown to be rendered on top of the Appearance field
+Tome.UI.Layouts.Character.Flag.Container:SetLayer(Tome.UI.Layouts.Character.Appearance.Container:GetLayer() + 1)
+
 -- This function removed key focus from all the text fields
 function Tome.UI.Layouts.Character.ClearFocus()
     Tome.UI.Layouts.Character.Prefix:SetKeyFocus(false)
