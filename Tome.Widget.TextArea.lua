@@ -69,8 +69,8 @@ function Tome.Widget.TextArea.Create(parent, name, editable, callback)
     -- Attach to the focus gain event of the container frame
     widget.Container:EventAttach(
         Event.UI.Input.Key.Focus.Gain,
-        Tome.Widget.TextArea.Event_Container_Focus_Gain,
-        string.format("%s_Container_Event_Focus_Gain", name)
+        Tome.Widget.TextArea.Event_Mask_Focus_Gain,
+        string.format("%s_Mask_Event_Focus_Gain", name)
     )
 
     -- Attach to the scrollwheel up event of the container frame
@@ -265,10 +265,10 @@ function Tome.Widget.TextArea.UpdatePosition(self)
     self.Textfield:SetPoint("TOPLEFT", self.Container, "TOPLEFT", 0, -self.Offset)
 end
 
--- This function is fired by the event API when the container frame gains focus
-function Tome.Widget.TextArea.Event_Container_Focus_Gain(handle)
+-- This function is fired by the event API when the mask frame gains focus
+function Tome.Widget.TextArea.Event_Mask_Focus_Gain(handle)
     -- Set the focus to the textfield
-    handle.Widget.Textfield:SetKeyFocus(true)
+    handle:getParent().Widget.Textfield:SetKeyFocus(true)
 end
 
 -- This function is fired by the event API when the scrollwheel on the mouse is moved forward
