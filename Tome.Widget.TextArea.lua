@@ -268,7 +268,7 @@ end
 -- This function is fired by the event API when the left mouse button is pressed inside the container frame
 function Tome.Widget.TextArea.Event_Container_LeftMouse(handle)
     -- Set the focus to the textfield
-    handle:getParent().Widget.Textfield:SetKeyFocus(true)
+    handle.Widget.Textfield:SetKeyFocus(true)
 end
 
 -- This function is fired by the event API when the scrollwheel on the mouse is moved forward
