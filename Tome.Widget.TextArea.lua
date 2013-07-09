@@ -95,11 +95,11 @@ function Tome.Widget.TextArea.Create(parent, name, editable, callback)
             string.format("%s_Textfield_Event_KeyUp", name)
         )
 
-        -- Attach to the left mouse click event of the container frame
-        widget.Container:EventAttach(
+        -- Attach to the left mouse click event of the mask frame
+        widget.Mask:EventAttach(
             Event.UI.Input.Mouse.Left.Click,
-            Tome.Widget.TextArea.Event_Container_LeftMouse,
-            string.format("%s_Container_Event_LeftMouse", name)
+            Tome.Widget.TextArea.Event_Mask_LeftMouse,
+            string.format("%s_Mask_Event_LeftMouse", name)
         )
     end
 
@@ -265,10 +265,10 @@ function Tome.Widget.TextArea.UpdatePosition(self)
     self.Textfield:SetPoint("TOPLEFT", self.Container, "TOPLEFT", 0, -self.Offset)
 end
 
--- This function is fired by the event API when the left mouse button is pressed inside the container frame
-function Tome.Widget.TextArea.Event_Container_LeftMouse(handle)
+-- This function is fired by the event API when the left mouse button is pressed inside the mask frame
+function Tome.Widget.TextArea.Event_Mask_LeftMouse(handle)
     -- Set the focus to the textfield
-    handle.Widget.Textfield:SetKeyFocus(true)
+    handle:GetParent().Widget.Textfield:SetKeyFocus(true)
 end
 
 -- This function is fired by the event API when the scrollwheel on the mouse is moved forward
