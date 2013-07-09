@@ -341,13 +341,13 @@ function Tome.Widget.TextArea.Event_Textfield_KeyUp(handle, unused, key)
     local offset = (line - 1) * LINE_HEIGHT + LINE_PADDING
 
     if offset < widget.Offset then
-        --
+        -- Calculate the new scrollbar position
         widget.Scrollbar:SetPosition(math.max(offset, 0))
     elseif offset > widget.Offset + widget:GetHeight() - LINE_HEIGHT then
-        --
+        -- Get the max range from the scrollbar
         _, max = widget.Scrollbar:GetRange()
 
-        --
+        -- Calculate the new scrollbar position
         widget.Scrollbar:SetPosition(math.min(offset - widget:GetHeight() + LINE_HEIGHT + LINE_PADDING, max))
     end
 
