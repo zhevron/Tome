@@ -3,7 +3,7 @@ Tome - A RIFT Roleplaying Immersion Addon
 
 ## NOTICE!
 
-Tome is currently at version 0.2-beta. Please report all issues on our [issue tracker](https://github.com/zhevron/Tome/issues).
+Tome is currently at version 0.3-beta. Please report all issues on our [issue tracker](https://github.com/zhevron/Tome/issues).
 
 ## Installation
 
