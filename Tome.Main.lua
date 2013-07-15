@@ -343,6 +343,11 @@ function Tome.SetDefaults(defaults, current)
     for key, value in pairs(defaults) do
         -- Check if the value is a table
         if type(value) == "table" then
+            -- Create the target table if it doesn't exist
+            if current[key] == nil then
+                current[key] = {}
+            end
+
             -- Recursively run this function on the value table
             current[key] = Tome.SetDefaults(value, current[key])
         else
