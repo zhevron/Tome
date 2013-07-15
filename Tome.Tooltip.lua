@@ -39,6 +39,9 @@ Tome.Tooltip.Borders = {}
 -- Store the current tooltip target
 Tome.Tooltip.Target = nil
 
+-- Store the combat state of the player
+Tome.Tooltip.InCombat = false
+
 -- This function creates the tooltip frames
 function Tome.Tooltip.Create()
     -- Set the initial anchor points for the tooltip frame
@@ -285,6 +288,11 @@ function Tome.Tooltip.Event_Tooltip(handle, tiptype, shown, buff)
         return
     end
 
+    -- Discard the event if the tooltip should remain hidden in combat
+    if Tome.Tooltip.InCombat then
+        return
+    end
+
     -- Get the detailed unit info
     local unit = Inspect.Unit.Detail(shown)
 
@@ -307,6 +315,27 @@ function Tome.Tooltip.Event_Tooltip(handle, tiptype, shown, buff)
     Tome.Tooltip.Update()
 end
 
+-- This function is triggered by the event API when the UI enters secure mode
+function Tome.Tooltip.Event_System_Secure_Enter()
+    -- Check if we should modify the tooltip state in combat
+    if Tome_Config.Tooltip.HideInCombat then
+        -- Set the combat flag
+        Tome.Tooltip.InCombat = true
+
+        -- Hide the tooltip
+        Tome.Tooltip.Frame:SetVisible(false)
+    end
+end
+
+-- This function is triggered by the event API when the UI leaves secure mode
+function Tome.Tooltip.Event_System_Secure_Leave()
+    -- Check if we should modify the tooltip state in combat
+    if Tome_Config.Tooltip.HideInCombat then
+        -- Set the combat flag
+        Tome.Tooltip.InCombat = false
+    end
+end
+
 -- Call the tooltip frame creation function
 Tome.Tooltip.Create()
 
@@ -315,4 +344,16 @@ Command.Event.Attach(
     Event.Tooltip,
     Tome.Tooltip.Event_Tooltip,
     "Tome_Tooltip_Event_Tooltip"
+)
+
+-- Attach to the UI secure mode events
+Command.Event.Attach(
+    Event.System.Secure.Enter,
+    Tome.Tooltip.Event_System_Secure_Enter,
+    "Tome_Tooltip_Event_System_Secure_Enter"
+)
+Command.Event.Attach(
+    Event.System.Secure.Leave,
+    Tome.Tooltip.Event_System_Secure_Leave,
+    "Tome_Tooltip_Event_System_Secure_Leave"
 )
