@@ -191,11 +191,41 @@ function Tome.Tooltip.Update(data)
         end
     end
 
+    -- Update the tooltip height
+    Tome.Tooltip.UpdateHeight()
+
     -- Update the tooltip width
     Tome.Tooltip.UpdateWidth()
 
     -- Show the frame
     Tome.Tooltip.Frame:SetVisible(true)
+end
+
+-- This function checks that the height of the tooltip exceeds the minimum and modifies the anchor accordingly
+function Tome.Tooltip.UpdateHeight()
+    -- Create a variable to store the minimum required height
+    local height = 0
+
+    -- Add the height of the name field
+    height = height + Tome.Tooltip.Name:GetHeight()
+
+    -- Add the height of the title field
+    height = height + Tome.Tooltip.Title:GetHeight()
+
+    -- Add the height of the flag field
+    height = height + Tome.Tooltip.Flag.GetHeight()
+
+    -- Add the height of the origin field
+    height = height + Tome.Tooltip.Origin:GetHeight()
+
+    -- Check if the height exceeds the minimum
+    if Tome.Tooltip.Frame:GetHeight() >= height then
+        -- Set the default TOPRIGHT anchor
+        Tome.Tooltip.Frame:SetPoint("TOPRIGHT", UI.Native.Tooltip, "TOPLEFT", -5, 10)
+    else
+        -- Move the anchor up so it fits the minimum height
+        Tome.Tooltip.Frame:SetPoint("TOPRIGHT", UI.Native.Tooltip, "TOPLEFT", -5, 10 - (Tome.Tooltip.Frame:GetHeight() - height))
+    end
 end
 
 -- This function sets the tooltip width so that all items fit
