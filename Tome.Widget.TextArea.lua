@@ -313,7 +313,7 @@ function Tome.Widget.TextArea.Event_Textfield_KeyUp(handle, unused, key)
         widget.Textfield:SetText(string.format("%s\t%s", prefix, suffix))
 
         -- Move the cursor
-        widget.Textfield:SetSelection(cursor + 1, cursor + 2)
+        widget.Textfield:SetCursor(cursor + 1)
     end
 
     -- Check if the key pressed was ENTER
@@ -322,7 +322,7 @@ function Tome.Widget.TextArea.Event_Textfield_KeyUp(handle, unused, key)
         widget.Textfield:SetText(string.format("%s\n%s", prefix, suffix))
 
         -- Move the cursor
-        widget.Textfield:SetSelection(cursor, cursor + 1)
+        widget.Textfield:SetCursor(cursor + 1)
     end
 
     -- Size the text area to fit the text
