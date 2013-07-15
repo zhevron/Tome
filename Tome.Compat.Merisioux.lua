@@ -192,18 +192,11 @@ end
 function Tome.Compat.Merisioux.SendCallback(failure, message)
     -- If an error occured, notify the player
     if failure then
-        -- If above he failure threshold, abort
-        if (Tome.Compat.Merisioux.Error.Count >= 10) then
-            -- Increment the statistics error counter
-            if (Tome.Compat.Merisioux.Error.Type == "Query") then
-                Tome.Compat.Merisioux.Statistics.Query.Errors = Tome.Compat.Merisioux.Statistics.Query.Errors + 1
-            elseif (Tome.Compat.Merisioux.Error.Type == "Data") then
-                Tome.Compat.Merisioux.Statistics.Data.Errors = Tome.Compat.Merisioux.Statistics.Data.Errors + 1
-            end
-
-            -- Reset the error counter
-            Tome.Compat.Merisioux.Error.Count = 0
-            return
+        -- Increment the statistics error counter
+        if (Tome.Compat.Merisioux.Error.Type == "Query") then
+            Tome.Compat.Merisioux.Statistics.Query.Errors = Tome.Compat.Merisioux.Statistics.Query.Errors + 1
+        elseif (Tome.Compat.Merisioux.Error.Type == "Data") then
+            Tome.Compat.Merisioux.Statistics.Data.Errors = Tome.Compat.Merisioux.Statistics.Data.Errors + 1
         end
     else
         -- Increment the statistics sent counter
@@ -212,9 +205,6 @@ function Tome.Compat.Merisioux.SendCallback(failure, message)
         elseif (Tome.Compat.Merisioux.Error.Type == "Data") then
             Tome.Compat.Merisioux.Statistics.Data.Sent = Tome.Compat.Merisioux.Statistics.Data.Sent + 1
         end
-
-        -- No errors, reset the error counter
-        Tome.Compat.Merisioux.Error.Count = 0
     end
 end
 

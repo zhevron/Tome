@@ -191,18 +191,11 @@ end
 function Tome.Data.SendCallback(failure, message)
     -- If an error occured, notify the player
     if failure then
-        -- If above he failure threshold, abort
-        if (Tome.Data.Error.Count >= 10) then
-            -- Increment the statistics error counter
-            if (Tome.Data.Error.Type == "Query") then
-                Tome.Data.Statistics.Query.Errors = Tome.Data.Statistics.Query.Errors + 1
-            elseif (Tome.Data.Error.Type == "Data") then
-                Tome.Data.Statistics.Data.Errors = Tome.Data.Statistics.Data.Errors + 1
-            end
-
-            -- Reset the error counter
-            Tome.Data.Error.Count = 0
-            return
+        -- Increment the statistics error counter
+        if (Tome.Data.Error.Type == "Query") then
+            Tome.Data.Statistics.Query.Errors = Tome.Data.Statistics.Query.Errors + 1
+        elseif (Tome.Data.Error.Type == "Data") then
+            Tome.Data.Statistics.Data.Errors = Tome.Data.Statistics.Data.Errors + 1
         end
     else
         -- Increment the statistics sent counter
@@ -211,9 +204,6 @@ function Tome.Data.SendCallback(failure, message)
         elseif (Tome.Data.Error.Type == "Data") then
             Tome.Data.Statistics.Data.Sent = Tome.Data.Statistics.Data.Sent + 1
         end
-
-        -- No errors, reset the error counter
-        Tome.Data.Error.Count = 0
     end
 end
 
