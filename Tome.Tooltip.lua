@@ -216,7 +216,7 @@ function Tome.Tooltip.UpdateHeight()
     height = height + Tome.Tooltip.Title:GetHeight()
 
     -- Add the height of the flag field
-    height = height + Tome.Tooltip.Flag.GetHeight()
+    height = height + Tome.Tooltip.Flag:GetHeight()
 
     -- Add the height of the origin field
     height = height + Tome.Tooltip.Origin:GetHeight()
