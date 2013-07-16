@@ -286,7 +286,12 @@ function Tome.Event_Command_Slash(handle, commandline)
     elseif (command == "help") then
         Tome.ShowHelp()
     elseif (command == "clear") then
+        -- Clear the cache data
         Tome_Cache = {}
+
+        -- Clear the throttle timers
+        Tome_Throttle = {}
+
         print("Cache cleared")
     elseif (command == "show") then
         -- Abort if we do not have a name
