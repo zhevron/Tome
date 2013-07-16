@@ -239,6 +239,51 @@ function Tome.Set(key, value)
     print(string.format("Set your %s to: %s", key, value))
 end
 
+-- This function modifies the Tome blacklist based on slash commands
+function Tome.Blacklist(action, name)
+    -- Check what action we want to take
+    if action == "add" then
+        -- Check if we already have this character in the list
+        local found = -1
+        for key, value in pairs(Tome_Blacklist) do
+            if string.lower(value) == string.lower(name) then
+                found = key
+                break
+            end
+        end
+
+        if found == -1 then
+            -- Add the character to the blacklist
+            table.insert(Tome_Blacklist, name)
+
+            print(string.format("%s added to the blacklist", name))
+        else
+            print(string.format("%s is already blacklisted", name))
+        end
+    elseif action == "remove"
+        -- Check if we have this character in the list
+        local found = -1
+        for key, value in pairs(Tome_Blacklist) do
+            if string.lower(value) == string.lower(name) then
+                found = key
+                break
+            end
+        end
+
+        if found ~= -1 then
+            -- Remove the character from the blacklist
+            table.remove(Tome_Blacklist, found)
+
+            print(string.format("%s has been removed from the blacklist", name))
+        else
+            print(string.format("%s was not found in the blacklist", name))
+        end
+    else
+        -- Invalid action, print a message
+        print(string.format("Action 'blacklist %s' not found", action))
+    end
+end
+
 -- This function is triggered from the event API when a slash command is entered
 function Tome.Event_Command_Slash(handle, commandline)
     -- Split the command line on space to get the parameters
@@ -323,6 +368,39 @@ function Tome.Event_Command_Slash(handle, commandline)
         local value = table.concat(parameters, " ")
 
         Tome.Set(key, value)
+    elseif (command == "blacklist") then
+        -- Abort if we do not have enough parameters
+        if (table.getn(parameters) ~= 1) and (table.getn(parameters) ~= 2) then
+            print("Not enough parameters for command 'blacklist'")
+            return
+        end
+
+        -- Get the action we want to run
+        local action = string.lower(table.remove(parameters, 1))
+
+        -- Check which action we want to execute
+        if (action == "list") then
+            print("Characters in blacklist:")
+
+            if (table.getn(Tome_Blacklist) == 0) then
+                print("  - No characters")
+            else
+                -- List all characters in the blacklist
+                for _, value in pairs(Tome_Blacklist) do
+                    -- Print the character name
+                    print(string.format("  - %s", value))
+                end
+            end
+        else
+            -- Verify that we have two parameters
+            if (table.getn(parameters) ~= 2) then
+                print(string.format("Not enough parameters for command 'blacklist %s'", action))
+                return
+            end
+
+            -- Run the blacklist modification command
+            Tome.Blacklist(action, table.remove(parameters, 1))
+        end
     elseif (command == "debug") then
         -- Abort if we do not have a debug command
         if (table.getn(parameters) ~= 1) then
