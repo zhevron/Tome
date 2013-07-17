@@ -396,7 +396,7 @@ function Tome.Event_Command_Slash(handle, commandline)
             end
         else
             -- Verify that we have two parameters
-            if (table.getn(parameters) ~= 2) then
+            if (table.getn(parameters) ~= 1) then
                 print(string.format("Not enough parameters for command 'blacklist %s'", action))
                 return
             end
