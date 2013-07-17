@@ -408,9 +408,10 @@ function Tome.Event_Loaded(handle, addonidentifier)
 
         -- Print a loaded message
         print(string.format(
-            "Tome version %d.%d%s loaded!",
+            "Tome version %d.%d.%d%s loaded!",
             version.Major,
             version.Minor,
+            version.Hotfix,
             version.Beta and "-beta" or ""
         ))
         print("Type '/tome' to open the character window")
