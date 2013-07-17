@@ -263,7 +263,7 @@ function Tome.Blacklist(action, name)
         else
             print(string.format("%s is already blacklisted", name))
         end
-    elseif action == "remove"
+    elseif action == "remove" then
         -- Check if we have this character in the list
         local found = -1
         for key, value in pairs(Tome_Blacklist) do
