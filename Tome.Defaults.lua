@@ -45,6 +45,8 @@ Tome_Character = {
     Origin = "Tome"
 }
 
+Tome_Blacklist = {}
+
 Tome_Cache = {}
 
 Tome_Throttle = {}

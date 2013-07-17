@@ -309,6 +309,14 @@ function Tome.Tooltip.Event_Tooltip(handle, tiptype, shown, buff)
         return
     end
 
+    -- Discard if the player is blacklisted and make sure our tooltip stays hidden
+    for _, value in pairs(Tome_Blacklist) do
+        if string.lower(value) == string.lower(unit.name) then
+            Tome.Tooltip.Frame:SetVisible(false)
+            return
+        end
+    end
+
     -- Store the target
     Tome.Tooltip.Target = unit
 
