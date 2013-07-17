@@ -51,15 +51,16 @@ function Tome.GetVersion()
     end
 
     -- Check that it is valid
-    if table.getn(tbl) ~= 2 then
+    if table.getn(tbl) ~= 3 then
         return nil
     end
-    if not tonumber(tbl[1]) or not tonumber(tbl[2]) then
+    if not tonumber(tbl[1]) or not tonumber(tbl[2]) or not tonumber(tbl[3]) then
         return nil
     end
 
     version.Major = tonumber(tbl[1])
     version.Minor = tonumber(tbl[2])
+    version.Hotfix = tonumber(tbl[3])
 
     return version
 end
@@ -71,16 +72,46 @@ function Tome.CheckVersion(version)
         return
     end
 
+    -- Check that the data we received is valid
+    if not version.Major or not version.Minor or not version.Hotfix then
+        return
+    end
+
     -- Get the local addon version
     local addon = Tome.GetVersion()
 
-    -- Check if we have a new version only if both versions are either beta or release
-    if addon.Beta == version.Beta and (version.Major > addon.Major or version.Minor > addon.Minor) then
+    -- Check if we have a new major version only if both versions are either beta or release
+    if addon.Beta == version.Beta and version.Major > addon.Major then
         -- A newer version is available. Notify the player
         print(string.format(
-            "A new version (%s.%s%s) is available! Download it from RiftUI, Curse or http://zhevron.github.io/Tome",
+            "A new version (%s.%s.%s%s) is available! Download it from RiftUI, Curse or http://zhevron.github.io/Tome",
             version.Major,
             version.Minor,
+            version.Hotfix,
+            version.Beta and "-beta" or ""
+        ))
+    end
+
+    -- Check if we have a new minor version only if both versions are either beta or release
+    if version.Beta == addon.Beta and version.Major == addon.Major and version.Minor > addon.Minor then
+        -- A newer version is available. Notify the player
+        print(string.format(
+            "A new version (%s.%s.%s%s) is available! Download it from RiftUI, Curse or http://zhevron.github.io/Tome",
+            version.Major,
+            version.Minor,
+            version.Hotfix,
+            version.Beta and "-beta" or ""
+        ))
+    end
+
+    -- Check if we have a new hotfix version only if both versions are either beta or release
+    if version.Beta == addon.Beta and version.Major == addon.Major and version.Minor == addon.Minor and version.Hotfix > addon.Hotfix then
+        -- A newer version is available. Notify the player
+        print(string.format(
+            "A new version (%s.%s.%s%s) is available! Download it from RiftUI, Curse or http://zhevron.github.io/Tome",
+            version.Major,
+            version.Minor,
+            version.Hotfix,
             version.Beta and "-beta" or ""
         ))
     end

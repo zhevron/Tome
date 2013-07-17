@@ -183,10 +183,11 @@ function Tome.Tooltip.Update(data)
         if data.Origin == "Tome" then
             local version = Tome.GetVersion()
             Tome.Tooltip.Origin:SetText(string.format(
-                "%s %s.%s%s",
+                "%s %s.%s.%s%s",
                 data.Origin,
                 version.Major,
                 version.Minor,
+                version.Hotfix,
                 version.Beta and "-beta" or ""
             ))
         else
