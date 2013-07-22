@@ -24,6 +24,7 @@ RunOnStartup = {
     "Tome.Tooltip.lua",
     "Tome.Button.lua",
     "Tome.Data.lua",
+    "Tome.Guild.lua",
     "Tome.Compat.Merisioux.lua",
     "Tome.Widget.Border.lua",
     "Tome.Widget.Draggable.lua",
@@ -31,8 +32,8 @@ RunOnStartup = {
     "Tome.Widget.TextArea.lua",
     "Tome.UI.lua",
     "Tome.UI.Layout.Character.lua",
+    "Tome.UI.Layout.CharacterView.lua",
     "Tome.UI.Layout.Guild.lua",
-    "Tome.UI.Layout.View.lua",
     "Tome.UI.Layout.Settings.lua"
 }
 

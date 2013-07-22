@@ -102,7 +102,7 @@ Tome.UI.NavButtons.Character:EventAttach(
             Tome.UI.NavButtons.Character:SetEnabled(false)
         else
             -- Show the View layout
-            Tome.UI.Layouts.View:SetVisible(true)
+            Tome.UI.Layouts.CharacterView:SetVisible(true)
         end
     end,
     "Tome_UI_NavButton_Character_Click"
@@ -220,10 +220,10 @@ Tome.UI.NavButtons.Preview:EventAttach(
         end
 
         -- Populate the View layout
-        Tome.UI.Layouts.View.Populate(Tome_Character)
+        Tome.UI.Layouts.CharacterView.Populate(Tome_Character)
 
         -- Show the View layout
-        Tome.UI.Layouts.View:SetVisible(true)
+        Tome.UI.Layouts.CharacterView:SetVisible(true)
 
         -- Enable all buttons and disable this button
             for _, button in pairs(Tome.UI.NavButtons) do
@@ -259,10 +259,10 @@ function Tome.UI.Show(data)
         Tome.UI.ShowingSelf = false
 
         -- Populate the View layout
-        Tome.UI.Layouts.View.Populate(data)
+        Tome.UI.Layouts.CharacterView.Populate(data)
 
         -- Enable the View layout
-        Tome.UI.Layouts.View:SetVisible(true)
+        Tome.UI.Layouts.CharacterView:SetVisible(true)
 
         -- TODO: Set all the fields to current data
     else
