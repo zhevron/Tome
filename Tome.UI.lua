@@ -125,14 +125,20 @@ Tome.UI.NavButtons.Guild:EventAttach(
             layout:SetVisible(false)
         end
 
-        -- Show the Guild tab
-        Tome.UI.Layouts.Guild:SetVisible(true)
+        -- Check if the player has write permissions to guild info
+        if Tome.UI.ShowingSelf and Tome.Guild.PlayerCanWrite() then
+            -- Show the Guild tab
+            Tome.UI.Layouts.Guild:SetVisible(true)
+        else
+            -- Show the Guild View tab
+            Tome.UI.Layouts.GuildView:SetVisible(true)
+        end
 
         -- Enable all buttons and disable this button
-            for _, button in pairs(Tome.UI.NavButtons) do
-                button:SetEnabled(true)
-            end
-            Tome.UI.NavButtons.Guild:SetEnabled(false)
+        for _, button in pairs(Tome.UI.NavButtons) do
+            button:SetEnabled(true)
+        end
+        Tome.UI.NavButtons.Guild:SetEnabled(false)
     end,
     "Tome_UI_NavButton_Guild_Click"
 )
@@ -194,10 +200,10 @@ Tome.UI.NavButtons.Settings:EventAttach(
         Tome.UI.Layouts.Settings:SetVisible(true)
 
         -- Enable all buttons and disable this button
-            for _, button in pairs(Tome.UI.NavButtons) do
-                button:SetEnabled(true)
-            end
-            Tome.UI.NavButtons.Settings:SetEnabled(false)
+        for _, button in pairs(Tome.UI.NavButtons) do
+            button:SetEnabled(true)
+        end
+        Tome.UI.NavButtons.Settings:SetEnabled(false)
     end,
     "Tome_UI_NavButton_Settings_Click"
 )
@@ -226,10 +232,10 @@ Tome.UI.NavButtons.Preview:EventAttach(
         Tome.UI.Layouts.CharacterView:SetVisible(true)
 
         -- Enable all buttons and disable this button
-            for _, button in pairs(Tome.UI.NavButtons) do
-                button:SetEnabled(true)
-            end
-            Tome.UI.NavButtons.Preview:SetEnabled(false)
+        for _, button in pairs(Tome.UI.NavButtons) do
+            button:SetEnabled(true)
+        end
+        Tome.UI.NavButtons.Preview:SetEnabled(false)
     end,
     "Tome_UI_NavButton_Preview_Click"
 )
