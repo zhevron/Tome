@@ -106,7 +106,7 @@ function Tome.Guild.Store()
     Command.Storage.Set(
         "guild",
         Tome.Guild.Identifier,
-        "guild",
+        "public",
         "guild",
         Tome_Guild,
         Tome.Guild.StoreCallback
