@@ -1,11 +1,11 @@
 ---
 layout: layout
+menu: index
 ---
 
-<div class="content">
-  <div id="post">
-    <h1>{{ post.title }}</h1>
-    {{ content }}
-  </div>
+<div class="well">
+  <legend>{{ page.title }}</legend>
+  <small>Posted by {{ page.author }} at {{ page.date | date: "%B %e, %Y" }}</small><br/>
+  {{ content }}
 </div>
-
+<a href="/index.html" class="btn pull-right">Back to Home</a>
