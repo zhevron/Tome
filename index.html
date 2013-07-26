@@ -9,6 +9,6 @@ menu: index
   <legend>{{ post.title }}</legend>
   <small>Posted by {{ post.author }} at {{ post.date | date: "%B %e, %Y" }}</small><br/>
   {{ post.excerpt }}
-  <a href="{{ post.url }}" class="btn pull-right">Read more</a><br/>
+  <a href="{{ site.baseurl }}{{ post.url }}" class="btn pull-right">Read more</a><br/>
 </div>
 {% endfor %}
