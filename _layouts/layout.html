@@ -6,9 +6,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="author" content="Zhevron @ Github" />
     <title>Tome - A RIFT Roleplaying Immersion Addon</title>
-    <link rel="stylesheet" href="/assets/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="/assets/css/bootstrap.responsive.min.css" />
-    <link rel="stylesheet" href="/assets/css/navbar.css" />
+    <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/bootstrap.responsive.min.css" />
+    <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/navbar.css" />
   </head>
   <body>
     <div class="container">
@@ -18,7 +18,7 @@
           <div class="navbar-inner">
             <div class="container">
               <ul class="nav">
-                <li {% if page.menu == "index" %}class="active"{% endif %}><a href="/index.html">Home</a></li>
+                <li {% if page.menu == "index" %}class="active"{% endif %}><a href="{{ site.baseurl }}/index.html">Home</a></li>
                 <li {% if page.menu == "download" %}class="active"{% endif %}><a href="#">Download</a></li>
                 <li {% if page.menu == "faq" %}class="active"{% endif %}><a href="#">FAQ</a></li>
                 <li {% if page.menu == "support" %}class="active"{% endif %}><a href="#">Support</a></li>
@@ -43,6 +43,6 @@
         </div>
       </div>
     </div>
-    <script src="/assets/js/bootstrap.min.js"></script>
+    <script src="{{ site.baseurl }}/assets/js/bootstrap.min.js"></script>
   </body>
 </html>
