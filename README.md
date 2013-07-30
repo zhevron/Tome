@@ -1,9 +1,7 @@
 Tome - A RIFT Roleplaying Immersion Addon
 =========================================
 
-## NOTICE!
-
-Tome is currently at version 0.3-beta. Please report all issues on our [issue tracker](https://github.com/zhevron/Tome/issues).
+[Visit the main site here](http://zhevron.github.io/Tome/)
 
 ## Installation
 
@@ -17,15 +15,13 @@ The Frequently Asked Questions for Tome are available [here](https://github.com/
 
 If you find any problems with the addon or the installation process, firstly check to see if your issue is covered in the [FAQ](https://github.com/zhevron/Tome/wiki/FAQ), if not then feel free to [submit a new issue](https://github.com/zhevron/Tome/issues/new).
 
-In case you have any questions about the addon itself, direct them to [me](https://github.com/zhevron) by mail. The e-mail address is in the profile.
-
 ## Contibuting
 
 If you want to contribute to the development of Tome, please [fork](https://github.com/zhevron/Tome/fork) the main repository.
 
-Make a new branch based on the `develop` branch and commit the changes you make there.
+Make a new branch based on the `master` branch and commit the changes you make there.
 
-Then make a [pull request](https://github.com/zhevron/Tome/pulls) back to the `develop` branch in the main repository.
+Then make a [pull request](https://github.com/zhevron/Tome/pulls) back to the `master` branch in the main repository.
 
 ## Maintainers
 
