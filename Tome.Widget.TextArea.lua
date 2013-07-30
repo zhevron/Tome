@@ -66,13 +66,6 @@ function Tome.Widget.TextArea.Create(parent, name, editable, callback)
     -- Set the width of the text field frame
     widget.Textfield:SetWidth(widget.Container:GetWidth() - widget.Scrollbar:GetWidth())
 
-    -- Attach to the focus gain event of the container frame
-    widget.Container:EventAttach(
-        Event.UI.Input.Key.Focus.Gain,
-        Tome.Widget.TextArea.Event_Container_Focus_Gain,
-        string.format("%s_Container_Event_Focus_Gain", name)
-    )
-
     -- Attach to the scrollwheel up event of the container frame
     widget.Container:EventAttach(
         Event.UI.Input.Mouse.Wheel.Forward,
@@ -94,12 +87,19 @@ function Tome.Widget.TextArea.Create(parent, name, editable, callback)
         string.format("%s_Scrollbar_Event_Changed", name)
     )
 
-    -- Attach to the keyboard key up event of the textfield frame if editable
     if widget.Editable then
+        -- Attach to the keyboard key up event of the textfield frame
         widget.Textfield:EventAttach(
             Event.UI.Input.Key.Up,
             Tome.Widget.TextArea.Event_Textfield_KeyUp,
             string.format("%s_Textfield_Event_KeyUp", name)
+        )
+
+        -- Attach to the left mouse click event of the mask frame
+        widget.Mask:EventAttach(
+            Event.UI.Input.Mouse.Left.Click,
+            Tome.Widget.TextArea.Event_Mask_LeftMouse,
+            string.format("%s_Mask_Event_LeftMouse", name)
         )
     end
 
@@ -265,10 +265,10 @@ function Tome.Widget.TextArea.UpdatePosition(self)
     self.Textfield:SetPoint("TOPLEFT", self.Container, "TOPLEFT", 0, -self.Offset)
 end
 
--- This function is fired by the event API when the container frame gains focus
-function Tome.Widget.TextArea.Event_Container_Focus_Gain(handle)
+-- This function is fired by the event API when the left mouse button is pressed inside the mask frame
+function Tome.Widget.TextArea.Event_Mask_LeftMouse(handle)
     -- Set the focus to the textfield
-    handle.Widget.Textfield:SetKeyFocus(true)
+    handle:GetParent().Widget.Textfield:SetKeyFocus(true)
 end
 
 -- This function is fired by the event API when the scrollwheel on the mouse is moved forward
@@ -341,13 +341,13 @@ function Tome.Widget.TextArea.Event_Textfield_KeyUp(handle, unused, key)
     local offset = (line - 1) * LINE_HEIGHT + LINE_PADDING
 
     if offset < widget.Offset then
-        --
+        -- Calculate the new scrollbar position
         widget.Scrollbar:SetPosition(math.max(offset, 0))
     elseif offset > widget.Offset + widget:GetHeight() - LINE_HEIGHT then
-        --
+        -- Get the max range from the scrollbar
         _, max = widget.Scrollbar:GetRange()
 
-        --
+        -- Calculate the new scrollbar position
         widget.Scrollbar:SetPosition(math.min(offset - widget:GetHeight() + LINE_HEIGHT + LINE_PADDING, max))
     end
 

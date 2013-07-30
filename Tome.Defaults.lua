@@ -23,7 +23,10 @@ local detail = Inspect.Unit.Detail("player")
 
 Tome_Defaults = {
     Timeout = 3600,
-    Throttle = 60
+    Throttle = 60,
+    Tooltip = {
+        HideInCombat = true
+    }
 }
 
 Tome_Character = {
@@ -41,6 +44,8 @@ Tome_Character = {
     Flag = 0,
     Origin = "Tome"
 }
+
+Tome_Blacklist = {}
 
 Tome_Cache = {}
 
