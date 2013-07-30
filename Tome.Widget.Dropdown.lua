@@ -59,9 +59,6 @@ function Tome.Widget.Dropdown.Create(parent, name, callback)
     -- Create the border for the item container
     widget.ItemContainer.Border = Tome.Widget.Border.Create(widget.ItemContainer, 1)
 
-    -- Set the layer of the item container to be above everything else
-    widget.ItemContainer:SetLayer(99)
-
     -- Hide the item container by default
     widget.ItemContainer:SetVisible(false)
 

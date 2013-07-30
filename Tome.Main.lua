@@ -51,15 +51,16 @@ function Tome.GetVersion()
     end
 
     -- Check that it is valid
-    if table.getn(tbl) ~= 2 then
+    if table.getn(tbl) ~= 3 then
         return nil
     end
-    if not tonumber(tbl[1]) or not tonumber(tbl[2]) then
+    if not tonumber(tbl[1]) or not tonumber(tbl[2]) or not tonumber(tbl[3]) then
         return nil
     end
 
     version.Major = tonumber(tbl[1])
     version.Minor = tonumber(tbl[2])
+    version.Hotfix = tonumber(tbl[3])
 
     return version
 end
@@ -71,16 +72,46 @@ function Tome.CheckVersion(version)
         return
     end
 
+    -- Check that the data we received is valid
+    if not version.Major or not version.Minor or not version.Hotfix then
+        return
+    end
+
     -- Get the local addon version
     local addon = Tome.GetVersion()
 
-    -- Check if we have a new version only if both versions are either beta or release
-    if addon.Beta == version.Beta and (version.Major > addon.Major or version.Minor > addon.Minor) then
+    -- Check if we have a new major version only if both versions are either beta or release
+    if addon.Beta == version.Beta and version.Major > addon.Major then
         -- A newer version is available. Notify the player
         print(string.format(
-            "A new version (%s.%s%s) is available! Download it from RiftUI, Curse or http://zhevron.github.io/Tome",
+            "A new version (%s.%s.%s%s) is available! Download it from RiftUI, Curse or http://zhevron.github.io/Tome",
             version.Major,
             version.Minor,
+            version.Hotfix,
+            version.Beta and "-beta" or ""
+        ))
+    end
+
+    -- Check if we have a new minor version only if both versions are either beta or release
+    if version.Beta == addon.Beta and version.Major == addon.Major and version.Minor > addon.Minor then
+        -- A newer version is available. Notify the player
+        print(string.format(
+            "A new version (%s.%s.%s%s) is available! Download it from RiftUI, Curse or http://zhevron.github.io/Tome",
+            version.Major,
+            version.Minor,
+            version.Hotfix,
+            version.Beta and "-beta" or ""
+        ))
+    end
+
+    -- Check if we have a new hotfix version only if both versions are either beta or release
+    if version.Beta == addon.Beta and version.Major == addon.Major and version.Minor == addon.Minor and version.Hotfix > addon.Hotfix then
+        -- A newer version is available. Notify the player
+        print(string.format(
+            "A new version (%s.%s.%s%s) is available! Download it from RiftUI, Curse or http://zhevron.github.io/Tome",
+            version.Major,
+            version.Minor,
+            version.Hotfix,
             version.Beta and "-beta" or ""
         ))
     end
@@ -108,6 +139,9 @@ function Tome.ShowHelp()
     print("  set appearance <string> - Sets your appearance")
     print("  set history <string> - Sets your history")
     print("  set flag <int> - Sets your flag")
+    print("  blacklist list - Lists all the names in the blacklist")
+    print("  blacklist add <string> - Adds a name to the blacklist")
+    print("  blacklist remove <string> - Removes a name from the blacklist")
     print("  debug cpu - Prints CPU usage debug information")
     print("  debug data - Prints the serialized character data")
     print("  debug cache - Prints information about the current cache status")
@@ -239,6 +273,51 @@ function Tome.Set(key, value)
     print(string.format("Set your %s to: %s", key, value))
 end
 
+-- This function modifies the Tome blacklist based on slash commands
+function Tome.Blacklist(action, name)
+    -- Check what action we want to take
+    if action == "add" then
+        -- Check if we already have this character in the list
+        local found = -1
+        for key, value in pairs(Tome_Blacklist) do
+            if string.lower(value) == string.lower(name) then
+                found = key
+                break
+            end
+        end
+
+        if found == -1 then
+            -- Add the character to the blacklist
+            table.insert(Tome_Blacklist, name)
+
+            print(string.format("%s added to the blacklist", name))
+        else
+            print(string.format("%s is already blacklisted", name))
+        end
+    elseif action == "remove" then
+        -- Check if we have this character in the list
+        local found = -1
+        for key, value in pairs(Tome_Blacklist) do
+            if string.lower(value) == string.lower(name) then
+                found = key
+                break
+            end
+        end
+
+        if found ~= -1 then
+            -- Remove the character from the blacklist
+            table.remove(Tome_Blacklist, found)
+
+            print(string.format("%s has been removed from the blacklist", name))
+        else
+            print(string.format("%s was not found in the blacklist", name))
+        end
+    else
+        -- Invalid action, print a message
+        print(string.format("Action 'blacklist %s' not found", action))
+    end
+end
+
 -- This function is triggered from the event API when a slash command is entered
 function Tome.Event_Command_Slash(handle, commandline)
     -- Split the command line on space to get the parameters
@@ -286,7 +365,12 @@ function Tome.Event_Command_Slash(handle, commandline)
     elseif (command == "help") then
         Tome.ShowHelp()
     elseif (command == "clear") then
+        -- Clear the cache data
         Tome_Cache = {}
+
+        -- Clear the throttle timers
+        Tome_Throttle = {}
+
         print("Cache cleared")
     elseif (command == "show") then
         -- Abort if we do not have a name
@@ -318,6 +402,39 @@ function Tome.Event_Command_Slash(handle, commandline)
         local value = table.concat(parameters, " ")
 
         Tome.Set(key, value)
+    elseif (command == "blacklist") then
+        -- Abort if we do not have enough parameters
+        if (table.getn(parameters) ~= 1) and (table.getn(parameters) ~= 2) then
+            print("Not enough parameters for command 'blacklist'")
+            return
+        end
+
+        -- Get the action we want to run
+        local action = string.lower(table.remove(parameters, 1))
+
+        -- Check which action we want to execute
+        if (action == "list") then
+            print("Characters in blacklist:")
+
+            if (table.getn(Tome_Blacklist) == 0) then
+                print("  - No characters")
+            else
+                -- List all characters in the blacklist
+                for _, value in pairs(Tome_Blacklist) do
+                    -- Print the character name
+                    print(string.format("  - %s", value))
+                end
+            end
+        else
+            -- Verify that we have two parameters
+            if (table.getn(parameters) ~= 1) then
+                print(string.format("Not enough parameters for command 'blacklist %s'", action))
+                return
+            end
+
+            -- Run the blacklist modification command
+            Tome.Blacklist(action, table.remove(parameters, 1))
+        end
     elseif (command == "debug") then
         -- Abort if we do not have a debug command
         if (table.getn(parameters) ~= 1) then
@@ -343,6 +460,11 @@ function Tome.SetDefaults(defaults, current)
     for key, value in pairs(defaults) do
         -- Check if the value is a table
         if type(value) == "table" then
+            -- Create the target table if it doesn't exist
+            if current[key] == nil then
+                current[key] = {}
+            end
+
             -- Recursively run this function on the value table
             current[key] = Tome.SetDefaults(value, current[key])
         else
@@ -367,9 +489,10 @@ function Tome.Event_Loaded(handle, addonidentifier)
 
         -- Print a loaded message
         print(string.format(
-            "Tome version %d.%d%s loaded!",
+            "Tome version %d.%d.%d%s loaded!",
             version.Major,
             version.Minor,
+            version.Hotfix,
             version.Beta and "-beta" or ""
         ))
         print("Type '/tome' to open the character window")

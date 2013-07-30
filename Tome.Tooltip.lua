@@ -39,6 +39,9 @@ Tome.Tooltip.Borders = {}
 -- Store the current tooltip target
 Tome.Tooltip.Target = nil
 
+-- Store the combat state of the player
+Tome.Tooltip.InCombat = false
+
 -- This function creates the tooltip frames
 function Tome.Tooltip.Create()
     -- Set the initial anchor points for the tooltip frame
@@ -177,14 +180,56 @@ function Tome.Tooltip.Update(data)
 
     -- Set the origin addon text
     if data.Origin then
-        Tome.Tooltip.Origin:SetText(data.Origin)
+        if data.Origin == "Tome" then
+            local version = Tome.GetVersion()
+            Tome.Tooltip.Origin:SetText(string.format(
+                "%s %s.%s.%s%s",
+                data.Origin,
+                version.Major,
+                version.Minor,
+                version.Hotfix,
+                version.Beta and "-beta" or ""
+            ))
+        else
+            Tome.Tooltip.Origin:SetText(data.Origin)
+        end
     end
+
+    -- Update the tooltip height
+    Tome.Tooltip.UpdateHeight()
 
     -- Update the tooltip width
     Tome.Tooltip.UpdateWidth()
 
     -- Show the frame
     Tome.Tooltip.Frame:SetVisible(true)
+end
+
+-- This function checks that the height of the tooltip exceeds the minimum and modifies the anchor accordingly
+function Tome.Tooltip.UpdateHeight()
+    -- Create a variable to store the minimum required height
+    local height = 0
+
+    -- Add the height of the name field
+    height = height + Tome.Tooltip.Name:GetHeight()
+
+    -- Add the height of the title field
+    height = height + Tome.Tooltip.Title:GetHeight()
+
+    -- Add the height of the flag field
+    height = height + Tome.Tooltip.Flag:GetHeight()
+
+    -- Add the height of the origin field
+    height = height + Tome.Tooltip.Origin:GetHeight()
+
+    -- Check if the height exceeds the minimum
+    if Tome.Tooltip.Frame:GetHeight() >= height then
+        -- Set the default TOPRIGHT anchor
+        Tome.Tooltip.Frame:SetPoint("TOPRIGHT", UI.Native.Tooltip, "TOPLEFT", -5, 10)
+    else
+        -- Move the anchor up so it fits the minimum height
+        Tome.Tooltip.Frame:SetPoint("TOPRIGHT", UI.Native.Tooltip, "TOPLEFT", -5, 10 - (Tome.Tooltip.Frame:GetHeight() - height))
+    end
 end
 
 -- This function sets the tooltip width so that all items fit
@@ -244,6 +289,11 @@ function Tome.Tooltip.Event_Tooltip(handle, tiptype, shown, buff)
         return
     end
 
+    -- Discard the event if the tooltip should remain hidden in combat
+    if Tome.Tooltip.InCombat then
+        return
+    end
+
     -- Get the detailed unit info
     local unit = Inspect.Unit.Detail(shown)
 
@@ -259,11 +309,40 @@ function Tome.Tooltip.Event_Tooltip(handle, tiptype, shown, buff)
         return
     end
 
+    -- Discard if the player is blacklisted and make sure our tooltip stays hidden
+    for _, value in pairs(Tome_Blacklist) do
+        if string.lower(value) == string.lower(unit.name) then
+            Tome.Tooltip.Frame:SetVisible(false)
+            return
+        end
+    end
+
     -- Store the target
     Tome.Tooltip.Target = unit
 
     -- Update the tooltip with the unit shown
     Tome.Tooltip.Update()
+end
+
+-- This function is triggered by the event API when the UI enters secure mode
+function Tome.Tooltip.Event_System_Secure_Enter()
+    -- Check if we should modify the tooltip state in combat
+    if Tome_Config.Tooltip.HideInCombat then
+        -- Set the combat flag
+        Tome.Tooltip.InCombat = true
+
+        -- Hide the tooltip
+        Tome.Tooltip.Frame:SetVisible(false)
+    end
+end
+
+-- This function is triggered by the event API when the UI leaves secure mode
+function Tome.Tooltip.Event_System_Secure_Leave()
+    -- Check if we should modify the tooltip state in combat
+    if Tome_Config.Tooltip.HideInCombat then
+        -- Set the combat flag
+        Tome.Tooltip.InCombat = false
+    end
 end
 
 -- Call the tooltip frame creation function
@@ -274,4 +353,16 @@ Command.Event.Attach(
     Event.Tooltip,
     Tome.Tooltip.Event_Tooltip,
     "Tome_Tooltip_Event_Tooltip"
+)
+
+-- Attach to the UI secure mode events
+Command.Event.Attach(
+    Event.System.Secure.Enter,
+    Tome.Tooltip.Event_System_Secure_Enter,
+    "Tome_Tooltip_Event_System_Secure_Enter"
+)
+Command.Event.Attach(
+    Event.System.Secure.Leave,
+    Tome.Tooltip.Event_System_Secure_Leave,
+    "Tome_Tooltip_Event_System_Secure_Leave"
 )

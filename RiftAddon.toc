@@ -1,7 +1,7 @@
 Identifier = "Tome"
 Name = "Tome"
 NameShort = "Tome"
-Version = "0.2-beta"
+Version = "0.3.0-beta"
 Description = "A Roleplaying Immersion Addon"
 
 Author = "Lyrai @ Faeblight NA"
@@ -39,5 +39,6 @@ RunOnStartup = {
 SavedVariables = {
     Tome_Cache = "shard",
     Tome_Config = "account",
-    Tome_Character = "character"
+    Tome_Character = "character",
+    Tome_Blacklist = "character"
 }
