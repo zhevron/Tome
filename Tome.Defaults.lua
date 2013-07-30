@@ -39,6 +39,7 @@ Tome_Character = {
     Weight = "",
     Appearance = "",
     History = "",
+    Currently ="",
     InCharacter = false,
     Tutor = false,
     Flag = 0,

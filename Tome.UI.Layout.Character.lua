@@ -395,6 +395,23 @@ Tome.UI.Layouts.Character.History.Text:SetHeight((Tome.UI.Window:GetContent():Ge
 Tome.UI.Layouts.Character.History.Text:SetBackgroundColor(0.0, 0.0, 0.0, 0.7)
 Tome.UI.Layouts.Character.History.Text.Border = Tome.Widget.Border.Create(Tome.UI.Layouts.Character.History.Text.Container, 1)
 
+-- Create the Currently field
+Tome.UI.Layouts.Character.Currently = {}
+Tome.UI.Layouts.Character.Currently.Label = UI.CreateFrame("Text", "Tome_UI_Layout_Character_Currently_Label", Tome.UI.Layouts.Character)
+Tome.UI.Layouts.Character.Currently.Label:SetPoint("TOPLEFT", Tome.UI.Layouts.Character.History.Text.Container, "BOTTOMLEFT", 0, 5)
+Tome.UI.Layouts.Character.Currently.Text = UI.CreateFrame("RiftTextfield", "Tome_UI_Layout_Character_Currently_Text", Tome.UI.Layouts.Character)
+Tome.UI.Layouts.Character.Currently.Text:SetPoint("TOPLEFT", Tome.UI.Layouts.Character.Currently.Label, "TOPRIGHT", 5, 0)
+Tome.UI.Layouts.Character.Currently.Text:SetPoint("TOPRIGHT", Tome.UI.Layouts.Character.History.Text.Contaier, "BOTTOMRIGHT", 0, 5)
+Tome.UI.Layouts.Character.Currently.Text.Border = Tome.Widget.Border.Create(Tome.UI.Layouts.Character.Currently.Text, 1)
+Tome.UI.Layouts.Character.Currently.Text:EventAttach(
+    Event.UI.Input.Key.Up,
+    function(handle, key)
+        -- Enable the Save button
+        Tome.UI.Save:SetEnabled(true)
+    end,
+    "Tome_UI_Layout_Character_Currently_Text_Change"
+)
+
 -- Force the dropdown to be rendered on top of the Appearance field
 Tome.UI.Layouts.Character.Flag.Container:SetLayer(Tome.UI.Layouts.Character.Appearance.Text.Container:GetLayer() + 1)
 
@@ -408,6 +425,7 @@ function Tome.UI.Layouts.Character.ClearFocus()
     Tome.UI.Layouts.Character.Weight:SetKeyFocus(false)
     Tome.UI.Layouts.Character.Appearance.Text:SetKeyFocus(false)
     Tome.UI.Layouts.Character.History.Text:SetKeyFocus(false)
+    Tome.UI.Layouts.Character.Currently.Text:SetKeyFocus(false)
 end
 
 -- This function sets all the fields to match the supplied data
@@ -424,4 +442,5 @@ function Tome.UI.Layouts.Character.Populate(data)
     Tome.UI.Layouts.Character.Flag:SetSelectedValue(data.Flag)
     Tome.UI.Layouts.Character.Appearance.Text:SetText(data.Appearance)
     Tome.UI.Layouts.Character.History.Text:SetText(data.History)
+    Tome.UI.Layouts.Character.Currently.Text:SetText(data.Currently)
 end

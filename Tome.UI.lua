@@ -163,6 +163,7 @@ Tome.UI.Save:EventAttach(
         Tome_Character.Flag = Tome.UI.Layouts.Character.Flag:GetSelectedValue()
         Tome_Character.Appearance = Tome.UI.Layouts.Character.Appearance.Text:GetText()
         Tome_Character.History = Tome.UI.Layouts.Character.History.Text:GetText()
+        Tome_Character.Currently = Tome.UI.Layouts.Character.Currently.Text:GetText()
 
         -- Broadcast the new data
         Tome.Data.Send(nil, true)
