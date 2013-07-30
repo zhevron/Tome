@@ -19,10 +19,10 @@
             <div class="container">
               <ul class="nav">
                 <li {% if page.menu == "index" %}class="active"{% endif %}><a href="{{ site.baseurl }}/index.html">Home</a></li>
-                <li {% if page.menu == "download" %}class="active"{% endif %}><a href="#">Download</a></li>
-                <li {% if page.menu == "faq" %}class="active"{% endif %}><a href="#">FAQ</a></li>
-                <li {% if page.menu == "support" %}class="active"{% endif %}><a href="#">Support</a></li>
-                <li {% if page.menu == "about" %}class="active"{% endif %}><a href="#">About</a></li>
+                <li {% if page.menu == "download" %}class="active"{% endif %}><a href="{{ site.baseurl }}/download.html">Download</a></li>
+                <li {% if page.menu == "faq" %}class="active"{% endif %}><a href="{{ site.baseurl }}/faq.html">FAQ</a></li>
+                <li {% if page.menu == "support" %}class="active"{% endif %}><a href="{{ site.baseurl }}/support.html">Support</a></li>
+                <li {% if page.menu == "about" %}class="active"{% endif %}><a href="{{ site.baseurl }}/about.html">About</a></li>
               </ul>
             </div>
           </div>
