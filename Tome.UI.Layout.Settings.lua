@@ -25,9 +25,113 @@ Tome.UI.Layouts.Settings = UI.CreateFrame("Frame", "Tome_UI_Layout_Settings", To
 Tome.UI.Layouts.Settings:SetPoint("TOPLEFT", Tome.UI.Window:GetContent(), "TOPLEFT", 20, 15)
 Tome.UI.Layouts.Settings:SetPoint("BOTTOMRIGHT", Tome.UI.Window:GetContent(), "BOTTOMRIGHT", -20, -15)
 
+-- Create the navbutton bar frame
+Tome.UI.Layouts.Settings.Navbar = UI.CreateFrame("Frame", "Tome_UI_Layout_Settings_Navbar", Tome.UI.Layouts.Settings)
+Tome.UI.Layouts.Settings.Navbar:SetPoint("BOTTOMLEFT", Tome.UI.Layouts.Settings, "BOTTOMLEFT", 0, -5)
+Tome.UI.Layouts.Settings.Navbar:SetPoint("BOTTOMRIGHT", Tome.UI.Layouts.Settings, "BOTTOMRIGHT", 0, -5)
+Tome.UI.Layouts.Settings.Navbar.Buttons = {}
+
+-- Create a frame to hold the current pane
+Tome.UI.Layouts.Settings.Pane = UI.CreateFrame("Frame", "Tome_UI_Layout_Settings_Pane", Tome.UI.Layouts.Settings)
+Tome.UI.Layouts.Settings.Pane:SetPoint("TOPLEFT", Tome.UI.Layouts.Settings, "TOPLEFT", 0, 0)
+Tome.UI.Layouts.Settings.Pane:SetPoint("BOTTOMRIGHT", Tome.UI.Layouts.Settings.Navbar, "TOPRIGHT", 0, -5)
+
+-- Create the Blacklist nav button
+Tome.UI.Layouts.Settings.Navbar.Buttons.Blacklist = UI.CreateFrame("RiftButton", "Tome_UI_Layout_Settings_Navbar_Blacklist", Tome.UI.Layouts.Settings.Navbar)
+Tome.UI.Layouts.Settings.Navbar.Buttons.Blacklist:SetPoint("BOTTOMRIGHT", Tome.UI.Layouts.Settings.Navbar, "BOTTOMRIGHT", 0, 0)
+Tome.UI.Layouts.Settings.Navbar.Buttons.Blacklist:SetText("Blacklist")
+Tome.UI.Layouts.Settings.Navbar.Buttons.Blacklist:EventAttach(
+    Event.UI.Input.Mouse.Left.Click,
+    function(handle)
+        -- Abort if the button is disabled
+        if not Tome.UI.Layouts.Settings.Navbar.Buttons.Blacklist:GetEnabled() then
+            return
+        end
+
+        -- Enable all buttons
+        for _, button in pairs(Tome.UI.Layouts.Settings.Navbar.Buttons) do
+            button:SetEnabled(true)
+        end
+
+        -- Disable self
+        Tome.UI.Layouts.Settings.Navbar.Buttons.Blacklist:SetEnabled(false)
+    end,
+    "Tome_UI_Layout_Settings_Navbar_Blacklist_Click"
+)
+
+-- Create the Profiles nav button
+Tome.UI.Layouts.Settings.Navbar.Buttons.Profiles = UI.CreateFrame("RiftButton", "Tome_UI_Layout_Settings_Navbar_Profiles", Tome.UI.Layouts.Settings.Navbar)
+Tome.UI.Layouts.Settings.Navbar.Buttons.Profiles:SetPoint("BOTTOMRIGHT", Tome.UI.Layouts.Settings.Navbar.Buttons.Blacklist, "BOTTOMLEFT", -5, 0)
+Tome.UI.Layouts.Settings.Navbar.Buttons.Profiles:SetText("Profiles")
+Tome.UI.Layouts.Settings.Navbar.Buttons.Profiles:EventAttach(
+    Event.UI.Input.Mouse.Left.Click,
+    function(handle)
+        -- Abort if the button is disabled
+        if not Tome.UI.Layouts.Settings.Navbar.Buttons.Profiles:GetEnabled() then
+            return
+        end
+
+        -- Enable all buttons
+        for _, button in pairs(Tome.UI.Layouts.Settings.Navbar.Buttons) do
+            button:SetEnabled(true)
+        end
+
+        -- Disable self
+        Tome.UI.Layouts.Settings.Navbar.Buttons.Profiles:SetEnabled(false)
+    end,
+    "Tome_UI_Layout_Settings_Navbar_Profiles_Click"
+)
+
+-- Create the Cache nav button
+Tome.UI.Layouts.Settings.Navbar.Buttons.Cache = UI.CreateFrame("RiftButton", "Tome_UI_Layout_Settings_Navbar_Cache", Tome.UI.Layouts.Settings.Navbar)
+Tome.UI.Layouts.Settings.Navbar.Buttons.Cache:SetPoint("BOTTOMRIGHT", Tome.UI.Layouts.Settings.Navbar.Buttons.Profiles, "BOTTOMLEFT", -5, 0)
+Tome.UI.Layouts.Settings.Navbar.Buttons.Cache:SetText("Cache")
+Tome.UI.Layouts.Settings.Navbar.Buttons.Cache:EventAttach(
+    Event.UI.Input.Mouse.Left.Click,
+    function(handle)
+        -- Abort if the button is disabled
+        if not Tome.UI.Layouts.Settings.Navbar.Buttons.Cache:GetEnabled() then
+            return
+        end
+
+        -- Enable all buttons
+        for _, button in pairs(Tome.UI.Layouts.Settings.Navbar.Buttons) do
+            button:SetEnabled(true)
+        end
+
+        -- Disable self
+        Tome.UI.Layouts.Settings.Navbar.Buttons.Cache:SetEnabled(false)
+    end,
+    "Tome_UI_Layout_Settings_Navbar_Cache_Click"
+)
+
+-- Create the General nav button
+Tome.UI.Layouts.Settings.Navbar.Buttons.General = UI.CreateFrame("RiftButton", "Tome_UI_Layout_Settings_Navbar_General", Tome.UI.Layouts.Settings.Navbar)
+Tome.UI.Layouts.Settings.Navbar.Buttons.General:SetPoint("BOTTOMRIGHT", Tome.UI.Layouts.Settings.Navbar.Buttons.Cache, "BOTTOMLEFT", -5, 0)
+Tome.UI.Layouts.Settings.Navbar.Buttons.General:SetText("General")
+Tome.UI.Layouts.Settings.Navbar.Buttons.General:SetEnabled(false)
+Tome.UI.Layouts.Settings.Navbar.Buttons.General:EventAttach(
+    Event.UI.Input.Mouse.Left.Click,
+    function(handle)
+        -- Abort if the button is disabled
+        if not Tome.UI.Layouts.Settings.Navbar.Buttons.General:GetEnabled() then
+            return
+        end
+
+        -- Enable all buttons
+        for _, button in pairs(Tome.UI.Layouts.Settings.Navbar.Buttons) do
+            button:SetEnabled(true)
+        end
+
+        -- Disable self
+        Tome.UI.Layouts.Settings.Navbar.Buttons.General:SetEnabled(false)
+    end,
+    "Tome_UI_Layout_Settings_Navbar_General_Click"
+)
+
 -- This function removed key focus from all the text fields
 function Tome.UI.Layouts.Settings.ClearFocus()
-    --
+    -- No text controls in this layout
 end
 
 -- This function sets all the fields to match the supplied data
