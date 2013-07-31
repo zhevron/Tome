@@ -401,7 +401,7 @@ Tome.UI.Layouts.Character.Currently.Label = UI.CreateFrame("Text", "Tome_UI_Layo
 Tome.UI.Layouts.Character.Currently.Label:SetPoint("TOPLEFT", Tome.UI.Layouts.Character.History.Text.Container, "BOTTOMLEFT", 0, 5)
 Tome.UI.Layouts.Character.Currently.Text = UI.CreateFrame("RiftTextfield", "Tome_UI_Layout_Character_Currently_Text", Tome.UI.Layouts.Character)
 Tome.UI.Layouts.Character.Currently.Text:SetPoint("TOPLEFT", Tome.UI.Layouts.Character.Currently.Label, "TOPRIGHT", 5, 0)
-Tome.UI.Layouts.Character.Currently.Text:SetPoint("TOPRIGHT", Tome.UI.Layouts.Character.History.Text.Contaier, "BOTTOMRIGHT", 0, 5)
+Tome.UI.Layouts.Character.Currently.Text:SetPoint("TOPRIGHT", Tome.UI.Layouts.Character.History.Text.Container, "BOTTOMRIGHT", 0, 5)
 Tome.UI.Layouts.Character.Currently.Text.Border = Tome.Widget.Border.Create(Tome.UI.Layouts.Character.Currently.Text, 1)
 Tome.UI.Layouts.Character.Currently.Text:EventAttach(
     Event.UI.Input.Key.Up,
