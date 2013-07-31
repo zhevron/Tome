@@ -28,7 +28,7 @@ Tome.UI.Layouts.Settings:SetPoint("BOTTOMRIGHT", Tome.UI.Window:GetContent(), "B
 -- Create the navbutton bar frame
 Tome.UI.Layouts.Settings.Navbar = UI.CreateFrame("Frame", "Tome_UI_Layout_Settings_Navbar", Tome.UI.Layouts.Settings)
 Tome.UI.Layouts.Settings.Navbar:SetPoint("BOTTOMLEFT", Tome.UI.Layouts.Settings, "BOTTOMLEFT", 0, -5)
-Tome.UI.Layouts.Settings.Navbar:SetPoint("BOTTOMRIGHT", Tome.UI.Layouts.Settings, "BOTTOMRIGHT", 0, -5)
+Tome.UI.Layouts.Settings.Navbar:SetPoint("BOTTOMRIGHT", Tome.UI.Layouts.Settings, "BOTTOMRIGHT", 0, -15)
 Tome.UI.Layouts.Settings.Navbar.Buttons = {}
 
 -- Create a frame to hold the current pane
