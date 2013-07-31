@@ -240,7 +240,7 @@ function Tome.Data.Event_Message_Receive(handle, from, msgtype, channel, identif
 
         -- Store the data in our cache
         Tome.Data.Cache(from, deserialized)
-    elseif (identifier == "Tome_Broadcast")
+    elseif (identifier == "Tome_Broadcast") then
         -- Someone just changed their details. Query for the new data
         Tome.Data.Query(from, false, true)
     else
