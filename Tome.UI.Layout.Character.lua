@@ -370,7 +370,7 @@ Tome.UI.Layouts.Character.Appearance.Text = Tome.Widget.TextArea.Create(
 )
 Tome.UI.Layouts.Character.Appearance.Text:SetPoint("TOPLEFT", Tome.UI.Layouts.Character.Appearance.Label, "BOTTOMLEFT", 0, 5)
 Tome.UI.Layouts.Character.Appearance.Text:SetPoint("TOPRIGHT", Tome.UI.Layouts.Character.Appearance.Label, "BOTTOMRIGHT", 0, 5)
-Tome.UI.Layouts.Character.Appearance.Text:SetHeight((Tome.UI.Window:GetContent():GetHeight() / 100) * 25)
+Tome.UI.Layouts.Character.Appearance.Text:SetHeight((Tome.UI.Window:GetContent():GetHeight() / 100) * 22)
 Tome.UI.Layouts.Character.Appearance.Text:SetBackgroundColor(0.0, 0.0, 0.0, 0.7)
 Tome.UI.Layouts.Character.Appearance.Text.Border = Tome.Widget.Border.Create(Tome.UI.Layouts.Character.Appearance.Text.Container, 1)
 
@@ -391,7 +391,7 @@ Tome.UI.Layouts.Character.History.Text = Tome.Widget.TextArea.Create(
 )
 Tome.UI.Layouts.Character.History.Text:SetPoint("TOPLEFT", Tome.UI.Layouts.Character.History.Label, "BOTTOMLEFT", 0, 5)
 Tome.UI.Layouts.Character.History.Text:SetPoint("TOPRIGHT", Tome.UI.Layouts.Character.History.Label, "BOTTOMRIGHT", 0, 5)
-Tome.UI.Layouts.Character.History.Text:SetHeight((Tome.UI.Window:GetContent():GetHeight() / 100) * 25)
+Tome.UI.Layouts.Character.History.Text:SetHeight((Tome.UI.Window:GetContent():GetHeight() / 100) * 22)
 Tome.UI.Layouts.Character.History.Text:SetBackgroundColor(0.0, 0.0, 0.0, 0.7)
 Tome.UI.Layouts.Character.History.Text.Border = Tome.Widget.Border.Create(Tome.UI.Layouts.Character.History.Text.Container, 1)
 
