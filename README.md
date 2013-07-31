@@ -15,7 +15,7 @@ The Frequently Asked Questions for Tome are available [here](https://github.com/
 
 If you find any problems with the addon or the installation process, firstly check to see if your issue is covered in the [FAQ](https://github.com/zhevron/Tome/wiki/FAQ), if not then feel free to [submit a new issue](https://github.com/zhevron/Tome/issues/new).
 
-## Contibuting
+## Contributing
 
 If you want to contribute to the development of Tome, please [fork](https://github.com/zhevron/Tome/fork) the main repository.
 
