@@ -27,8 +27,6 @@ Tome.UI.Layouts.Settings:SetPoint("BOTTOMRIGHT", Tome.UI.Window:GetContent(), "B
 
 -- Create the navbutton bar frame
 Tome.UI.Layouts.Settings.Navbar = UI.CreateFrame("Frame", "Tome_UI_Layout_Settings_Navbar", Tome.UI.Layouts.Settings)
-Tome.UI.Layouts.Settings.Navbar:SetPoint("BOTTOMLEFT", Tome.UI.Layouts.Settings, "BOTTOMLEFT", 0, -5)
-Tome.UI.Layouts.Settings.Navbar:SetPoint("BOTTOMRIGHT", Tome.UI.Layouts.Settings, "BOTTOMRIGHT", 0, -15)
 Tome.UI.Layouts.Settings.Navbar.Buttons = {}
 
 -- Create a frame to hold the current pane
@@ -128,6 +126,15 @@ Tome.UI.Layouts.Settings.Navbar.Buttons.General:EventAttach(
     end,
     "Tome_UI_Layout_Settings_Navbar_General_Click"
 )
+
+-- Calculate the offset for the navbar buttons
+local width = 15
+for _, button in pairs(Tome.UI.Layouts.Settings.Navbar.Buttons) do
+    width = width + button:GetWidth()
+end
+local offset = (Tome.UI.Layouts.Settings:GetWidth() - width ) / 2
+Tome.UI.Layouts.Settings.Navbar:SetWidth(width)
+Tome.UI.Layouts.Settings.Navbar:SetPoint("BOTTOMLEFT", Tome.UI.Layouts.Settings, "BOTTOMLEFT", offset, -15)
 
 -- This function removed key focus from all the text fields
 function Tome.UI.Layouts.Settings.ClearFocus()
