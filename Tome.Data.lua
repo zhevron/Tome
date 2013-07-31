@@ -182,8 +182,8 @@ function Tome.Data.Send(target, broadcast)
         -- Send data to a single target
         Command.Message.Send(target, "Tome_Data", data, Tome.Data.SendCallback)
     else
-        -- Broadcast data to anyone in /say range
-        Command.Message.Broadcast(target, nil, "Tome_Broadcast", data)
+        -- Broadcast data to anyone in specified range
+        Command.Message.Broadcast(target, nil, "Tome_Broadcast", nil)
     end
 end
 
@@ -242,7 +242,7 @@ function Tome.Data.Event_Message_Receive(handle, from, msgtype, channel, identif
         Tome.Data.Cache(from, deserialized)
     elseif (identifier == "Tome_Broadcast")
         -- Someone just changed their details. Query for the new data
-        Tome.Data.Query(from)
+        Tome.Data.Query(from, false, true)
     else
         -- Somehow an unexpected message got through. Print an error
         print(string.format("Unexpected message with identifier '%s' received!", identifier))
