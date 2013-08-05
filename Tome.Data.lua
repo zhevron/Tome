@@ -176,13 +176,15 @@ function Tome.Data.Send(target, broadcast)
         Command.Message.Send(target, "Tome_Data", data, Tome.Data.SendCallback)
     else
         -- Broadcast data to anyone in specified range
-        Command.Message.Broadcast(target, nil, "Tome_Broadcast", nil, Tome.Data.BroadcastCallback)
+        Command.Message.Broadcast(target, nil, "Tome_Broadcast", "", Tome.Data.BroadcastCallback)
     end
 end
 
 function Tome.Data.BroadcastCallback(failure, message)
     if failure then
         print("Broadcast failed: "..message)
+    else
+        print("Broadcast sent!")
     end
 end
 
