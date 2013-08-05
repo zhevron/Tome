@@ -52,6 +52,10 @@ Tome.UI.Layouts.View.Title:SetFontColor(1.0, 0.8, 0.0, 1.0)
 Tome.UI.Layouts.View.Height = UI.CreateFrame("Text", "Tome_UI_Layout_View_Height", Tome.UI.Layouts.View.Container)
 Tome.UI.Layouts.View.Height:SetFontSize(13)
 
+-- Create the Currently labeø
+Tome.UI.Layouts.Currently = UI.CreateFrame("Text", "Tome_UI_Layout_View_Currently", Tome.UI.Layouts.View.Container)
+Tome.UI.Layouts.View.Currently:SetFontSize(13)
+
 -- Create the Appearance label
 Tome.UI.Layouts.View.Appearance = {}
 Tome.UI.Layouts.View.Appearance.Label = UI.CreateFrame("Text", "Tome_UI_Layout_View_Appearance_Header", Tome.UI.Layouts.View)
@@ -117,7 +121,13 @@ function Tome.UI.Layouts.View.UpdateLayout()
     offset = (width - Tome.UI.Layouts.View.Height:GetWidth()) / 2
 
     -- Reposition the Height label
-    Tome.UI.Layouts.View.Height:SetPoint("BOTTOMLEFT", Tome.UI.Layouts.View.Appearance.Label, "TOPLEFT", offset, -5)
+    Tome.UI.Layouts.View.Height:SetPoint("BOTTOMLEFT", Tome.UI.Layouts.View.Appearance.Label, "TOPLEFT", offset, -30)
+
+    -- Calculate the offset for the Currently label
+    offset = (width - Tome.UI.Layouts.View.Currently:GetWidth()) / 2
+
+    -- Reposition the Currently label
+    Tome.UI.Layouts.Currently:SetPoint("BOTTOMLEFT", Tome.UI.Layouts.View.Appearance.Label, "TOPLEFT", offset, -5)
 end
 
 -- This function removed key focus from all the text fields
@@ -152,6 +162,11 @@ function Tome.UI.Layouts.View.Populate(data)
         Tome.UI.Layouts.View.Weight:SetText(string.format("Weight: %s", data.Weight))
     else
         Tome.UI.Layouts.View.Weight:SetText("")
+    end
+    if data.Currently ~= "" then
+        Tome.UI.Layouts.View.Currently:SetText(data.Currently)
+    else
+        Tome.UI.Layouts.View.Currently:SetText("")
     end
     local flag = ""
     for _, item in pairs(Tome.Data.Flags) do
