@@ -140,6 +140,7 @@ function Tome.Data.Query(target, broadcast, bypassthrottle)
     if not broadcast then
         -- Check that the query should not be throttled
         if not bypassthrottle and Tome_Throttle[string.upper(target)] and Tome_Throttle[string.upper(target)] < os.time() then
+            print("Query throttled")
             return
         end
 
@@ -158,6 +159,7 @@ function Tome.Data.Query(target, broadcast, bypassthrottle)
             item.Query(target)
         end
     else
+        print("Broadcasting update")
         -- Broadcast query to anyone in /say range
         Command.Message.Broadcast(target, nil, "Tome_Query", "")
     end
@@ -198,6 +200,7 @@ function Tome.Data.SendCallback(failure, message)
             Tome.Data.Statistics.Data.Errors = Tome.Data.Statistics.Data.Errors + 1
         end
     else
+        print("Query sent")
         -- Increment the statistics sent counter
         if (Tome.Data.Error.Type == "Query") then
             Tome.Data.Statistics.Query.Sent = Tome.Data.Statistics.Query.Sent + 1
@@ -241,6 +244,7 @@ function Tome.Data.Event_Message_Receive(handle, from, msgtype, channel, identif
         -- Store the data in our cache
         Tome.Data.Cache(from, deserialized)
     elseif (identifier == "Tome_Broadcast") then
+        print("Received broadcast update from "..from)
         -- Someone just changed their details. Query for the new data
         Tome.Data.Query(from, false, true)
     else
