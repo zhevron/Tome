@@ -216,6 +216,11 @@ function Tome.Data.Event_Message_Receive(handle, from, msgtype, channel, identif
         return
     end
 
+    -- Since broadcasts hit ourselves, discard if it originated from the player
+    if (from == Inspect.Unit.Detail("player").name) then
+        return
+    end
+
     -- Determine the message type
     if (identifier == "Tome_Query") then
         -- Increment the query received counter
