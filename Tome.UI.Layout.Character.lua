@@ -281,12 +281,46 @@ Tome.UI.Layouts.Character.Height:EventAttach(
     "Tome_UI_Layout_Character_Height_Change"
 )
 
+-- Create the Currently field
+Tome.UI.Layouts.Character.Currently = UI.CreateFrame("RiftTextfield", "Tome_UI_Layout_Character_Currently", Tome.UI.Layouts.Character)
+Tome.UI.Layouts.Character.Currently:SetPoint("TOPLEFT", Tome.UI.Layouts.Character.Age, "BOTTOMLEFT", 0, 5)
+Tome.UI.Layouts.Character.Currently:SetPoint("TOPRIGHT", Tome.UI.Layouts.Character.Weight, "BOTTOMRIGHT", 0, 5)
+Tome.UI.Layouts.Character.Currently.Border = Tome.Widget.Border.Create(Tome.UI.Layouts.Character.Currently, 1)
+Tome.UI.Layouts.Character.Currently:EventAttach(
+    Event.UI.Input.Key.Focus.Gain,
+    function(handle)
+        -- Clear the text if it matches default
+        if Tome.UI.Layouts.Character.Currently:GetText() == "Currently" then
+            Tome.UI.Layouts.Character.Currently:SetText("")
+        end
+    end,
+    "Tome_UI_Layout_Character_Currently_Focus_Gain"
+)
+Tome.UI.Layouts.Character.Currently:EventAttach(
+    Event.UI.Input.Key.Focus.Loss,
+    function(handle)
+        -- Set the default text if field is empty
+        if Tome.UI.Layouts.Character.Currently:GetText() == "" then
+            Tome.UI.Layouts.Character.Currently:SetText("Currently")
+        end
+    end,
+    "Tome_UI_Layout_Character_Currently_Focus_Loss"
+)
+Tome.UI.Layouts.Character.Currently:EventAttach(
+    Event.UI.Input.Key.Up,
+    function(handle, key)
+        -- Enable the Save button
+        Tome.UI.Save:SetEnabled(true)
+    end,
+    "Tome_UI_Layout_Character_Currently_Change"
+)
+
 size = (((Tome.UI.Layouts.Character:GetWidth() / 100) * 35) - 10)
 
 -- Create the frame that holds the controls
 Tome.UI.Layouts.Character.Controls = UI.CreateFrame("Frame", "Tome_UI_Layout_Character_Controls", Tome.UI.Layouts.Character)
 Tome.UI.Layouts.Character.Controls:SetPoint("TOPLEFT", Tome.UI.Layouts.Character.Suffix, "TOPRIGHT", 5, -5)
-Tome.UI.Layouts.Character.Controls:SetPoint("BOTTOMLEFT", Tome.UI.Layouts.Character.Weight, "BOTTOMRIGHT", 5, 0)
+Tome.UI.Layouts.Character.Controls:SetPoint("BOTTOMLEFT", Tome.UI.Layouts.Character.Currently, "BOTTOMRIGHT", 5, 0)
 Tome.UI.Layouts.Character.Controls:SetWidth(size)
 
 -- Create the IC/OOC button
@@ -356,7 +390,7 @@ Tome.UI.Layouts.Character.Flag.Border = Tome.Widget.Border.Create(Tome.UI.Layout
 -- Create the Appearance field
 Tome.UI.Layouts.Character.Appearance = {}
 Tome.UI.Layouts.Character.Appearance.Label = UI.CreateFrame("Text", "Tome_UI_Layout_Character_Appearance_Label", Tome.UI.Layouts.Character)
-Tome.UI.Layouts.Character.Appearance.Label:SetPoint("TOPLEFT", Tome.UI.Layouts.Character.Age, "BOTTOMLEFT", 0, 10)
+Tome.UI.Layouts.Character.Appearance.Label:SetPoint("TOPLEFT", Tome.UI.Layouts.Character.Currently, "BOTTOMLEFT", 0, 10)
 Tome.UI.Layouts.Character.Appearance.Label:SetPoint("TOPRIGHT", Tome.UI.Layouts.Character.Controls, "BOTTOMRIGHT", 0, 10)
 Tome.UI.Layouts.Character.Appearance.Label:SetText("Appearance:")
 Tome.UI.Layouts.Character.Appearance.Text = Tome.Widget.TextArea.Create(
@@ -395,23 +429,6 @@ Tome.UI.Layouts.Character.History.Text:SetHeight((Tome.UI.Window:GetContent():Ge
 Tome.UI.Layouts.Character.History.Text:SetBackgroundColor(0.0, 0.0, 0.0, 0.7)
 Tome.UI.Layouts.Character.History.Text.Border = Tome.Widget.Border.Create(Tome.UI.Layouts.Character.History.Text.Container, 1)
 
--- Create the Currently field
-Tome.UI.Layouts.Character.Currently = {}
-Tome.UI.Layouts.Character.Currently.Label = UI.CreateFrame("Text", "Tome_UI_Layout_Character_Currently_Label", Tome.UI.Layouts.Character)
-Tome.UI.Layouts.Character.Currently.Label:SetPoint("TOPLEFT", Tome.UI.Layouts.Character.History.Text.Container, "BOTTOMLEFT", 0, 5)
-Tome.UI.Layouts.Character.Currently.Text = UI.CreateFrame("RiftTextfield", "Tome_UI_Layout_Character_Currently_Text", Tome.UI.Layouts.Character)
-Tome.UI.Layouts.Character.Currently.Text:SetPoint("TOPLEFT", Tome.UI.Layouts.Character.Currently.Label, "TOPRIGHT", 5, 0)
-Tome.UI.Layouts.Character.Currently.Text:SetPoint("TOPRIGHT", Tome.UI.Layouts.Character.History.Text.Container, "BOTTOMRIGHT", 0, 5)
-Tome.UI.Layouts.Character.Currently.Text.Border = Tome.Widget.Border.Create(Tome.UI.Layouts.Character.Currently.Text, 1)
-Tome.UI.Layouts.Character.Currently.Text:EventAttach(
-    Event.UI.Input.Key.Up,
-    function(handle, key)
-        -- Enable the Save button
-        Tome.UI.Save:SetEnabled(true)
-    end,
-    "Tome_UI_Layout_Character_Currently_Text_Change"
-)
-
 -- Force the dropdown to be rendered on top of the Appearance field
 Tome.UI.Layouts.Character.Flag.Container:SetLayer(Tome.UI.Layouts.Character.Appearance.Text.Container:GetLayer() + 1)
 
@@ -423,9 +440,9 @@ function Tome.UI.Layouts.Character.ClearFocus()
     Tome.UI.Layouts.Character.Age:SetKeyFocus(false)
     Tome.UI.Layouts.Character.Height:SetKeyFocus(false)
     Tome.UI.Layouts.Character.Weight:SetKeyFocus(false)
+    Tome.UI.Layouts.Character.Currently:SetKeyFocus(false)
     Tome.UI.Layouts.Character.Appearance.Text:SetKeyFocus(false)
     Tome.UI.Layouts.Character.History.Text:SetKeyFocus(false)
-    Tome.UI.Layouts.Character.Currently.Text:SetKeyFocus(false)
 end
 
 -- This function sets all the fields to match the supplied data
@@ -437,10 +454,10 @@ function Tome.UI.Layouts.Character.Populate(data)
     Tome.UI.Layouts.Character.Age:SetText((data.Age ~= "") and data.Age or "Age")
     Tome.UI.Layouts.Character.Height:SetText((data.Height ~= "") and data.Height or "Height")
     Tome.UI.Layouts.Character.Weight:SetText((data.Weight ~= "") and data.Weight or "Weight")
+    Tome.UI.Layouts.Character.Currently:SetText((data.Currently ~= "") and data.Currently or "Currently")
     Tome.UI.Layouts.Character.InCharacter:SetText(data.InCharacter and "IC" or "OOC")
     Tome.UI.Layouts.Character.Tutor:SetText(data.Tutor and "Tutor: On" or "Tutor: Off")
     Tome.UI.Layouts.Character.Flag:SetSelectedValue(data.Flag)
     Tome.UI.Layouts.Character.Appearance.Text:SetText(data.Appearance)
     Tome.UI.Layouts.Character.History.Text:SetText(data.History)
-    Tome.UI.Layouts.Character.Currently.Text:SetText(data.Currently)
 end

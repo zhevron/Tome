@@ -158,12 +158,12 @@ Tome.UI.Save:EventAttach(
         Tome_Character.Age = string.gsub(Tome.UI.Layouts.Character.Age:GetText(), "Age", "")
         Tome_Character.Height = string.gsub(Tome.UI.Layouts.Character.Height:GetText(), "Height", "")
         Tome_Character.Weight = string.gsub(Tome.UI.Layouts.Character.Weight:GetText(), "Weight", "")
+        Tome_Character.Currently = string.gsub(Tome.UI.Layouts.Character.Currently:GetText(), "Currently", "")
         Tome_Character.InCharacter = string.find(Tome.UI.Layouts.Character.InCharacter:GetText(), "IC") and true or false
         Tome_Character.Tutor = string.find(Tome.UI.Layouts.Character.Tutor:GetText(), "Tutor: On") and true or false
         Tome_Character.Flag = Tome.UI.Layouts.Character.Flag:GetSelectedValue()
         Tome_Character.Appearance = Tome.UI.Layouts.Character.Appearance.Text:GetText()
         Tome_Character.History = Tome.UI.Layouts.Character.History.Text:GetText()
-        Tome_Character.Currently = Tome.UI.Layouts.Character.Currently.Text:GetText()
 
         -- Broadcast the new data
         Tome.Data.Send(nil, true)
