@@ -130,42 +130,33 @@ function Tome.Data.Cache(name, data)
 end
 
 -- This function sends a data query to the target or broadcasts if not target is provided
-function Tome.Data.Query(target, broadcast, bypassthrottle)
+function Tome.Data.Query(target, bypassthrottle)
     -- Abort if no target is provided
     if not target then
         return
     end
+    -- Check that the query should not be throttled
+    if not bypassthrottle and Tome_Throttle[string.upper(target)] and Tome_Throttle[string.upper(target)] < os.time() then
+        return
+    end
 
-    -- Check if this is a broadcast
-    if not broadcast then
-        -- Check that the query should not be throttled
-        if not bypassthrottle and Tome_Throttle[string.upper(target)] and Tome_Throttle[string.upper(target)] < os.time() then
-            print("Query throttled")
-            return
-        end
+    -- Set the throttle time
+    Tome_Throttle[string.upper(target)] = os.time() + Tome_Config.Throttle
 
-        -- Set the throttle time
-        Tome_Throttle[string.upper(target)] = os.time() + Tome_Config.Throttle
+    -- Store the target name and message type
+    Tome.Data.Error.Target = target
+    Tome.Data.Error.Type = "Query"
 
-        -- Store the target name and message type
-        Tome.Data.Error.Target = target
-        Tome.Data.Error.Type = "Query"
+    -- Send query to a single target
+    Command.Message.Send(target, "Tome_Query", "", Tome.Data.SendCallback)
 
-        -- Send query to a single target
-        Command.Message.Send(target, "Tome_Query", "", Tome.Data.SendCallback)
-
-        -- Call the compatibility modules' query function
-        for _, item in pairs(Tome.Compat) do
-            item.Query(target)
-        end
-    else
-        print("Broadcasting update")
-        -- Broadcast query to anyone in /say range
-        Command.Message.Broadcast(target, nil, "Tome_Query", "")
+    -- Call the compatibility modules' query function
+    for _, item in pairs(Tome.Compat) do
+        item.Query(target)
     end
 end
 
--- This function sends the character data to a target or broadcasts if no target is provided
+-- This function sends the character data to a target
 function Tome.Data.Send(target, broadcast)
     -- Abort if no target is provided
     if not target then
@@ -185,7 +176,13 @@ function Tome.Data.Send(target, broadcast)
         Command.Message.Send(target, "Tome_Data", data, Tome.Data.SendCallback)
     else
         -- Broadcast data to anyone in specified range
-        Command.Message.Broadcast(target, nil, "Tome_Broadcast", nil)
+        Command.Message.Broadcast(target, nil, "Tome_Broadcast", nil, Tome.Data.BroadcastCallback)
+    end
+end
+
+function Tome.Data.BroadcastCallback(failure, message)
+    if failure then
+        print("Broadcast failed: "..message)
     end
 end
 
@@ -246,7 +243,7 @@ function Tome.Data.Event_Message_Receive(handle, from, msgtype, channel, identif
     elseif (identifier == "Tome_Broadcast") then
         print("Received broadcast update from "..from)
         -- Someone just changed their details. Query for the new data
-        Tome.Data.Query(from, false, true)
+        Tome.Data.Query(from, true)
     else
         -- Somehow an unexpected message got through. Print an error
         print(string.format("Unexpected message with identifier '%s' received!", identifier))

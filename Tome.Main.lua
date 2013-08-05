@@ -267,7 +267,7 @@ function Tome.Set(key, value)
     end
 
     -- Broadcast the new data
-    Tome.Data.Send(nil, true)
+    Tome.Data.Send("say", true)
 
     -- Confirm to the player that we set the value
     print(string.format("Set your %s to: %s", key, value))
