@@ -52,7 +52,7 @@ Tome.UI.Layouts.View.Title:SetFontColor(1.0, 0.8, 0.0, 1.0)
 Tome.UI.Layouts.View.Height = UI.CreateFrame("Text", "Tome_UI_Layout_View_Height", Tome.UI.Layouts.View.Container)
 Tome.UI.Layouts.View.Height:SetFontSize(13)
 
--- Create the Currently labeø
+-- Create the Currently label
 Tome.UI.Layouts.Currently = UI.CreateFrame("Text", "Tome_UI_Layout_View_Currently", Tome.UI.Layouts.View.Container)
 Tome.UI.Layouts.View.Currently:SetFontSize(13)
 
@@ -148,22 +148,22 @@ function Tome.UI.Layouts.View.Populate(data)
 
     Tome.UI.Layouts.View.Name:SetText(name)
     Tome.UI.Layouts.View.Title:SetText(data.Title)
-    if data.Age ~= "" then
+    if data.Age and data.Age ~= "" then
         Tome.UI.Layouts.View.Age:SetText(string.format("Age: %s", data.Age))
     else
         Tome.UI.Layouts.View.Age:SetText("")
     end
-    if data.Height ~= "" then
+    if data.Height and data.Height ~= "" then
         Tome.UI.Layouts.View.Height:SetText(string.format("Height: %s", data.Height))
     else
         Tome.UI.Layouts.View.Height:SetText("")
     end
-    if data.Weight ~= "" then
+    if data.Weight and data.Weight ~= "" then
         Tome.UI.Layouts.View.Weight:SetText(string.format("Weight: %s", data.Weight))
     else
         Tome.UI.Layouts.View.Weight:SetText("")
     end
-    if data.Currently ~= "" then
+    if data.Currently and data.Currently ~= "" then
         Tome.UI.Layouts.View.Currently:SetText(data.Currently)
     else
         Tome.UI.Layouts.View.Currently:SetText("")
