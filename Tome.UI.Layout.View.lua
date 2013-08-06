@@ -53,7 +53,7 @@ Tome.UI.Layouts.View.Height = UI.CreateFrame("Text", "Tome_UI_Layout_View_Height
 Tome.UI.Layouts.View.Height:SetFontSize(13)
 
 -- Create the Currently label
-Tome.UI.Layouts.Currently = UI.CreateFrame("Text", "Tome_UI_Layout_View_Currently", Tome.UI.Layouts.View.Container)
+Tome.UI.Layouts.View.Currently = UI.CreateFrame("Text", "Tome_UI_Layout_View_Currently", Tome.UI.Layouts.View.Container)
 Tome.UI.Layouts.View.Currently:SetFontSize(13)
 
 -- Create the Appearance label
@@ -127,7 +127,7 @@ function Tome.UI.Layouts.View.UpdateLayout()
     offset = (width - Tome.UI.Layouts.View.Currently:GetWidth()) / 2
 
     -- Reposition the Currently label
-    Tome.UI.Layouts.Currently:SetPoint("BOTTOMLEFT", Tome.UI.Layouts.View.Appearance.Label, "TOPLEFT", offset, -5)
+    Tome.UI.Layouts.View.Currently:SetPoint("BOTTOMLEFT", Tome.UI.Layouts.View.Appearance.Label, "TOPLEFT", offset, -5)
 end
 
 -- This function removed key focus from all the text fields
