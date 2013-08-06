@@ -39,6 +39,7 @@ RunOnStartup = {
 SavedVariables = {
     Tome_Cache = "shard",
     Tome_Config = "account",
+    Tome_Notes = "account",
     Tome_Character = "character",
     Tome_Blacklist = "character"
 }
