@@ -104,7 +104,8 @@ Tome.UI.Layouts.View.Notes:SetVisible(false)
 Tome.UI.Layouts.View.Notes:EventAttach(
     Event.UI.Input.Mouse.Left.Click,
     function(handle)
-        --
+        -- Open the notes window
+        Tome.UI.Notes.Show(Tome.UI.Layouts.View.CharacterName)
     end,
     "Tome_UI_Layout_View_Notes_Click"
 )
@@ -185,6 +186,8 @@ function Tome.UI.Layouts.View.Populate(data)
     end
     Tome.UI.Layouts.View.Appearance.Text:SetText(data.Appearance)
     Tome.UI.Layouts.View.History.Text:SetText(data.History)
+
+    Tome.UI.Layouts.View.CharacterName = data.Name
 
     if data.Name ~= Inspect.Unit.Detail("player").name then
         Tome.UI.Layouts.View.Notes:SetVisible(true)
