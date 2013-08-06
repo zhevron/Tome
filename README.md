@@ -1,7 +1,7 @@
 Tome - A RIFT Roleplaying Immersion Addon
 =========================================
 
-[Visit the main site here](http://zhevron.github.io/Tome/)
+[Visit the main site here](http://www.tomeaddon.com/)
 
 ## Installation
 

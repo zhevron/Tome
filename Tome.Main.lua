@@ -84,7 +84,7 @@ function Tome.CheckVersion(version)
     if addon.Beta == version.Beta and version.Major > addon.Major then
         -- A newer version is available. Notify the player
         print(string.format(
-            "A new version (%s.%s.%s%s) is available! Download it from RiftUI, Curse or http://zhevron.github.io/Tome",
+            "A new version (%s.%s.%s%s) is available! Download it from RiftUI, Curse or TomeAddon.com",
             version.Major,
             version.Minor,
             version.Hotfix,
@@ -96,7 +96,7 @@ function Tome.CheckVersion(version)
     if version.Beta == addon.Beta and version.Major == addon.Major and version.Minor > addon.Minor then
         -- A newer version is available. Notify the player
         print(string.format(
-            "A new version (%s.%s.%s%s) is available! Download it from RiftUI, Curse or http://zhevron.github.io/Tome",
+            "A new version (%s.%s.%s%s) is available! Download it from RiftUI, Curse or TomeAddon.com",
             version.Major,
             version.Minor,
             version.Hotfix,
@@ -108,7 +108,7 @@ function Tome.CheckVersion(version)
     if version.Beta == addon.Beta and version.Major == addon.Major and version.Minor == addon.Minor and version.Hotfix > addon.Hotfix then
         -- A newer version is available. Notify the player
         print(string.format(
-            "A new version (%s.%s.%s%s) is available! Download it from RiftUI, Curse or http://zhevron.github.io/Tome",
+            "A new version (%s.%s.%s%s) is available! Download it from RiftUI, Curse or TomeAddon.com",
             version.Major,
             version.Minor,
             version.Hotfix,

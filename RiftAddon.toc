@@ -5,7 +5,7 @@ Version = "0.3.0-beta"
 Description = "A Roleplaying Immersion Addon"
 
 Author = "Lyrai @ Faeblight NA"
-Website = "http://zhevron.github.io/Tome"
+Website = "http://www.tomeaddon.com/"
 Email = "thomas@lokshall.com"
 
 Environment = "2.3"
