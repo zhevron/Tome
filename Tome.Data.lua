@@ -176,15 +176,7 @@ function Tome.Data.Send(target, broadcast)
         Command.Message.Send(target, "Tome_Data", data, Tome.Data.SendCallback)
     else
         -- Broadcast data to anyone in specified range
-        Command.Message.Broadcast(target, nil, "Tome_Broadcast", "", Tome.Data.BroadcastCallback)
-    end
-end
-
-function Tome.Data.BroadcastCallback(failure, message)
-    if failure then
-        print("Broadcast failed: "..message)
-    else
-        print("Broadcast sent!")
+        Command.Message.Broadcast(target, nil, "Tome_Broadcast", "")
     end
 end
 
@@ -199,7 +191,6 @@ function Tome.Data.SendCallback(failure, message)
             Tome.Data.Statistics.Data.Errors = Tome.Data.Statistics.Data.Errors + 1
         end
     else
-        print("Query sent")
         -- Increment the statistics sent counter
         if (Tome.Data.Error.Type == "Query") then
             Tome.Data.Statistics.Query.Sent = Tome.Data.Statistics.Query.Sent + 1
@@ -248,7 +239,6 @@ function Tome.Data.Event_Message_Receive(handle, from, msgtype, channel, identif
         -- Store the data in our cache
         Tome.Data.Cache(from, deserialized)
     elseif (identifier == "Tome_Broadcast") then
-        print("Received broadcast update from "..from)
         -- Someone just changed their details. Query for the new data
         Tome.Data.Query(from, true)
     else
