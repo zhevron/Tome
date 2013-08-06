@@ -165,7 +165,7 @@ Tome.UI.Save:EventAttach(
         Tome_Character.History = Tome.UI.Layouts.Character.History.Text:GetText()
 
         -- Broadcast the new data
-        Tome.Data.Send(nil, true)
+        Tome.Data.Send("say", true)
 
         -- Disable the save button
         Tome.UI.Save:SetEnabled(false)

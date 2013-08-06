@@ -130,48 +130,38 @@ function Tome.Data.Cache(name, data)
 end
 
 -- This function sends a data query to the target or broadcasts if not target is provided
-function Tome.Data.Query(target, broadcast)
+function Tome.Data.Query(target, bypassthrottle)
     -- Abort if no target is provided
     if not target then
         return
     end
+    -- Check that the query should not be throttled
+    if not bypassthrottle and Tome_Throttle[string.upper(target)] and Tome_Throttle[string.upper(target)] < os.time() then
+        return
+    end
 
-    -- Check if this is a broadcast
-    if not broadcast then
-        -- Check that the query should not be throttled
-        if Tome_Throttle[string.upper(target)] and Tome_Throttle[string.upper(target)] < os.time() then
-            return
-        end
+    -- Set the throttle time
+    Tome_Throttle[string.upper(target)] = os.time() + Tome_Config.Throttle
 
-        -- Set the throttle time
-        Tome_Throttle[string.upper(target)] = os.time() + Tome_Config.Throttle
+    -- Store the target name and message type
+    Tome.Data.Error.Target = target
+    Tome.Data.Error.Type = "Query"
 
-        -- Store the target name and message type
-        Tome.Data.Error.Target = target
-        Tome.Data.Error.Type = "Query"
+    -- Send query to a single target
+    Command.Message.Send(target, "Tome_Query", "", Tome.Data.SendCallback)
 
-        -- Send query to a single target
-        Command.Message.Send(target, "Tome_Query", "", Tome.Data.SendCallback)
-
-        -- Call the compatibility modules' query function
-        for _, item in pairs(Tome.Compat) do
-            item.Query(target)
-        end
-    else
-        -- Broadcast query to anyone in /say range
-        Command.Message.Broadcast(target, nil, "Tome_Query", "")
+    -- Call the compatibility modules' query function
+    for _, item in pairs(Tome.Compat) do
+        item.Query(target)
     end
 end
 
--- This function sends the character data to a target or broadcasts if no target is provided
+-- This function sends the character data to a target
 function Tome.Data.Send(target, broadcast)
     -- Abort if no target is provided
     if not target then
         return
     end
-
-    -- Serialize character data for sending
-    local data = Tome.Data.Serialize(Tome_Character)
 
     -- Check if this is a broadcast
     if not broadcast then
@@ -179,11 +169,14 @@ function Tome.Data.Send(target, broadcast)
         Tome.Data.Error.Target = target
         Tome.Data.Error.Type = "Send"
 
+        -- Serialize character data for sending
+        local data = Tome.Data.Serialize(Tome_Character)
+
         -- Send data to a single target
         Command.Message.Send(target, "Tome_Data", data, Tome.Data.SendCallback)
     else
-        -- Broadcast data to anyone in /say range
-        Command.Message.Broadcast(target, nil, "Tome_Data", data)
+        -- Broadcast data to anyone in specified range
+        Command.Message.Broadcast(target, nil, "Tome_Broadcast", "")
     end
 end
 
@@ -210,7 +203,12 @@ end
 -- This function is triggered by the event API when an addon message is received
 function Tome.Data.Event_Message_Receive(handle, from, msgtype, channel, identifier, data)
     -- Discard if it's not a message for Tome
-    if (identifier ~= "Tome_Query" and identifier ~= "Tome_Data") then
+    if (identifier ~= "Tome_Query" and identifier ~= "Tome_Data" and identifier ~= "Tome_Broadcast") then
+        return
+    end
+
+    -- Since broadcasts hit ourselves, discard if it originated from the player
+    if (from == Inspect.Unit.Detail("player").name) then
         return
     end
 
@@ -240,6 +238,9 @@ function Tome.Data.Event_Message_Receive(handle, from, msgtype, channel, identif
 
         -- Store the data in our cache
         Tome.Data.Cache(from, deserialized)
+    elseif (identifier == "Tome_Broadcast") then
+        -- Someone just changed their details. Query for the new data
+        Tome.Data.Query(from, true)
     else
         -- Somehow an unexpected message got through. Print an error
         print(string.format("Unexpected message with identifier '%s' received!", identifier))
@@ -249,6 +250,7 @@ end
 -- Set the addon to accept messages from the Tome identifiers
 Command.Message.Accept(nil, "Tome_Query")
 Command.Message.Accept(nil, "Tome_Data")
+Command.Message.Accept(nil, "Tome_Broadcast")
 
 -- Attach to the message received event
 Command.Event.Attach(
