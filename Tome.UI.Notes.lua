@@ -58,7 +58,7 @@ Tome.UI.Notes.Close:EventAttach(
 
 -- Create the Notes field
 Tome.UI.Notes.Textfield = Tome.Widget.TextArea.Create(
-    Tome.UI.Layouts.Character,
+    Tome.UI.Notes.Window,
     "Tome_UI_Notes_Textfield",
     true,
     function()
