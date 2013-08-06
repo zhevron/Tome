@@ -252,7 +252,10 @@ end
 function Tome.Widget.TextArea.UpdateScrollbar(self)
     -- Update the range of the scrollbar
     if math.max(0, self.Textfield:GetHeight() - self:GetHeight()) > 0 then
+        print(string.format("Updating scrollbar range to new offset %d", math.max(0, self.Textfield:GetHeight() - self:GetHeight())))
         self.Scrollbar:SetRange(1, math.max(0, self.Textfield:GetHeight() - self:GetHeight()))
+    else
+        print(string.format("Will not update scrollbar range. Offset is %d", math.max(0, self.Textfield:GetHeight() - self:GetHeight())))
     end
 
     -- Set the position of the scrollbar to match the offset
