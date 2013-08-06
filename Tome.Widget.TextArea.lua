@@ -325,6 +325,9 @@ function Tome.Widget.TextArea.Event_Textfield_KeyUp(handle, unused, key)
         widget.Textfield:SetCursor(cursor + 1)
     end
 
+    -- Recalculate the scrollbar range
+    widget:UpdateScrollbar()
+
     -- Size the text area to fit the text
     widget:SizeToFit()
 
