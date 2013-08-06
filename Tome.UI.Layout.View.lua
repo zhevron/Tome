@@ -96,6 +96,19 @@ Tome.UI.Layouts.View.Weight = UI.CreateFrame("Text", "Tome_UI_Layout_View_Weight
 Tome.UI.Layouts.View.Weight:SetPoint("BOTTOMRIGHT", Tome.UI.Layouts.View.Appearance.Label, "TOPRIGHT", 0, -5)
 Tome.UI.Layouts.View.Weight:SetFontSize(13)
 
+-- Create the notes button
+Tome.UI.Layouts.View.Notes = UI.CreateFrame("RiftButton", "Tome_UI_Layout_View_Notes", Tome.UI.Layouts.View.Container)
+Tome.UI.Layouts.View.Notes:SetPoint("BOTTOMRIGHT", Tome.UI.Save, "BOTTOMRIGHT", 0, 0)
+Tome.UI.Layouts.View.Notes:SetText("Notes")
+Tome.UI.Layouts.View.Notes:SetVisible(false)
+Tome.UI.Layouts.View.Notes:EventAttach(
+    Event.UI.Input.Mouse.Left.Click,
+    function(handle)
+        --
+    end,
+    "Tome_UI_Layout_View_Notes_Click"
+)
+
 -- This function is used to update the layout whenever the data is changed
 function Tome.UI.Layouts.View.UpdateLayout()
     -- Store the width of the container frame
@@ -172,6 +185,12 @@ function Tome.UI.Layouts.View.Populate(data)
     end
     Tome.UI.Layouts.View.Appearance.Text:SetText(data.Appearance)
     Tome.UI.Layouts.View.History.Text:SetText(data.History)
+
+    if data.Name ~= Inspect.Unit.Detail("player").name then
+        Tome.UI.Layouts.View.Notes:SetVisible(true)
+    else
+        Tome.UI.Layouts.View.Notes:SetVisible(false)
+    end
 
     Tome.UI.Layouts.View.UpdateLayout()
 end
