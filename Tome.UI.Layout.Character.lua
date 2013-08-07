@@ -285,6 +285,8 @@ Tome.UI.Layouts.Character.Height:EventAttach(
 Tome.UI.Layouts.Character.Currently = UI.CreateFrame("RiftTextfield", "Tome_UI_Layout_Character_Currently", Tome.UI.Layouts.Character)
 Tome.UI.Layouts.Character.Currently:SetPoint("TOPLEFT", Tome.UI.Layouts.Character.Age, "BOTTOMLEFT", 0, 5)
 Tome.UI.Layouts.Character.Currently:SetPoint("TOPRIGHT", Tome.UI.Layouts.Character.Weight, "BOTTOMRIGHT", 0, 5)
+Tome.UI.Layouts.Character.Currently:SetBackgroundColor(0.0, 0.0, 0.0, 0.7)
+Tome.UI.Layouts.Character.Currently:SetText("Currently")
 Tome.UI.Layouts.Character.Currently.Border = Tome.Widget.Border.Create(Tome.UI.Layouts.Character.Currently, 1)
 Tome.UI.Layouts.Character.Currently:EventAttach(
     Event.UI.Input.Key.Focus.Gain,
