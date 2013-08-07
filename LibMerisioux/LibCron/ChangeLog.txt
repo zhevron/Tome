@@ -1,0 +1,38 @@
+2013/07/12:
+	* 0.6 version number
+	* Update libgetopt to new event system.
+
+2013/07/06:
+	* 0.5 version number
+	* Use new event system.
+
+2012/11/03:
+	* Trap errors again! Use a closure which itself uses pcall to wrap
+	  the called function. This allows time to be allocated correctly
+	  but also catches errors.
+	* 0.4 version bump, SL-ready.
+
+2012/10/31:
+	* TOC update
+	* use printf
+
+2012/06/22:
+	* (seebs) TOC update.
+
+2012/04/19:
+	* (Baanano) Many changes:
+	  - only public API is exposed
+	  - no reuse of Task IDs
+	  - use Utility.Dispatch to credit execution time correctly
+	  - ... thus, don't do the error handling
+	  - allow for protecting tasks from deletion
+	  - allow a fixed number of recurrences
+	  - pause/resume tasks
+	  - new creation method
+	  - LibGetOpt now optional
+	  - don't rerun tasks in a given frame, even if their time specified
+	    was less than zero.
+	* (seebs) Check that in and bump version.
+
+2012/04/01:
+	* (seebs) New project!

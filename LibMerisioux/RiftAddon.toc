@@ -1,0 +1,36 @@
+Identifier = "LibMerisioux"
+
+Version = "0.11-130804-20:56:36"
+
+Email = "riftaddons@seebs.net"
+
+Dependencies = {
+	LibRarian = { "required", "before" },
+	LibCron = { "required", "before" },
+	printf = { "required", "before" },
+	LibVersion = { "required", "before" },
+}
+Embed = { LibCron = true, LibRarian = true, LibVersion = true, printf = true }
+
+Name = {
+  English = "LibMerisioux",
+  French = "LibMerisioux",
+  German = "LibMerisioux",
+}
+NameShort = "LibMerisioux"
+
+-- behold the subtle nuances!
+SavedVariables = {
+  LibMerisiouxData = "global",
+}
+
+Description = {
+  English = "LibMerisioux provides utilities for sharing roleplay information and preferences."
+}
+
+RunOnStartup = {
+  "LibMerisioux.lua"
+}
+
+Environment = { "2.3" }
+

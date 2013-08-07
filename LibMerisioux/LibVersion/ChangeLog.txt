@@ -1,0 +1,10 @@
+2012/10/31:
+	* TOC change
+	* Use printf
+
+2012/06/22:
+	* 1.9 TOC
+	* Email change.
+
+2012/04/22:
+	* Quick hackery.

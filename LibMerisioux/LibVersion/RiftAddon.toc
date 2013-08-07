@@ -1,0 +1,29 @@
+Identifier = "LibVersion"
+
+Version = "0.2-130712-20:34:37"
+
+Email = "riftaddons@seebs.net"
+
+Dependencies = {
+	printf = { "required", "before" },
+}
+Embed = { printf = true }
+
+Name = {
+  English = "LibVersion",
+  French = "LibVersion",
+  German = "LibVersion",
+}
+
+NameShort = "LibVersion"
+
+Description = {
+  English = "Version number comparisons; 0.12 > 0.9 FOREVA!"
+}
+
+RunOnStartup = {
+  "LibVersion.lua"
+}
+
+Environment = { "2.3" }
+

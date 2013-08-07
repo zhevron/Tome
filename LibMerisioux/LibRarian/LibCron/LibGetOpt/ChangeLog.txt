@@ -1,0 +1,63 @@
+2013/07/26:
+	* Fix missing parameter for slashcommand (thanks, Mere!)
+
+2013/07/12:
+	* ToC update
+	* New event model (2.3 and later)
+
+2013/02/24:
+	* Add access to unquoted command lines. (Mostly needed for
+	  SlashPrint.)
+	* Call that 0.12.
+
+2012/11/03:
+	* Bump to 0.11
+
+2012/10/31:
+	* TOC update
+	* Use printf
+
+2012/06/22:
+	* TOC for 1.9
+
+2012/03/16:
+	* Fix ReadMe.
+	* Clearer copyright.
+	* Call this 0.9.
+	* More fixes, replace .getn and .len with #foo
+
+2012/03/01:
+	* Report failure to register slash commands.
+
+2011/11/20:
+	* Add + flag for multiply-specified things.
+
+2011/11/09:
+	* Update to 0.7
+	* Add 1.6 support
+	* 0.6 existed only as an embedded plugin in LibPerfORate for
+	  debugging reasons, ignore it.
+
+2011/10/29:
+	* Use ... for variadic functions
+	* Remove leading "GetOpt:" from output, since API does that for us.
+
+2011/10/12: (0.05)
+	* Cleanup and fix naming (use LibGetOpt.lua instead of GetOpt.lua)
+	* Rework tokenizing entirely to handle backslashes and quotes
+	* Expose "dequote" as a function in case someone wants it
+	* Don't report an error after handling -?
+
+2011/10/12: (0.04)
+	* Migrate to RIFT addon API
+	* Create slash-command-maker
+
+2008/10/14:
+	* Release 0.03.  Update TOC.
+
+2008/04/28:
+	* Release 0.02.  Update TOC.
+	* Fix some indenting.
+
+2007/11/14
+	* Release 0.01, with initial minimal feature set.
