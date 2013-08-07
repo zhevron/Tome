@@ -224,9 +224,11 @@ function Tome.Tooltip.UpdateHeight()
 
     -- Check if the height exceeds the minimum
     if Tome.Tooltip.Frame:GetHeight() >= height then
+        print(string.format("Tooltip is higher than required minumum. Current=%d,Target=%d", Tome.Tooltip.Frame:GetHeight(), height))
         -- Set the default TOPRIGHT anchor
         Tome.Tooltip.Frame:SetPoint("TOPRIGHT", UI.Native.Tooltip, "TOPLEFT", -5, 10)
     else
+        print(string.format("Changing tooltip to match minimum height. Current=%d,Target=%d", Tome.Tooltip.Frame:GetHeight(), height))
         -- Move the anchor up so it fits the minimum height
         Tome.Tooltip.Frame:SetPoint("TOPRIGHT", UI.Native.Tooltip, "TOPLEFT", -5, 10 - (Tome.Tooltip.Frame:GetHeight() - height))
     end
