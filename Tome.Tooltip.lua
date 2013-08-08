@@ -208,7 +208,7 @@ end
 -- This function checks that the height of the tooltip exceeds the minimum and modifies the anchor accordingly
 function Tome.Tooltip.UpdateHeight()
     -- Create a variable to store the minimum required height
-    local height = 0
+    local height = 20
 
     -- Add the height of the name field
     height = height + Tome.Tooltip.Name:GetHeight()
