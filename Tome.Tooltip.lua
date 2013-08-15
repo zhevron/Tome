@@ -195,9 +195,6 @@ function Tome.Tooltip.Update(data)
         end
     end
 
-    -- Update the tooltip height
-    Tome.Tooltip.UpdateHeight()
-
     -- Update the tooltip width
     Tome.Tooltip.UpdateWidth()
 
@@ -326,6 +323,12 @@ function Tome.Tooltip.Event_Tooltip(handle, tiptype, shown, buff)
     Tome.Tooltip.Update()
 end
 
+-- This function is triggered by the event API when a frame is about to render
+function Tome.Tooltip.Event_System_Update_Begin()
+    -- Check for minimum height requirement
+    Tome.Tooltip.UpdateHeight()
+end
+
 -- This function is triggered by the event API when the UI enters secure mode
 function Tome.Tooltip.Event_System_Secure_Enter()
     -- Check if we should modify the tooltip state in combat
@@ -355,6 +358,13 @@ Command.Event.Attach(
     Event.Tooltip,
     Tome.Tooltip.Event_Tooltip,
     "Tome_Tooltip_Event_Tooltip"
+)
+
+-- Attach to the frame render begin event
+Command.Event.Attach(
+    Event.System.Update.Begin,
+    Tome.Tooltip.Event_System_Update_Begin,
+    "Tome_Tooltip_Event_System_Update_Begin"
 )
 
 -- Attach to the UI secure mode events
