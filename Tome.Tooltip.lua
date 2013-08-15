@@ -324,8 +324,8 @@ end
 
 -- This function is triggered by the event API when a frame is about to render
 function Tome.Tooltip.Event_System_Update_Begin()
-    -- Check for minimum height requirement
-    Tome.Tooltip.UpdateHeight()
+    -- Set the anchor point of the tooltip
+    Tome.Tooltip.Frame:SetPoint("TOPRIGHT", UI.Native.Tooltip, "TOPLEFT", -5, 10)
 end
 
 -- This function is triggered by the event API when the UI enters secure mode
