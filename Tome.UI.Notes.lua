@@ -66,8 +66,8 @@ Tome.UI.Notes.Textfield = Tome.Widget.TextArea.Create(
         Tome.UI.Notes.Save:SetEnabled(true)
     end
 )
-Tome.UI.Notes.Textfield:SetPoint("TOPLEFT", Tome.UI.Notes.Window:GetContent(), "TOPLEFT", 0, 0)
-Tome.UI.Notes.Textfield:SetPoint("TOPRIGHT", Tome.UI.Notes.Window:GetContent(), "TOPRIGHT", 0, 0)
+Tome.UI.Notes.Textfield:SetPoint("TOPLEFT", Tome.UI.Notes.Window:GetContent(), "TOPLEFT", 13, 10)
+Tome.UI.Notes.Textfield:SetPoint("TOPRIGHT", Tome.UI.Notes.Window:GetContent(), "TOPRIGHT", -13, 10)
 Tome.UI.Notes.Textfield:SetHeight((Tome.UI.Notes.Window:GetContent():GetHeight() / 100) * 90)
 Tome.UI.Notes.Textfield:SetBackgroundColor(0.0, 0.0, 0.0, 0.7)
 Tome.UI.Notes.Textfield.Border = Tome.Widget.Border.Create(Tome.UI.Notes.Textfield.Container, 1)
