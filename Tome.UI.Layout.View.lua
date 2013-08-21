@@ -55,12 +55,13 @@ Tome.UI.Layouts.View.Height:SetFontSize(13)
 -- Create the Currently label
 Tome.UI.Layouts.View.Currently = UI.CreateFrame("Text", "Tome_UI_Layout_View_Currently", Tome.UI.Layouts.View.Container)
 Tome.UI.Layouts.View.Currently:SetFontSize(13)
+Tome.UI.Layouts.View.Currently:SetFontColor(0.8, 0.8, 0.6, 1.0)
 
 -- Create the Appearance label
 Tome.UI.Layouts.View.Appearance = {}
 Tome.UI.Layouts.View.Appearance.Label = UI.CreateFrame("Text", "Tome_UI_Layout_View_Appearance_Header", Tome.UI.Layouts.View)
-Tome.UI.Layouts.View.Appearance.Label:SetPoint("TOPLEFT", Tome.UI.Layouts.View.Container, "BOTTOMLEFT", 0, 10)
-Tome.UI.Layouts.View.Appearance.Label:SetPoint("TOPRIGHT", Tome.UI.Layouts.View.Container, "BOTTOMRIGHT", 0, 10)
+Tome.UI.Layouts.View.Appearance.Label:SetPoint("TOPLEFT", Tome.UI.Layouts.View.Container, "BOTTOMLEFT", 0, 30)
+Tome.UI.Layouts.View.Appearance.Label:SetPoint("TOPRIGHT", Tome.UI.Layouts.View.Container, "BOTTOMRIGHT", 0, 30)
 Tome.UI.Layouts.View.Appearance.Label:SetFontSize(13)
 Tome.UI.Layouts.View.Appearance.Label:SetText("Appearance:")
 Tome.UI.Layouts.View.Appearance.Text = Tome.Widget.TextArea.Create(
@@ -92,12 +93,12 @@ Tome.UI.Layouts.View.History.Text.Border = Tome.Widget.Border.Create(Tome.UI.Lay
 
 -- Create the Age label
 Tome.UI.Layouts.View.Age = UI.CreateFrame("Text", "Tome_UI_Layout_View_Age", Tome.UI.Layouts.View.Container)
-Tome.UI.Layouts.View.Age:SetPoint("BOTTOMLEFT", Tome.UI.Layouts.View.Appearance.Label, "TOPLEFT", 0, -5)
+Tome.UI.Layouts.View.Age:SetPoint("BOTTOMLEFT", Tome.UI.Layouts.View.Appearance.Label, "TOPLEFT", 0, -30)
 Tome.UI.Layouts.View.Age:SetFontSize(13)
 
 -- Create the Weight label
 Tome.UI.Layouts.View.Weight = UI.CreateFrame("Text", "Tome_UI_Layout_View_Weight", Tome.UI.Layouts.View.Container)
-Tome.UI.Layouts.View.Weight:SetPoint("BOTTOMRIGHT", Tome.UI.Layouts.View.Appearance.Label, "TOPRIGHT", 0, -5)
+Tome.UI.Layouts.View.Weight:SetPoint("BOTTOMRIGHT", Tome.UI.Layouts.View.Appearance.Label, "TOPRIGHT", 0, -30)
 Tome.UI.Layouts.View.Weight:SetFontSize(13)
 
 -- This function is used to update the layout whenever the data is changed
@@ -164,7 +165,7 @@ function Tome.UI.Layouts.View.Populate(data)
         Tome.UI.Layouts.View.Weight:SetText("")
     end
     if data.Currently and data.Currently ~= "" then
-        Tome.UI.Layouts.View.Currently:SetText(data.Currently)
+        Tome.UI.Layouts.View.Currently:SetText(string.format("Currently: %s",data.Currently))
     else
         Tome.UI.Layouts.View.Currently:SetText("")
     end
