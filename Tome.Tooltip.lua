@@ -144,6 +144,8 @@ function Tome.Tooltip.Update(data)
 		Tome.Tooltip.Name:SetFontColor(1.0, 0.4, 0.0, 1.0)
 	elseif Tome.Tooltip.Target.name == "Lyrai" then
 		Tome.Tooltip.Name:SetFontColor(1.0, 0.0, 0.8, 1.0)
+	elseif Tome.Tooltip.Target.name == "Lahni" then
+		Tome.Tooltip.Name:SetFontColor(0.6, 0.0, 0.8, 1.0)
 	end
 
     -- Make a temporary variable to store our flag text
