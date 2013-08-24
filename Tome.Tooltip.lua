@@ -93,13 +93,13 @@ function Tome.Tooltip.Create()
 
     -- Create the flag label frame
     Tome.Tooltip.Flag = UI.CreateFrame("Text", "Tome_Tooltip_Flag", Tome.Tooltip.Frame)
-    Tome.Tooltip.Flag:SetPoint("BOTTOMLEFT", Tome.Tooltip.Cache, "TOPLEFT", 0, -2)
+    Tome.Tooltip.Flag:SetPoint("BOTTOMLEFT", Tome.Tooltip.Cache, "TOPLEFT", 0, 0)
     Tome.Tooltip.Flag:SetFontColor(0.2, 0.5, 0.9, 1.0)
     Tome.Tooltip.Flag:SetFontSize(13)
 
     -- Create the in character indicator label frame
     Tome.Tooltip.InCharacter = UI.CreateFrame("Text", "Tome_Tooltip_InCharacter", Tome.Tooltip.Frame)
-    Tome.Tooltip.InCharacter:SetPoint("BOTTOMRIGHT", Tome.Tooltip.Origin, "TOPRIGHT", 0, -2)
+    Tome.Tooltip.InCharacter:SetPoint("BOTTOMRIGHT", Tome.Tooltip.Origin, "TOPRIGHT", 0, 0)
     Tome.Tooltip.InCharacter:SetFontSize(13)
 end
 
@@ -202,6 +202,7 @@ function Tome.Tooltip.Update(data)
     -- Update the tooltip width
     Tome.Tooltip.UpdateWidth()
 
+    -- Update the tooltip height
     Tome.Tooltip.UpdateHeight()
 
     -- Show the frame
@@ -210,9 +211,11 @@ end
 
 -- This function checks that the height of the tooltip exceeds the minimum and modifies the anchor accordingly
 function Tome.Tooltip.UpdateHeight()
+    -- Get the bounds of the native tooltip
     local _, top, _, bottom = UI.Native.Tooltip:GetBounds()
 
-    Tome.Tooltip.Frame:SetHeight(bottom - top)
+    -- Set the height of our own tooltip to match the native with 5 pixels padding
+    Tome.Tooltip.Frame:SetHeight(bottom - top - 13)
 end
 
 -- This function sets the tooltip width so that all items fit
@@ -309,6 +312,7 @@ end
 
 -- This function is triggered by the event API when a frame is about to render
 function Tome.Tooltip.Event_System_Update_Begin()
+    -- Update the tooltip height
     Tome.Tooltip.UpdateHeight()
 end
 
