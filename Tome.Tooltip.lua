@@ -45,7 +45,6 @@ Tome.Tooltip.InCombat = false
 -- This function creates the tooltip frames
 function Tome.Tooltip.Create()
     -- Set the initial anchor points for the tooltip frame
-    Tome.Tooltip.Frame:SetPoint("TOPRIGHT", UI.Native.Tooltip, "TOPLEFT", -5, 10)
     Tome.Tooltip.Frame:SetPoint("BOTTOMRIGHT", UI.Native.Tooltip, "BOTTOMLEFT", -5, -3)
 
     -- Set the background colors of the frame
@@ -203,36 +202,17 @@ function Tome.Tooltip.Update(data)
     -- Update the tooltip width
     Tome.Tooltip.UpdateWidth()
 
+    Tome.Tooltip.UpdateHeight()
+
     -- Show the frame
     Tome.Tooltip.Frame:SetVisible(true)
 end
 
 -- This function checks that the height of the tooltip exceeds the minimum and modifies the anchor accordingly
 function Tome.Tooltip.UpdateHeight()
-    -- Create a variable to store the minimum required height
-    local height = 20
+    local _, top, _, bottom = UI.Native.Tooltip:GetBounds()
 
-    -- Add the height of the name field
-    height = height + Tome.Tooltip.Name:GetHeight()
-
-    -- Add the height of the title field
-    height = height + Tome.Tooltip.Title:GetHeight()
-
-    -- Add the height of the flag field
-    height = height + Tome.Tooltip.Flag:GetHeight()
-
-    -- Add the height of the origin field
-    height = height + Tome.Tooltip.Origin:GetHeight()
-
-    -- Check if the height exceeds the minimum
-    if Tome.Tooltip.Frame:GetHeight() >= height then
-        -- Set the default TOPRIGHT anchor
-        Tome.Tooltip.Frame:SetPoint("TOPRIGHT", UI.Native.Tooltip, "TOPLEFT", -5, 10)
-    else
-        print(string.format("Changing tooltip to match minimum height. Current=%d,Target=%d", Tome.Tooltip.Frame:GetHeight(), height))
-        -- Move the anchor up so it fits the minimum height
-        Tome.Tooltip.Frame:SetPoint("TOPRIGHT", UI.Native.Tooltip, "TOPLEFT", -5, 10 - (Tome.Tooltip.Frame:GetHeight() - height))
-    end
+    Tome.Tooltip.Frame:SetHeight(bottom - top)
 end
 
 -- This function sets the tooltip width so that all items fit
@@ -329,8 +309,7 @@ end
 
 -- This function is triggered by the event API when a frame is about to render
 function Tome.Tooltip.Event_System_Update_Begin()
-    -- Set the anchor point of the tooltip
-    Tome.Tooltip.Frame:SetPoint("TOPRIGHT", UI.Native.Tooltip, "TOPLEFT", -5, 10)
+    Tome.Tooltip.UpdateHeight()
 end
 
 -- This function is triggered by the event API when the UI enters secure mode
