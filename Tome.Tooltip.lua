@@ -45,7 +45,6 @@ Tome.Tooltip.InCombat = false
 -- This function creates the tooltip frames
 function Tome.Tooltip.Create()
     -- Set the initial anchor points for the tooltip frame
-    Tome.Tooltip.Frame:SetPoint("TOPRIGHT", UI.Native.Tooltip, "TOPLEFT", -5, 10)
     Tome.Tooltip.Frame:SetPoint("BOTTOMRIGHT", UI.Native.Tooltip, "BOTTOMLEFT", -5, -3)
 
     -- Set the background colors of the frame
@@ -94,13 +93,13 @@ function Tome.Tooltip.Create()
 
     -- Create the flag label frame
     Tome.Tooltip.Flag = UI.CreateFrame("Text", "Tome_Tooltip_Flag", Tome.Tooltip.Frame)
-    Tome.Tooltip.Flag:SetPoint("BOTTOMLEFT", Tome.Tooltip.Cache, "TOPLEFT", 0, -2)
+    Tome.Tooltip.Flag:SetPoint("BOTTOMLEFT", Tome.Tooltip.Cache, "TOPLEFT", 0, 0)
     Tome.Tooltip.Flag:SetFontColor(0.2, 0.5, 0.9, 1.0)
     Tome.Tooltip.Flag:SetFontSize(13)
 
     -- Create the in character indicator label frame
     Tome.Tooltip.InCharacter = UI.CreateFrame("Text", "Tome_Tooltip_InCharacter", Tome.Tooltip.Frame)
-    Tome.Tooltip.InCharacter:SetPoint("BOTTOMRIGHT", Tome.Tooltip.Origin, "TOPRIGHT", 0, -2)
+    Tome.Tooltip.InCharacter:SetPoint("BOTTOMRIGHT", Tome.Tooltip.Origin, "TOPRIGHT", 0, 0)
     Tome.Tooltip.InCharacter:SetFontSize(13)
 end
 
@@ -140,7 +139,20 @@ function Tome.Tooltip.Update(data)
 
     -- Set the players name
     Tome.Tooltip.Name:SetText(name)
-	
+
+    -- Color the name of certain developers and contributors.
+	if Tome.Tooltip.Target.name == "Maiiel" then
+		Tome.Tooltip.Name:SetFontColor(1.0, 0.4, 0.0, 1.0)
+	elseif Tome.Tooltip.Target.name == "Lyrai" then
+		Tome.Tooltip.Name:SetFontColor(1.0, 0.0, 0.8, 1.0)
+	elseif Tome.Tooltip.Target.name == "Lahni" then
+		Tome.Tooltip.Name:SetFontColor(0.6, 0.0, 0.8, 1.0)
+	elseif Tome.Tooltip.Target.name == "Asalah" then
+		Tome.Tooltip.Name:SetFontColor(0.9, 1.0, 0.1, 1.0)
+	else
+		Tome.Tooltip.Name:SetFontColor(1.0, 1.0, 1.0, 1.0)
+	end
+
     -- Make a temporary variable to store our flag text
     local flagtext = ""
 
@@ -195,11 +207,11 @@ function Tome.Tooltip.Update(data)
         end
     end
 
-    -- Update the tooltip height
-    Tome.Tooltip.UpdateHeight()
-
     -- Update the tooltip width
     Tome.Tooltip.UpdateWidth()
+
+    -- Update the tooltip height
+    Tome.Tooltip.UpdateHeight()
 
     -- Show the frame
     Tome.Tooltip.Frame:SetVisible(true)
@@ -207,29 +219,11 @@ end
 
 -- This function checks that the height of the tooltip exceeds the minimum and modifies the anchor accordingly
 function Tome.Tooltip.UpdateHeight()
-    -- Create a variable to store the minimum required height
-    local height = 0
+    -- Get the bounds of the native tooltip
+    local _, top, _, bottom = UI.Native.Tooltip:GetBounds()
 
-    -- Add the height of the name field
-    height = height + Tome.Tooltip.Name:GetHeight()
-
-    -- Add the height of the title field
-    height = height + Tome.Tooltip.Title:GetHeight()
-
-    -- Add the height of the flag field
-    height = height + Tome.Tooltip.Flag:GetHeight()
-
-    -- Add the height of the origin field
-    height = height + Tome.Tooltip.Origin:GetHeight()
-
-    -- Check if the height exceeds the minimum
-    if Tome.Tooltip.Frame:GetHeight() >= height then
-        -- Set the default TOPRIGHT anchor
-        Tome.Tooltip.Frame:SetPoint("TOPRIGHT", UI.Native.Tooltip, "TOPLEFT", -5, 10)
-    else
-        -- Move the anchor up so it fits the minimum height
-        Tome.Tooltip.Frame:SetPoint("TOPRIGHT", UI.Native.Tooltip, "TOPLEFT", -5, 10 - (Tome.Tooltip.Frame:GetHeight() - height))
-    end
+    -- Set the height of our own tooltip to match the native with 5 pixels padding
+    Tome.Tooltip.Frame:SetHeight(bottom - top - 13)
 end
 
 -- This function sets the tooltip width so that all items fit
@@ -324,6 +318,12 @@ function Tome.Tooltip.Event_Tooltip(handle, tiptype, shown, buff)
     Tome.Tooltip.Update()
 end
 
+-- This function is triggered by the event API when a frame is about to render
+function Tome.Tooltip.Event_System_Update_Begin()
+    -- Update the tooltip height
+    Tome.Tooltip.UpdateHeight()
+end
+
 -- This function is triggered by the event API when the UI enters secure mode
 function Tome.Tooltip.Event_System_Secure_Enter()
     -- Check if we should modify the tooltip state in combat
@@ -353,6 +353,13 @@ Command.Event.Attach(
     Event.Tooltip,
     Tome.Tooltip.Event_Tooltip,
     "Tome_Tooltip_Event_Tooltip"
+)
+
+-- Attach to the frame render begin event
+Command.Event.Attach(
+    Event.System.Update.Begin,
+    Tome.Tooltip.Event_System_Update_Begin,
+    "Tome_Tooltip_Event_System_Update_Begin"
 )
 
 -- Attach to the UI secure mode events
