@@ -45,13 +45,16 @@ Tome.Compat.Merisioux.Error = {
 function Tome.Compat.Merisioux.Serialize(data)
     -- Create a data structure to hold the Merisioux converted data
     local merisiouxdata = {
-        addonversion = "Merisioux:0.15-130521-20:24:20",
-        libversion = "0.7-130317-15:12:00",
+        addonversion = "Merisioux:0.23-130808-00:49:16",
+        libversion = "0.12-130808-00:40:08",
         origin = "Tome",
         prefix = data.Prefix,
         override = data.Name,
         suffix = data.Suffix,
         title = data.Title,
+        age = data.Age,
+        height = data.Height,
+        weight = data.Weight,
         description = data.Appearance,
         biography = data.History,
         flags = ""
@@ -102,9 +105,9 @@ function Tome.Compat.Merisioux.Cache(name, data)
         Name = (data.override ~= "") and data.override or name,
         Suffix = data.suffix and data.suffix or "",
         Title = data.title and data.title or "",
-        Age = "",
-        Height = "",
-        Weight = "",
+        Age = data.age and data.age or "",
+        Height = data.height and data.height or "",
+        Weight = data.weight and data.weight or "",
         Appearance = data.description and data.description or "",
         History = data.biography and data.biography or "",
         InCharacter = false,
