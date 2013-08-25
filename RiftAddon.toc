@@ -33,12 +33,14 @@ RunOnStartup = {
     "Tome.UI.Layout.Character.lua",
     "Tome.UI.Layout.Guild.lua",
     "Tome.UI.Layout.View.lua",
-    "Tome.UI.Layout.Settings.lua"
+    "Tome.UI.Layout.Settings.lua",
+    "Tome.UI.Notes.lua"
 }
 
 SavedVariables = {
     Tome_Cache = "shard",
     Tome_Config = "account",
+    Tome_Notes = "account",
     Tome_Character = "character",
     Tome_Blacklist = "character"
 }
