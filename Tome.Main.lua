@@ -129,6 +129,7 @@ function Tome.ShowHelp()
     print("  help - Shows this help message")
     print("  clear - Clears the internal data cache")
     print("  show <string> - Displays cached data for a character")
+    print("  notes <string> - Displays the notes for a character")
     print("  set prefix <string> - Sets your prefix")
     print("  set name <string> - Sets your name")
     print("  set suffix <string> - Sets your suffix")
@@ -435,6 +436,15 @@ function Tome.Event_Command_Slash(handle, commandline)
             -- Run the blacklist modification command
             Tome.Blacklist(action, table.remove(parameters, 1))
         end
+    elseif (command == "notes") then
+        -- Verify that we're only getting one parameter
+        if (table.getn(parameters) ~= 1) then
+            print("Incorrect parameter count for command 'notes")
+            return
+        end
+
+        -- Show the notes window
+        Tome.UI.Notes.Show(table.remove(parameters, 1))
     elseif (command == "debug") then
         -- Abort if we do not have a debug command
         if (table.getn(parameters) ~= 1) then
