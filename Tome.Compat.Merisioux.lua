@@ -54,6 +54,7 @@ function Tome.Compat.Merisioux.Serialize(data)
         title = data.Title,
         description = data.Appearance,
         biography = data.History,
+        currently = data.Currently,
         flags = ""
     }
 
@@ -107,6 +108,7 @@ function Tome.Compat.Merisioux.Cache(name, data)
         Weight = "",
         Appearance = data.description and data.description or "",
         History = data.biography and data.biography or "",
+        Currently = data.currently and data.currently or "",
         InCharacter = false,
         Tutor = false,
         Flag = 0,
