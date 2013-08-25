@@ -139,7 +139,9 @@ function Tome.Tooltip.Update(data)
 
     -- Set the players name
     Tome.Tooltip.Name:SetText(name)
-		if Tome.Tooltip.Target.name == "Maiiel" then
+
+    -- Color the name of certain developers and contributors.
+	if Tome.Tooltip.Target.name == "Maiiel" then
 		Tome.Tooltip.Name:SetFontColor(1.0, 0.4, 0.0, 1.0)
 	elseif Tome.Tooltip.Target.name == "Lyrai" then
 		Tome.Tooltip.Name:SetFontColor(1.0, 0.0, 0.8, 1.0)
