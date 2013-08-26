@@ -182,6 +182,8 @@ function Tome.Tooltip.Update(data)
 	-- Enclose the currently data if the player has any
 	if data.Currently and data.Currently ~= "" then
 		currently = string.format("'Currently: %s'", data.Currently)
+	else
+		currently = ""
 	end
 	
 	-- Set the player's currently text
