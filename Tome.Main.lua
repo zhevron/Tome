@@ -494,6 +494,9 @@ function Tome.Event_Loaded(handle, addonidentifier)
         -- Set the default variables
         Tome_Config = Tome.SetDefaults(Tome_Defaults, Tome_Config)
 
+        -- Update the Tome_Character with new fields in case of an update
+        Tome_Character = Tome.SetDefaults(Tome_Character_Defaults, Tome_Character)
+
         -- Get the addon version
         local version = Tome.GetVersion()
 

@@ -29,7 +29,7 @@ Tome_Defaults = {
     }
 }
 
-Tome_Character = {
+Tome_Character_Defaults = {
     Prefix = detail and detail.titlePrefixName or "",
     Name = detail and detail.name or "",
     Suffix = detail and detail.titleSuffixName or "",
@@ -39,6 +39,7 @@ Tome_Character = {
     Weight = "",
     Appearance = "",
     History = "",
+    Currently ="",
     InCharacter = false,
     Tutor = false,
     Flag = 0,
@@ -54,3 +55,5 @@ Tome_Cache = {}
 Tome_Throttle = {}
 
 Tome_Config = Tome_Defaults
+
+Tome_Character = Tome_Character_Defaults
