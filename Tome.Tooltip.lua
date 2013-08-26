@@ -241,7 +241,11 @@ function Tome.Tooltip.UpdateHeight()
     local _, top, _, bottom = UI.Native.Tooltip:GetBounds()
 
     -- Set the height of our own tooltip to match the native with 5 pixels padding
-    Tome.Tooltip.Frame:SetHeight(bottom - top - 13)
+		if Tome.Tooltip.Currently:GetText() ~= "" and not Tome.Tooltip.Target.guild then
+			Tome.Tooltip.Frame:SetHeight(bottom - top)
+		else
+			Tome.Tooltip.Frame:SetHeight(bottom - top - 13)
+		end
 end
 
 -- This function sets the tooltip width so that all items fit
