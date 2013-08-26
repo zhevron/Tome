@@ -179,7 +179,7 @@ function Tome.Tooltip.Update(data)
 	-- Create a temporary variable to store the currently data
 	local currently = data.Currently
 	
-	-- Append the currently data if the player has any
+	-- Enclose the currently data if the player has any
 	if data.Currently and data.Currently ~= "" then
 		currently = string.format("'Currently: %s'", data.Currently)
 	end
