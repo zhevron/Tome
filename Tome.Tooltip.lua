@@ -86,11 +86,11 @@ function Tome.Tooltip.Create()
     Tome.Tooltip.Cache = UI.CreateFrame("Text", "Tome_Tooltip_Cache", Tome.Tooltip.Frame)
     Tome.Tooltip.Cache:SetPoint("BOTTOMLEFT", Tome.Tooltip.Frame, "BOTTOMLEFT", 5, -5)
 
-	-- Create the Currently label frame
-	Tome.Tooltip.Currently = UI.CreateFrame("Text", "Tome_Tooltip_Currently", Tome.Tooltip.Frame)
-	Tome.Tooltip.Currently:SetPoint ("BOTTOMLEFT", Tome.Tooltip.Title, "BOTTOMLEFT", 0, 15)
-	Tome.Tooltip.Currently:SetFontColor(0.8, 0.8, 0.6, 1.0)
-	
+    -- Create the Currently label frame
+    Tome.Tooltip.Currently = UI.CreateFrame("Text", "Tome_Tooltip_Currently", Tome.Tooltip.Frame)
+    Tome.Tooltip.Currently:SetPoint ("BOTTOMLEFT", Tome.Tooltip.Title, "BOTTOMLEFT", 0, 15)
+    Tome.Tooltip.Currently:SetFontColor(0.8, 0.8, 0.6, 1.0)
+
     -- Create the origin addon label frame
     Tome.Tooltip.Origin = UI.CreateFrame("Text", "Tome_Tooltip_Origin", Tome.Tooltip.Frame)
     Tome.Tooltip.Origin:SetPoint("BOTTOMRIGHT", Tome.Tooltip.Frame, "BOTTOMRIGHT", -5, -5)
@@ -146,17 +146,17 @@ function Tome.Tooltip.Update(data)
     Tome.Tooltip.Name:SetText(name)
 
     -- Color the name of certain developers and contributors.
-	if Tome.Tooltip.Target.name == "Maiiel" then
-		Tome.Tooltip.Name:SetFontColor(1.0, 0.4, 0.0, 1.0)
-	elseif Tome.Tooltip.Target.name == "Lyrai" then
-		Tome.Tooltip.Name:SetFontColor(1.0, 0.0, 0.8, 1.0)
-	elseif Tome.Tooltip.Target.name == "Lahni" then
-		Tome.Tooltip.Name:SetFontColor(0.6, 0.0, 0.8, 1.0)
-	elseif Tome.Tooltip.Target.name == "Asalah" then
-		Tome.Tooltip.Name:SetFontColor(0.9, 1.0, 0.1, 1.0)
-	else
-		Tome.Tooltip.Name:SetFontColor(1.0, 1.0, 1.0, 1.0)
-	end
+    if Tome.Tooltip.Target.name == "Maiiel" then
+        Tome.Tooltip.Name:SetFontColor(1.0, 0.4, 0.0, 1.0)
+    elseif Tome.Tooltip.Target.name == "Lyrai" then
+        Tome.Tooltip.Name:SetFontColor(1.0, 0.0, 0.8, 1.0)
+    elseif Tome.Tooltip.Target.name == "Lahni" then
+        Tome.Tooltip.Name:SetFontColor(0.6, 0.0, 0.8, 1.0)
+    elseif Tome.Tooltip.Target.name == "Asalah" then
+        Tome.Tooltip.Name:SetFontColor(0.9, 1.0, 0.1, 1.0)
+    else
+        Tome.Tooltip.Name:SetFontColor(1.0, 1.0, 1.0, 1.0)
+    end
 
     -- Make a temporary variable to store our flag text
     local flagtext = ""
@@ -188,19 +188,19 @@ function Tome.Tooltip.Update(data)
         Tome.Tooltip.InCharacter:SetFontColor(0.78, 0.08, 0.08, 1.0)
     end
 
-	-- Create a temporary variable to store the currently data
-	local currently = data.Currently
-	
-	-- Enclose the currently data if the player has any
-	if data.Currently and data.Currently ~= "" then
-		currently = string.format("'Currently: %s'", data.Currently)
-	else
-		currently = ""
-	end
-	
-	-- Set the player's currently text
-	Tome.Tooltip.Currently:SetText(currently)
-	
+    -- Create a temporary variable to store the currently data
+    local currently = data.Currently
+
+    -- Enclose the currently data if the player has any
+    if data.Currently and data.Currently ~= "" then
+        currently = string.format("'Currently: %s'", data.Currently)
+    else
+        currently = ""
+    end
+
+    -- Set the player's currently text
+    Tome.Tooltip.Currently:SetText(currently)
+
     -- Display a message if the data is old
     if data.Expired then
         Tome.Tooltip.Cache:SetText("Expired")
@@ -241,11 +241,11 @@ function Tome.Tooltip.UpdateHeight()
     local _, top, _, bottom = UI.Native.Tooltip:GetBounds()
 
     -- Set the height of our own tooltip to match the native with 5 pixels padding
-		if Tome.Tooltip.Currently:GetText() ~= "" and not Tome.Tooltip.Target.guild then
-			Tome.Tooltip.Frame:SetHeight(bottom - top)
-		else
-			Tome.Tooltip.Frame:SetHeight(bottom - top - 13)
-		end
+    if Tome.Tooltip.Currently:GetText() ~= "" and not Tome.Tooltip.Target.guild then
+        Tome.Tooltip.Frame:SetHeight(bottom - top)
+    else
+        Tome.Tooltip.Frame:SetHeight(bottom - top - 13)
+    end
 end
 
 -- This function sets the tooltip width so that all items fit
@@ -263,10 +263,10 @@ function Tome.Tooltip.UpdateWidth()
         width = Tome.Tooltip.Name:GetWidth()
     end
 
-	-- Check if the Currently Field is wider
-	if Tome.Tooltip.Currently:GetWidth() > width then
-		width = Tome.Tooltip.Currently:GetWidth()
-	end
+    -- Check if the Currently Field is wider
+    if Tome.Tooltip.Currently:GetWidth() > width then
+        width = Tome.Tooltip.Currently:GetWidth()
+    end
 
     -- Check if the width of the flag and in character fields are wider
     local total = Tome.Tooltip.Flag:GetWidth() + Tome.Tooltip.InCharacter:GetWidth()
