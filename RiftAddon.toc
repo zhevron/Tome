@@ -1,7 +1,7 @@
 Identifier = "Tome"
 Name = "Tome"
 NameShort = "Tome"
-Version = "0.3.0-beta"
+Version = "0.3.1-beta"
 Description = "A Roleplaying Immersion Addon"
 
 Author = "Lyrai @ Faeblight NA"
