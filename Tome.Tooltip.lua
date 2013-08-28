@@ -210,15 +210,14 @@ function Tome.Tooltip.Update(data)
 
     -- Set the origin addon text
     if data.Origin then
-        if data.Origin == "Tome" then
-            local version = Tome.GetVersion()
+        if data.Origin == "Tome" and data.Version then
             Tome.Tooltip.Origin:SetText(string.format(
                 "%s %s.%s.%s%s",
                 data.Origin,
-                version.Major,
-                version.Minor,
-                version.Hotfix,
-                version.Beta and "-beta" or ""
+                data.Version.Major,
+                data.Version.Minor,
+                data.Version.Hotfix,
+                data.Version.Beta and "-beta" or ""
             ))
         else
             Tome.Tooltip.Origin:SetText(data.Origin)
