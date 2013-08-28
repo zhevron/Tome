@@ -29,6 +29,7 @@ RunOnStartup = {
     "Tome.Widget.Draggable.lua",
     "Tome.Widget.Dropdown.lua",
     "Tome.Widget.TextArea.lua",
+    "Tome.Widget.ProgressBar.lua",
     "Tome.UI.lua",
     "Tome.UI.Layout.Character.lua",
     "Tome.UI.Layout.Guild.lua",
