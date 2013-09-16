@@ -11,10 +11,12 @@ Email = "thomas@lokshall.com"
 Environment = "2.3"
 
 Dependencies = {
+    LibMerisioux = { "required", "before" },
     LibUnitChange = { "required", "before" }
 }
 
 Embed = {
+    LibMerisioux = true,
     LibUnitChange = true
 }
 

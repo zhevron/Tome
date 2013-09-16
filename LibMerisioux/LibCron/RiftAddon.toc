@@ -1,0 +1,28 @@
+Identifier = "LibCron"
+
+Version = "0.6-130726-21:05:15"
+
+Email = "riftaddons@seebs.net"
+
+Dependencies = { LibGetOpt = { "optional", "before" }, printf = { "required", "before" } }
+
+Embed = { printf = true }
+
+Name = {
+  English = "LibCron",
+  French = "LibCron",
+  German = "LibCron",
+}
+
+NameShort = "LibCron"
+
+Description = {
+  English = "Scheduling library."
+}
+
+RunOnStartup = {
+  "LibCron.lua"
+}
+
+Environment = { "2.3" }
+

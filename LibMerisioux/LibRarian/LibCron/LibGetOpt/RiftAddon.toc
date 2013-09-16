@@ -1,0 +1,28 @@
+Identifier = "LibGetOpt"
+
+Version = "0.13-130726-21:05:13"
+
+Email = "riftaddons@seebs.net"
+
+Dependencies = {
+	printf = { "required", "before" },
+}
+Embed = { printf = true }
+
+Name = {
+  English = "LibGetOpt",
+  French = "LibGetOpt",
+  German = "LibGetOpt",
+}
+NameShort = "GetOpt"
+
+Description = {
+  English = "A library providing functionality similar to Unix getopt()"
+}
+
+RunOnStartup = {
+  "LibGetOpt.lua"
+}
+
+Environment = { "2.3" }
+

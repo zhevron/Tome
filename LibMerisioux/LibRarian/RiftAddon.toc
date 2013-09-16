@@ -1,0 +1,34 @@
+Identifier = "LibRarian"
+
+Version = "0.9-130801-21:41:45"
+
+Email = "riftaddons@seebs.net"
+
+Dependencies = {
+	printf = { "required", "before" },
+	LibCron = { "required", "before" },
+}
+Embed = { printf = true, LibCron = true }
+
+Name = {
+  English = "LibRarian",
+  French = "LibRarian",
+  German = "LibRarian",
+}
+
+NameShort = "LibRarian"
+
+SavedVariables = {
+  LibRarianData = "account",
+}
+
+Description = {
+  English = "Data storage and retrieval."
+}
+
+RunOnStartup = {
+  "LibRarian.lua"
+}
+
+Environment = { "2.3" }
+

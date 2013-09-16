@@ -1,0 +1,50 @@
+2013-08-04:
+	* Add age/height/weight fields.
+	* Ignore LibMerisioux "-dev" versions.
+	* Version bump
+
+2013-07-06:
+	* First half of support for future use of LibRarian's automatic
+	  serialization. Will now accept messages from versions that don't
+	  do their own serialization.
+	* No longer as reliant on own internal cleanup for timeouts.
+	* lmeri.list() allows restricting by flags
+	* New feature: Will check server storage for existing bio, and update
+	  if one is found.
+	* Now keeps timestamps in bio data, mostly for use with the above.
+	* Avoid mistakenly saving changes when unintended (e.g., when
+	  messing with checkboxes, but you haven't hit save).
+	* Can handle numeric fields, rather than silently discarding them.
+
+2013-06-27:
+	* New event model.
+	* New flags!
+
+2012-11-03:
+	* Version bump for release.
+
+2012-10-31:
+	* (seebs) TOC updates
+	* Switch to using printf so messages go only to one console.
+
+2012-06-22:
+	* (seebs) TOC updates for 1.9.
+
+2012-04-26:
+	* (seebs) Discard errors when exiting.
+	* (seebs) Mark own tables with self = true, and don't discard them.
+	* (seebs) 0.5 release
+
+2012-04-22:
+	* (seebs) add addon version checking.
+	* (seebs) Switch from pcall and an error handler to Utility.Dispatch.
+
+2012-04-21:
+	* (seebs) Push local data on login.
+
+2012-04-15:
+	* (seebs) Add a couple more flags, improve handling of people with
+	  no RP data.
+	* (seebs) Add some documentation.
+	* (seebs) When query is false, report any previously encountered
+	  errors, not just data.

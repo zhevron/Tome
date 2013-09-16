@@ -1,0 +1,46 @@
+2013/07/12:
+	* Try to catch Command.Storage.Get() calls which might throw an
+	  error for an invalid player name.
+
+2013/07/06:
+	* Version bump (0.6)
+	* Now has optional use of storage API.
+	* Will check storage API before sending queries.
+	* New message format (with versioning support).
+	* New-style messages can send items which aren't strings, by
+	  serializing them.
+	* Does compression internally so you don't have to!
+	* When talking to old versions, will still send uncompressed data,
+	  although this won't work if you saved a non-string.
+	* Doc updates.
+	* Actually expire old requests and report back that they timed
+	  out, rather than leaving them pending forever.
+	* Turn off debug messages. (0.7)
+	* Add support for server-only messages, remove unused code. (0.8)
+
+2013/06/27:
+	* Version bump (0.5)
+	* New event model.
+
+2013/01/27:
+	* Add zip/unzip (no release)
+	* Start planning for serializing.
+
+2012/11/03:
+	* Version bump to 0.4.
+
+2012/10/31:
+	* Update TOC.
+	* Switch to printf.
+
+2012/06/22:
+	* Update TOC.
+
+2012/04/21:
+	* Allow storing a nil to delete a stored key.
+
+2012/03/28:
+	* Use pcall for callbacks
+
+2012/03/28:
+	* Start development
