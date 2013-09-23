@@ -81,7 +81,7 @@ function Tome.Button.Event_Target(handle, unit)
     local name = string.upper(target.name)
 
     -- Abort if we do not have any data in the cache for this target
-    if not Tome_Cache[name] then
+    if not Tome_Cache.Character[name] then
         Tome.Button.Frame:SetVisible(false)
         return
     end
@@ -102,13 +102,13 @@ function Tome.Button.Event_Clicked(handle)
     local name = string.upper(Tome.Button.Target.name)
 
     -- Verify that we have cached data and abort if not
-    if not Tome_Cache[name] then
+    if not Tome_Cache.Character[name] then
         Tome.Button.Frame:SetVisible(false)
         return
     end
 
     -- Target and data is valid, show the UI
-    Tome.UI.Show(Tome_Cache[name])
+    Tome.UI.Show(Tome_Cache.Character[name])
 end
 
 -- Hook into the left click event of the button

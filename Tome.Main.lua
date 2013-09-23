@@ -177,7 +177,7 @@ function Tome.ShowDebug(command)
         local expired = 0
 
         -- Loop the cache
-        for _, item in pairs(Tome_Cache) do
+        for _, item in pairs(Tome_Cache.Character) do
             -- Increment the total counter
             total = total + 1
 
@@ -374,7 +374,7 @@ function Tome.Event_Command_Slash(handle, commandline)
         Tome.ShowHelp()
     elseif (command == "clear") then
         -- Clear the cache data
-        Tome_Cache = {}
+        Tome_Cache.Character = {}
 
         -- Clear the throttle timers
         Tome_Throttle = {}
@@ -391,13 +391,13 @@ function Tome.Event_Command_Slash(handle, commandline)
         local name = string.upper(table.remove(parameters, 1))
 
         -- If we do not have the character in cache, abort
-        if not Tome_Cache[name] then
+        if not Tome_Cache.Character[name] then
             print("Character data not found in cache")
             return
         end
 
         -- Show the character UI
-        Tome.UI.Show(Tome_Cache[name])
+        Tome.UI.Show(Tome_Cache.Character[name])
     elseif (command == "set") then
         -- Abort if we have less than two parameters
         if (table.getn(parameters) < 2) then

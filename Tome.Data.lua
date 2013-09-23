@@ -94,17 +94,17 @@ function Tome.Data.Get(name)
     name = string.upper(name)
 
     -- Check if we have the character data in our cache
-    if Tome_Cache[name] then
+    if Tome_Cache.Character[name] then
         -- Data is cached. Get the time that it will expire
-        local expires = Tome_Cache[name].Timestamp + Tome_Config.Timeout
+        local expires = Tome_Cache.Character[name].Timestamp + Tome_Config.Timeout
 
         -- Send a new query if the data has expired and flag it
         if (expires <= os.time()) then
             Tome.Data.Query(name)
-            Tome_Cache[name].Expired = true
+            Tome_Cache.Character[name].Expired = true
         end
 
-        return Tome_Cache[name]
+        return Tome_Cache.Character[name]
     else
         -- Data is not present. Send a new query
         Tome.Data.Query(name)
@@ -122,7 +122,7 @@ function Tome.Data.Cache(name, data)
     data.Origin = "Tome"
 
     -- Store the data in our cache
-    Tome_Cache[string.upper(name)] = data
+    Tome_Cache.Character[string.upper(name)] = data
 
     -- Notify the tooltip and button that we have an update in the cache
     Tome.Tooltip.NotifyUpdate(name)
