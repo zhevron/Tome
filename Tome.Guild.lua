@@ -29,11 +29,8 @@ Tome.Guild.Errors = { Get = 0, Set = 0 }
 
 -- This function checks if the player is in a guild
 function Tome.Guild.PlayerInGuild()
-    -- Get the players unit details
-    local player = Inspect.Unit.Detail("player")
-
     -- If the player is not iun a guild, return false
-    if not player.guild then
+    if not Inspect.Unit.Detail("player").guild then
         return false
     end
 
@@ -116,12 +113,17 @@ end
 -- This function is called by the event API when the guild info is returned from storage
 function Tome.Guild.Event_Storage_Get(handle, target, segment, identifier, read, write, data)
     -- Abort if this is not guild info data
-    if identifier ~= Tome.Guild.Identifier then
+    if identifier ~= Tome.Guild.Identifier or segment ~= "guild" then
         return
     end
 
-    -- Store the retrieved guild info
-    Tome_Guild = data
+    -- Check if this is the players guild
+    if target == Inspect.Unit.Detail("player").name then
+        -- Store the retrieved guild info
+        Tome_Guild = data
+    else
+        --
+    end
 end
 
 -- Attach to the storage get event
