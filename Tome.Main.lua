@@ -147,6 +147,7 @@ function Tome.ShowHelp()
     print("  debug data - Prints the serialized character data")
     print("  debug cache - Prints information about the current cache status")
     print("  debug counters - Prints message counters")
+    print("  debug guild - Prints guild error counters")
     print("  debug merisioux - Prints message counters for Merisioux compatibility")
 end
 
@@ -203,6 +204,11 @@ function Tome.ShowDebug(command)
         print(string.format("  Sent: %d", Tome.Data.Statistics.Data.Sent))
         print(string.format("  Received: %d", Tome.Data.Statistics.Data.Received))
         print(string.format("  Errors: %d", Tome.Data.Statistics.Data.Errors))
+    elseif (command == "guild") then
+        -- Show counters for guild data
+        print("------- Guild Statistics -------")
+        print(string.format("Get Errors: %d", Tome.Guild.Errors.Get))
+        print(string.format("Set Errors: %d", Tome.Guild.Errors.Set))
     elseif (command == "merisioux") then
         -- Show counters for message data (Merisioux)
         print("------- Message Statistics -------")
@@ -215,7 +221,8 @@ function Tome.ShowDebug(command)
         print(string.format("  Received: %d", Tome.Compat.Merisioux.Statistics.Data.Received))
         print(string.format("  Errors: %d", Tome.Compat.Merisioux.Statistics.Data.Errors))
     else
-        --
+        -- No such debug command
+        print(string.format("No debug command named '%s'. Type '/tome help' for a list", command))
     end
 end
 
