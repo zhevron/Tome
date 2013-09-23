@@ -102,7 +102,7 @@ Tome.UI.NavButtons.Character:EventAttach(
             Tome.UI.NavButtons.Character:SetEnabled(false)
         else
             -- Show the View layout
-            Tome.UI.Layouts.View:SetVisible(true)
+            Tome.UI.Layouts.CharacterView:SetVisible(true)
         end
     end,
     "Tome_UI_NavButton_Character_Click"
@@ -150,23 +150,27 @@ Tome.UI.Save:EventAttach(
             return
         end
 
-        -- Save the settings
-        Tome_Character.Prefix = string.gsub(Tome.UI.Layouts.Character.Prefix:GetText(), "Prefix", "")
-        Tome_Character.Name = string.gsub(Tome.UI.Layouts.Character.Name:GetText(), "Name", "")
-        Tome_Character.Suffix = string.gsub(Tome.UI.Layouts.Character.Suffix:GetText(), "Suffix", "")
-        Tome_Character.Title = string.gsub(Tome.UI.Layouts.Character.Title:GetText(), "Title", "")
-        Tome_Character.Age = string.gsub(Tome.UI.Layouts.Character.Age:GetText(), "Age", "")
-        Tome_Character.Height = string.gsub(Tome.UI.Layouts.Character.Height:GetText(), "Height", "")
-        Tome_Character.Weight = string.gsub(Tome.UI.Layouts.Character.Weight:GetText(), "Weight", "")
-        Tome_Character.Currently = string.gsub(Tome.UI.Layouts.Character.Currently:GetText(), "Currently", "")
-        Tome_Character.InCharacter = string.find(Tome.UI.Layouts.Character.InCharacter:GetText(), "IC") and true or false
-        Tome_Character.Tutor = string.find(Tome.UI.Layouts.Character.Tutor:GetText(), "Tutor: On") and true or false
-        Tome_Character.Flag = Tome.UI.Layouts.Character.Flag:GetSelectedValue()
-        Tome_Character.Appearance = Tome.UI.Layouts.Character.Appearance.Text:GetText()
-        Tome_Character.History = Tome.UI.Layouts.Character.History.Text:GetText()
+        -- Check what layout we're saving from
+        if Tome.UI.Layouts.Character:GetVisible() then
+            -- Save the settings
+            Tome_Character.Prefix = string.gsub(Tome.UI.Layouts.Character.Prefix:GetText(), "Prefix", "")
+            Tome_Character.Name = string.gsub(Tome.UI.Layouts.Character.Name:GetText(), "Name", "")
+            Tome_Character.Suffix = string.gsub(Tome.UI.Layouts.Character.Suffix:GetText(), "Suffix", "")
+            Tome_Character.Title = string.gsub(Tome.UI.Layouts.Character.Title:GetText(), "Title", "")
+            Tome_Character.Age = string.gsub(Tome.UI.Layouts.Character.Age:GetText(), "Age", "")
+            Tome_Character.Height = string.gsub(Tome.UI.Layouts.Character.Height:GetText(), "Height", "")
+            Tome_Character.Weight = string.gsub(Tome.UI.Layouts.Character.Weight:GetText(), "Weight", "")
+            Tome_Character.InCharacter = string.find(Tome.UI.Layouts.Character.InCharacter:GetText(), "IC") and true or false
+            Tome_Character.Tutor = string.find(Tome.UI.Layouts.Character.Tutor:GetText(), "Tutor: On") and true or false
+            Tome_Character.Flag = Tome.UI.Layouts.Character.Flag:GetSelectedValue()
+            Tome_Character.Appearance = Tome.UI.Layouts.Character.Appearance.Text:GetText()
+            Tome_Character.History = Tome.UI.Layouts.Character.History.Text:GetText()
 
-        -- Broadcast the new data
-        Tome.Data.Send("say", true)
+            -- Broadcast the new data
+            Tome.Data.Send("say", true)
+        elseif Tome.UI.Layouts.Guild:GetVisible() then
+            --
+        end
 
         -- Disable the save button
         Tome.UI.Save:SetEnabled(false)
@@ -221,10 +225,10 @@ Tome.UI.NavButtons.Preview:EventAttach(
         end
 
         -- Populate the View layout
-        Tome.UI.Layouts.View.Populate(Tome_Character)
+        Tome.UI.Layouts.CharacterView.Populate(Tome_Character)
 
         -- Show the View layout
-        Tome.UI.Layouts.View:SetVisible(true)
+        Tome.UI.Layouts.CharacterView:SetVisible(true)
 
         -- Enable all buttons and disable this button
             for _, button in pairs(Tome.UI.NavButtons) do
@@ -260,10 +264,10 @@ function Tome.UI.Show(data)
         Tome.UI.ShowingSelf = false
 
         -- Populate the View layout
-        Tome.UI.Layouts.View.Populate(data)
+        Tome.UI.Layouts.CharacterView.Populate(data)
 
         -- Enable the View layout
-        Tome.UI.Layouts.View:SetVisible(true)
+        Tome.UI.Layouts.CharacterView:SetVisible(true)
 
         -- TODO: Set all the fields to current data
     else
