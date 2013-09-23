@@ -1,6 +1,6 @@
 --
 -- Tome.UI.Layout.CharacterView.lua
--- Maintained by Lyrai @ Faeblight NA (Zhevron @ Github)
+-- Maintained by Lyrai @ Faeblight NA (Zhevron @ Github)
 --
 -- This file is part of Tome.
 --
@@ -52,11 +52,16 @@ Tome.UI.Layouts.CharacterView.Title:SetFontColor(1.0, 0.8, 0.0, 1.0)
 Tome.UI.Layouts.CharacterView.Height = UI.CreateFrame("Text", "Tome_UI_Layout_CharacterView_Height", Tome.UI.Layouts.CharacterView.Container)
 Tome.UI.Layouts.CharacterView.Height:SetFontSize(13)
 
+-- Create the Currently label
+Tome.UI.Layouts.CharacterView.Currently = UI.CreateFrame("Text", "Tome_UI_Layout_CharacterView_Currently", Tome.UI.Layouts.CharacterView.Container)
+Tome.UI.Layouts.CharacterView.Currently:SetFontSize(13)
+Tome.UI.Layouts.CharacterView.Currently:SetFontColor(0.8, 0.8, 0.6, 1.0)
+
 -- Create the Appearance label
 Tome.UI.Layouts.CharacterView.Appearance = {}
 Tome.UI.Layouts.CharacterView.Appearance.Label = UI.CreateFrame("Text", "Tome_UI_Layout_CharacterView_Appearance_Header", Tome.UI.Layouts.CharacterView)
-Tome.UI.Layouts.CharacterView.Appearance.Label:SetPoint("TOPLEFT", Tome.UI.Layouts.CharacterView.Container, "BOTTOMLEFT", 0, 10)
-Tome.UI.Layouts.CharacterView.Appearance.Label:SetPoint("TOPRIGHT", Tome.UI.Layouts.CharacterView.Container, "BOTTOMRIGHT", 0, 10)
+Tome.UI.Layouts.CharacterView.Appearance.Label:SetPoint("TOPLEFT", Tome.UI.Layouts.CharacterView.Container, "BOTTOMLEFT", 0, 30)
+Tome.UI.Layouts.CharacterView.Appearance.Label:SetPoint("TOPRIGHT", Tome.UI.Layouts.CharacterView.Container, "BOTTOMRIGHT", 0, 30)
 Tome.UI.Layouts.CharacterView.Appearance.Label:SetFontSize(13)
 Tome.UI.Layouts.CharacterView.Appearance.Label:SetText("Appearance:")
 Tome.UI.Layouts.CharacterView.Appearance.Text = Tome.Widget.TextArea.Create(
@@ -88,13 +93,27 @@ Tome.UI.Layouts.CharacterView.History.Text.Border = Tome.Widget.Border.Create(To
 
 -- Create the Age label
 Tome.UI.Layouts.CharacterView.Age = UI.CreateFrame("Text", "Tome_UI_Layout_CharacterView_Age", Tome.UI.Layouts.CharacterView.Container)
-Tome.UI.Layouts.CharacterView.Age:SetPoint("BOTTOMLEFT", Tome.UI.Layouts.CharacterView.Appearance.Label, "TOPLEFT", 0, -5)
+Tome.UI.Layouts.CharacterView.Age:SetPoint("BOTTOMLEFT", Tome.UI.Layouts.CharacterView.Appearance.Label, "TOPLEFT", 0, -30)
 Tome.UI.Layouts.CharacterView.Age:SetFontSize(13)
 
 -- Create the Weight label
 Tome.UI.Layouts.CharacterView.Weight = UI.CreateFrame("Text", "Tome_UI_Layout_CharacterView_Weight", Tome.UI.Layouts.CharacterView.Container)
-Tome.UI.Layouts.CharacterView.Weight:SetPoint("BOTTOMRIGHT", Tome.UI.Layouts.CharacterView.Appearance.Label, "TOPRIGHT", 0, -5)
+Tome.UI.Layouts.CharacterView.Weight:SetPoint("BOTTOMRIGHT", Tome.UI.Layouts.CharacterView.Appearance.Label, "TOPRIGHT", 0, -30)
 Tome.UI.Layouts.CharacterView.Weight:SetFontSize(13)
+
+-- Create the notes button
+Tome.UI.Layouts.CharacterView.Notes = UI.CreateFrame("RiftButton", "Tome_UI_Layout_CharacterView_Notes", Tome.UI.Layouts.CharacterView.Container)
+Tome.UI.Layouts.CharacterView.Notes:SetPoint("BOTTOMRIGHT", Tome.UI.Save, "BOTTOMRIGHT", 0, 0)
+Tome.UI.Layouts.CharacterView.Notes:SetText("Notes")
+Tome.UI.Layouts.CharacterView.Notes:SetVisible(false)
+Tome.UI.Layouts.CharacterView.Notes:EventAttach(
+    Event.UI.Input.Mouse.Left.Click,
+    function(handle)
+        -- Open the notes window
+        Tome.UI.Notes.Show(Tome.UI.Layouts.CharacterView.CharacterName)
+    end,
+    "Tome_UI_Layout_CharacterView_Notes_Click"
+)
 
 -- This function is used to update the layout whenever the data is changed
 function Tome.UI.Layouts.CharacterView.UpdateLayout()
@@ -117,7 +136,13 @@ function Tome.UI.Layouts.CharacterView.UpdateLayout()
     offset = (width - Tome.UI.Layouts.CharacterView.Height:GetWidth()) / 2
 
     -- Reposition the Height label
-    Tome.UI.Layouts.CharacterView.Height:SetPoint("BOTTOMLEFT", Tome.UI.Layouts.CharacterView.Appearance.Label, "TOPLEFT", offset, -5)
+    Tome.UI.Layouts.CharacterView.Height:SetPoint("BOTTOMLEFT", Tome.UI.Layouts.CharacterView.Appearance.Label, "TOPLEFT", offset, -30)
+
+    -- Calculate the offset for the Currently label
+    offset = (width - Tome.UI.Layouts.CharacterView.Currently:GetWidth()) / 2
+
+    -- Reposition the Currently label
+    Tome.UI.Layouts.CharacterView.Currently:SetPoint("BOTTOMLEFT", Tome.UI.Layouts.CharacterView.Appearance.Label, "TOPLEFT", offset, -5)
 end
 
 -- This function removed key focus from all the text fields
@@ -138,20 +163,25 @@ function Tome.UI.Layouts.CharacterView.Populate(data)
 
     Tome.UI.Layouts.CharacterView.Name:SetText(name)
     Tome.UI.Layouts.CharacterView.Title:SetText(data.Title)
-    if data.Age ~= "" then
+    if data.Age and data.Age ~= "" then
         Tome.UI.Layouts.CharacterView.Age:SetText(string.format("Age: %s", data.Age))
     else
         Tome.UI.Layouts.CharacterView.Age:SetText("")
     end
-    if data.Height ~= "" then
+    if data.Height and data.Height ~= "" then
         Tome.UI.Layouts.CharacterView.Height:SetText(string.format("Height: %s", data.Height))
     else
         Tome.UI.Layouts.CharacterView.Height:SetText("")
     end
-    if data.Weight ~= "" then
+    if data.Weight and data.Weight ~= "" then
         Tome.UI.Layouts.CharacterView.Weight:SetText(string.format("Weight: %s", data.Weight))
     else
         Tome.UI.Layouts.CharacterView.Weight:SetText("")
+    end
+    if data.Currently and data.Currently ~= "" then
+        Tome.UI.Layouts.CharacterView.Currently:SetText(string.format("Currently: %s",data.Currently))
+    else
+        Tome.UI.Layouts.CharacterView.Currently:SetText("")
     end
     local flag = ""
     for _, item in pairs(Tome.Data.Flags) do
@@ -172,6 +202,14 @@ function Tome.UI.Layouts.CharacterView.Populate(data)
     end
     Tome.UI.Layouts.CharacterView.Appearance.Text:SetText(data.Appearance)
     Tome.UI.Layouts.CharacterView.History.Text:SetText(data.History)
+
+    Tome.UI.Layouts.CharacterView.CharacterName = data.Name
+
+    if data.Name ~= Inspect.Unit.Detail("player").name then
+        Tome.UI.Layouts.CharacterView.Notes:SetVisible(true)
+    else
+        Tome.UI.Layouts.CharacterView.Notes:SetVisible(false)
+    end
 
     Tome.UI.Layouts.CharacterView.UpdateLayout()
 end
