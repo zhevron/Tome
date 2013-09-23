@@ -48,7 +48,7 @@ Tome_Character_Defaults = {
 
 Tome_Notes = {}
 
-Tome_Guild = {
+Tome_Guild_Defaults = {
     Name = detail and detail.guild or "",
     Subtitle = "",
     Description = "",
@@ -69,3 +69,5 @@ Tome_Throttle = {}
 Tome_Config = Tome_Defaults
 
 Tome_Character = Tome_Character_Defaults
+
+Tome_Guild = Tome_Guild_Defaults

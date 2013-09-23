@@ -34,7 +34,7 @@ RunOnStartup = {
     "Tome.UI.Layout.Character.lua",
     "Tome.UI.Layout.CharacterView.lua",
     "Tome.UI.Layout.Guild.lua",
-    "Tome.UI.Layout.GUildView.lua",
+    "Tome.UI.Layout.GuildView.lua",
     "Tome.UI.Layout.Settings.lua",
     "Tome.UI.Notes.lua"
 }
