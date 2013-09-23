@@ -101,7 +101,7 @@ Tome.UI.NavButtons.Character:EventAttach(
             end
             Tome.UI.NavButtons.Character:SetEnabled(false)
         else
-            -- Show the View layout
+            -- Show the CharacterView layout
             Tome.UI.Layouts.CharacterView:SetVisible(true)
         end
     end,
@@ -125,14 +125,20 @@ Tome.UI.NavButtons.Guild:EventAttach(
             layout:SetVisible(false)
         end
 
-        -- Show the Guild tab
-        Tome.UI.Layouts.Guild:SetVisible(true)
+        -- Check if this is the players own data
+        if Tome.UI.ShowingSelf then
+            -- Show the Guild tab
+            Tome.UI.Layouts.Guild:SetVisible(true)
 
-        -- Enable all buttons and disable this button
+            -- Enable all buttons and disable this button
             for _, button in pairs(Tome.UI.NavButtons) do
                 button:SetEnabled(true)
             end
             Tome.UI.NavButtons.Guild:SetEnabled(false)
+        else
+            -- Show the GuildView layout
+            Tome.UI.Layouts.GuildView:SetVisible(true)
+        end
     end,
     "Tome_UI_NavButton_Guild_Click"
 )
