@@ -509,6 +509,9 @@ function Tome.Event_Loaded(handle, addonidentifier)
             Tome_Cache = Tome_Cache_Defaults
         end
 
+        -- Query for new guild data
+        Tome.Guild.Query()
+
         -- Get the addon version
         local version = Tome.GetVersion()
 
