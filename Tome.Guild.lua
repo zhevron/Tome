@@ -68,15 +68,21 @@ function Tome.Guild.QueryCallback(failure, message)
 end
 
 -- This function initiates a query for the information from guild storage
-function Tome.Guild.Query()
-    -- Abort if the player is not in a guild
-    if not Tome.Guild.PlayerInGuild() then
-        return
+function Tome.Guild.Query(target)
+    -- Check if a target was specified
+    if not target then
+        -- Abort if the player is not in a guild
+        if not Tome.Guild.PlayerInGuild() then
+            return
+        end
+
+        -- Set the player as a target
+        target = Inspect.Unit.Detail("player").name
     end
 
     -- Send a storage query command to the RIFT API
     Command.Storage.Get(
-        Inspect.Unit.Detail("player").name,
+        target,
         "guild",
         Tome.Guild.Identifier,
         Tome.Guild.QueryCallback
@@ -89,6 +95,9 @@ function Tome.Guild.StoreCallback(failure, message)
     if failure then
         -- Increment the set error counter
         Tome.Guild.Errors.Set = Tome.Guild.Errors.Set + 1
+    else
+        -- Query our own cache to update with the new data
+        Tome.Guild.Query()
     end
 end
 
@@ -122,7 +131,8 @@ function Tome.Guild.Event_Storage_Get(handle, target, segment, identifier, read,
         -- Store the retrieved guild info
         Tome_Guild = data
     else
-        --
+        -- Store the retrieved guild info in the cache
+        Tome_Cache.Guild[string.upper(data.name)] = data
     end
 end
 
