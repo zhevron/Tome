@@ -187,5 +187,48 @@ end
 
 -- This function sets all the fields to match the supplied data
 function Tome.UI.Layouts.Guild.Populate(data)
-    --
+    -- Check if we actually have any data to show
+    if data then
+        -- Populate the name field
+        if data.Name and data.Name ~= "" then
+            Tome.UI.Layouts.Guild.Name:SetText(data.Name)
+        else
+            Tome.UI.Layouts.Guild.Name:SetText("")
+        end
+
+        -- Populate the subtitle field
+        if data.Subtitle and data.Subtitle ~= "" then
+            Tome.UI.Layouts.Guild.Subtitle:SetText(data.Subtitle)
+        else
+            Tome.UI.Layouts.Guild.Subtitle:SetText("")
+        end
+
+        -- Populate the description field
+        if data.Description and data.Description ~= "" then
+            Tome.UI.Layouts.Guild.Description.Text:SetText(data.Description)
+        else
+            Tome.UI.Layouts.Guild.Description.Text:SetText("")
+        end
+
+        -- Populate the miscellaneous field
+        if data.Miscellaneous and data.Miscellaneous ~= "" then
+            Tome.UI.Layouts.Guild.Miscellaneous.Text:SetText(data.Miscellaneous)
+        else
+            Tome.UI.Layouts.Guild.Miscellaneous.Text:SetText("")
+        end
+
+        -- Populate the recruiting button
+        if data.Recruiting then
+            Tome.UI.Layouts.Guild.Recruiting:SetText("Recruiting")
+        else
+            Tome.UI.Layouts.Guild.Recruiting:SetText("Not Recruiting")
+        end
+
+        -- Populate the roleplaying button
+        if data.Roleplaying then
+            Tome.UI.Layouts.Guild.Roleplaying:SetText("RP")
+        else
+            Tome.UI.Layouts.Guild.Roleplaying:SetText("No RP")
+        end
+    end
 end

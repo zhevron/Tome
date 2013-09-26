@@ -104,5 +104,63 @@ end
 
 -- This function sets all the fields to match the supplied data
 function Tome.UI.Layouts.GuildView.Populate(data)
+    -- Check if we actually have any data to show
+    if not data then
+        -- Player is not in a guild
+        Tome.UI.Layouts.GuildView.Name:SetText("No Guild")
+        Tome.UI.Layouts.GuildView.Subtitle:SetText("")
+        Tome.UI.Layouts.GuildView.Description.Text:SetText("")
+        Tome.UI.Layouts.GuildView.Miscellaneous.Text:SetText("")
+        Tome.UI.Layouts.GuildView.Recruiting:SetText("")
+        Tome.UI.Layouts.GuildView.Roleplaying:SetText("")
+    else
+        -- Populate the name field
+        if data.Name and data.Name ~= "" then
+            Tome.UI.Layouts.GuildView.Name:SetText(data.Name)
+        else
+            Tome.UI.Layouts.GuildView.Name:SetText("")
+        end
+
+        -- Populate the subtitle field
+        if data.Subtitle and data.Subtitle ~= "" then
+            Tome.UI.Layouts.GuildView.Subtitle:SetText(data.Subtitle)
+        else
+            Tome.UI.Layouts.GuildView.Subtitle:SetText("")
+        end
+
+        -- Populate the description field
+        if data.Description and data.Description ~= "" then
+            Tome.UI.Layouts.GuildView.Description.Text:SetText(data.Description)
+        else
+            Tome.UI.Layouts.GuildView.Description.Text:SetText("")
+        end
+
+        -- Populate the miscellaneous field
+        if data.Miscellaneous and data.Miscellaneous ~= "" then
+            Tome.UI.Layouts.GuildView.Miscellaneous.Text:SetText(data.Miscellaneous)
+        else
+            Tome.UI.Layouts.GuildView.Miscellaneous.Text:SetText("")
+        end
+
+        -- Populate the recruiting button
+        if data.Recruiting then
+            Tome.UI.Layouts.GuildView.Recruiting:SetText("Recruiting")
+            Tome.UI.Layouts.GuildView.Recruiting:SetFontColor(0.0, 1.0, 0.0, 1.0)
+        else
+            Tome.UI.Layouts.GuildView.Recruiting:SetText("Not Recruiting")
+            Tome.UI.Layouts.GuildView.Recruiting:SetFontColor(0.78, 0.08, 0.08, 1.0)
+        end
+
+        -- Populate the roleplaying button
+        if data.Roleplaying then
+            Tome.UI.Layouts.GuildView.Roleplaying:SetText("Roleplaying")
+            Tome.UI.Layouts.GuildView.Roleplaying:SetFontColor(0.0, 1.0, 0.0, 1.0)
+        else
+            Tome.UI.Layouts.GuildView.Roleplaying:SetText("Not Roleplaying")
+            Tome.UI.Layouts.GuildView.Roleplaying:SetFontColor(0.78, 0.08, 0.08, 1.0)
+        end
+    end
+
+    -- Fix positions for the fluid layout
     Tome.UI.Layouts.GuildView.UpdateLayout()
 end
