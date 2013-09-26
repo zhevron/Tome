@@ -223,10 +223,10 @@ Tome.UI.NavButtons.Settings:EventAttach(
         Tome.UI.Layouts.Settings:SetVisible(true)
 
         -- Enable all buttons and disable this button
-            for _, button in pairs(Tome.UI.NavButtons) do
-                button:SetEnabled(true)
-            end
-            Tome.UI.NavButtons.Settings:SetEnabled(false)
+        for _, button in pairs(Tome.UI.NavButtons) do
+            button:SetEnabled(true)
+        end
+        Tome.UI.NavButtons.Settings:SetEnabled(false)
     end,
     "Tome_UI_NavButton_Settings_Click"
 )
@@ -255,10 +255,10 @@ Tome.UI.NavButtons.Preview:EventAttach(
         Tome.UI.Layouts.CharacterView:SetVisible(true)
 
         -- Enable all buttons and disable this button
-            for _, button in pairs(Tome.UI.NavButtons) do
-                button:SetEnabled(true)
-            end
-            Tome.UI.NavButtons.Preview:SetEnabled(false)
+        for _, button in pairs(Tome.UI.NavButtons) do
+            button:SetEnabled(true)
+        end
+        Tome.UI.NavButtons.Preview:SetEnabled(false)
     end,
     "Tome_UI_NavButton_Preview_Click"
 )
@@ -287,13 +287,18 @@ function Tome.UI.Show(data)
         -- Store that this is not the players own data
         Tome.UI.ShowingSelf = false
 
-        -- Populate the View layout
+        -- Populate the CharacterView layout
         Tome.UI.Layouts.CharacterView.Populate(data)
 
-        -- Enable the View layout
-        Tome.UI.Layouts.CharacterView:SetVisible(true)
+        -- Populate the GuildView layout
+        if data.Guild and Tome_Cache.Guild[string.upper(data.Guild)] then
+            Tome.UI.Layouts.GuildView.Populate(Tome_Cache.Guild[string.upper(data.Guild)])
+        else
+            Tome.UI.Layouts.GuildView.Populate(nil)
+        end
 
-        -- TODO: Set all the fields to current data
+        -- Enable the CharacterView layout
+        Tome.UI.Layouts.CharacterView:SetVisible(true)
     else
         -- Enable the navbar buttons
         for _, button in pairs(Tome.UI.NavButtons) do
@@ -314,6 +319,15 @@ function Tome.UI.Show(data)
 
         -- Populate the Character layout
         Tome.UI.Layouts.Character.Populate(data)
+
+        -- Populate the GuildView layout
+        if Inspect.Unit.Detail("player").guild then
+            Tome.UI.Layouts.Guild.Populate(Tome_Guild)
+            Tome.UI.Layouts.GuildView.Populate(Tome_Guild)
+        else
+            Tome.UI.Layouts.Guild.Populate(nil)
+            Tome.UI.Layouts.GuildView.Populate(nil)
+        end
 
         -- Show and disable the save button
         Tome.UI.Save:SetVisible(true)
