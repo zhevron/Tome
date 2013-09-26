@@ -128,6 +128,9 @@ function Tome.Compat.Merisioux.Cache(name, data)
     -- Set the time this entry was added so we can check for expiry later
     tomedata.Timestamp = os.time()
 
+    -- Store the players guild name in the data
+    tomedata.Guild = Inspect.Unit.Detail(name).guild
+
     -- Store the data in our cache
     Tome_Cache.Character[string.upper(name)] = tomedata
 

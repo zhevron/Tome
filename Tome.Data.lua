@@ -121,6 +121,9 @@ function Tome.Data.Cache(name, data)
     -- Set the origin addon for the data
     data.Origin = "Tome"
 
+    -- Store the players guild name in the data
+    data.Guild = Inspect.Unit.Detail(name).guild
+
     -- Store the data in our cache
     Tome_Cache.Character[string.upper(name)] = data
 
