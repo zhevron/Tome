@@ -147,6 +147,7 @@ function Tome.ShowHelp()
     print("  debug data - Prints the serialized character data")
     print("  debug cache - Prints information about the current cache status")
     print("  debug counters - Prints message counters")
+    print("  debug guild - Prints guild error counters")
     print("  debug merisioux - Prints message counters for Merisioux compatibility")
 end
 
@@ -176,7 +177,7 @@ function Tome.ShowDebug(command)
         local expired = 0
 
         -- Loop the cache
-        for _, item in pairs(Tome_Cache) do
+        for _, item in pairs(Tome_Cache.Character) do
             -- Increment the total counter
             total = total + 1
 
@@ -203,6 +204,11 @@ function Tome.ShowDebug(command)
         print(string.format("  Sent: %d", Tome.Data.Statistics.Data.Sent))
         print(string.format("  Received: %d", Tome.Data.Statistics.Data.Received))
         print(string.format("  Errors: %d", Tome.Data.Statistics.Data.Errors))
+    elseif (command == "guild") then
+        -- Show counters for guild data
+        print("------- Guild Statistics -------")
+        print(string.format("Get Errors: %d", Tome.Guild.Errors.Get))
+        print(string.format("Set Errors: %d", Tome.Guild.Errors.Set))
     elseif (command == "merisioux") then
         -- Show counters for message data (Merisioux)
         print("------- Message Statistics -------")
@@ -215,7 +221,8 @@ function Tome.ShowDebug(command)
         print(string.format("  Received: %d", Tome.Compat.Merisioux.Statistics.Data.Received))
         print(string.format("  Errors: %d", Tome.Compat.Merisioux.Statistics.Data.Errors))
     else
-        --
+        -- No such debug command
+        print(string.format("No debug command named '%s'. Type '/tome help' for a list", command))
     end
 end
 
@@ -367,7 +374,7 @@ function Tome.Event_Command_Slash(handle, commandline)
         Tome.ShowHelp()
     elseif (command == "clear") then
         -- Clear the cache data
-        Tome_Cache = {}
+        Tome_Cache.Character = {}
 
         -- Clear the throttle timers
         Tome_Throttle = {}
@@ -384,13 +391,13 @@ function Tome.Event_Command_Slash(handle, commandline)
         local name = string.upper(table.remove(parameters, 1))
 
         -- If we do not have the character in cache, abort
-        if not Tome_Cache[name] then
+        if not Tome_Cache.Character[name] then
             print("Character data not found in cache")
             return
         end
 
         -- Show the character UI
-        Tome.UI.Show(Tome_Cache[name])
+        Tome.UI.Show(Tome_Cache.Character[name])
     elseif (command == "set") then
         -- Abort if we have less than two parameters
         if (table.getn(parameters) < 2) then
@@ -496,6 +503,14 @@ function Tome.Event_Loaded(handle, addonidentifier)
 
         -- Update the Tome_Character with new fields in case of an update
         Tome_Character = Tome.SetDefaults(Tome_Character_Defaults, Tome_Character)
+
+        -- Reset the cache if it has somehow gone corrupt
+        if not Tome_Cache.Character or not Tome_Cache.Guild then
+            Tome_Cache = Tome_Cache_Defaults
+        end
+
+        -- Query for new guild data
+        Tome.Guild.Query()
 
         -- Get the addon version
         local version = Tome.GetVersion()

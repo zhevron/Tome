@@ -101,8 +101,8 @@ Tome.UI.NavButtons.Character:EventAttach(
             end
             Tome.UI.NavButtons.Character:SetEnabled(false)
         else
-            -- Show the View layout
-            Tome.UI.Layouts.View:SetVisible(true)
+            -- Show the CharacterView layout
+            Tome.UI.Layouts.CharacterView:SetVisible(true)
         end
     end,
     "Tome_UI_NavButton_Character_Click"
@@ -125,14 +125,24 @@ Tome.UI.NavButtons.Guild:EventAttach(
             layout:SetVisible(false)
         end
 
-        -- Show the Guild tab
-        Tome.UI.Layouts.Guild:SetVisible(true)
+        -- Check if this is the players own data
+        if Tome.UI.ShowingSelf then
+            -- Show the Guild tab
+            if Tome.Guild.PlayerCanWrite() then
+                Tome.UI.Layouts.Guild:SetVisible(true)
+            else
+                Tome.UI.Layouts.GuildView:SetVisible(true)
+            end
 
-        -- Enable all buttons and disable this button
+            -- Enable all buttons and disable this button
             for _, button in pairs(Tome.UI.NavButtons) do
                 button:SetEnabled(true)
             end
             Tome.UI.NavButtons.Guild:SetEnabled(false)
+        else
+            -- Show the GuildView layout
+            Tome.UI.Layouts.GuildView:SetVisible(true)
+        end
     end,
     "Tome_UI_NavButton_Guild_Click"
 )
@@ -150,23 +160,41 @@ Tome.UI.Save:EventAttach(
             return
         end
 
-        -- Save the settings
-        Tome_Character.Prefix = string.gsub(Tome.UI.Layouts.Character.Prefix:GetText(), "Prefix", "")
-        Tome_Character.Name = string.gsub(Tome.UI.Layouts.Character.Name:GetText(), "Name", "")
-        Tome_Character.Suffix = string.gsub(Tome.UI.Layouts.Character.Suffix:GetText(), "Suffix", "")
-        Tome_Character.Title = string.gsub(Tome.UI.Layouts.Character.Title:GetText(), "Title", "")
-        Tome_Character.Age = string.gsub(Tome.UI.Layouts.Character.Age:GetText(), "Age", "")
-        Tome_Character.Height = string.gsub(Tome.UI.Layouts.Character.Height:GetText(), "Height", "")
-        Tome_Character.Weight = string.gsub(Tome.UI.Layouts.Character.Weight:GetText(), "Weight", "")
-        Tome_Character.Currently = string.gsub(Tome.UI.Layouts.Character.Currently:GetText(), "Currently", "")
-        Tome_Character.InCharacter = string.find(Tome.UI.Layouts.Character.InCharacter:GetText(), "IC") and true or false
-        Tome_Character.Tutor = string.find(Tome.UI.Layouts.Character.Tutor:GetText(), "Tutor: On") and true or false
-        Tome_Character.Flag = Tome.UI.Layouts.Character.Flag:GetSelectedValue()
-        Tome_Character.Appearance = Tome.UI.Layouts.Character.Appearance.Text:GetText()
-        Tome_Character.History = Tome.UI.Layouts.Character.History.Text:GetText()
+        -- Check what layout we're saving from
+        if Tome.UI.Layouts.Character:GetVisible() then
+            -- Save the settings
+            Tome_Character.Prefix = string.gsub(Tome.UI.Layouts.Character.Prefix:GetText(), "Prefix", "")
+            Tome_Character.Name = string.gsub(Tome.UI.Layouts.Character.Name:GetText(), "Name", "")
+            Tome_Character.Suffix = string.gsub(Tome.UI.Layouts.Character.Suffix:GetText(), "Suffix", "")
+            Tome_Character.Title = string.gsub(Tome.UI.Layouts.Character.Title:GetText(), "Title", "")
+            Tome_Character.Age = string.gsub(Tome.UI.Layouts.Character.Age:GetText(), "Age", "")
+            Tome_Character.Height = string.gsub(Tome.UI.Layouts.Character.Height:GetText(), "Height", "")
+            Tome_Character.Weight = string.gsub(Tome.UI.Layouts.Character.Weight:GetText(), "Weight", "")
+            Tome_Character.InCharacter = string.find(Tome.UI.Layouts.Character.InCharacter:GetText(), "IC") and true or false
+            Tome_Character.Tutor = string.find(Tome.UI.Layouts.Character.Tutor:GetText(), "Tutor: On") and true or false
+            Tome_Character.Flag = Tome.UI.Layouts.Character.Flag:GetSelectedValue()
+            Tome_Character.Appearance = Tome.UI.Layouts.Character.Appearance.Text:GetText()
+            Tome_Character.History = Tome.UI.Layouts.Character.History.Text:GetText()
 
-        -- Broadcast the new data
-        Tome.Data.Send("say", true)
+            -- Broadcast the new data
+            Tome.Data.Send("say", true)
+        elseif Tome.UI.Layouts.Guild:GetVisible() then
+            -- Abort if the player is not allowed to save details
+            if not Tome.Guild.PlayerCanWrite() then
+                return
+            end
+
+            -- Save the settings
+            Tome_Guild.Name = string.gsub(Tome.UI.Layouts.Guild.Name:GetText(), "Name", "")
+            Tome_Guild.Subtitle = string.gsub(Tome.UI.Layouts.Guild.Subtitle:GetText(), "Subtitle", "")
+            Tome_Guild.Description = Tome.UI.Layouts.Guild.Description.Text:GetText()
+            Tome_Guild.Miscellaneous = Tome.UI.Layouts.Guild.Miscellaneous.Text:GetText()
+            Tome_Guild.Recruiting = string.find(Tome.UI.Layouts.Guild.Recruiting:GetText(), "Not Recruiting") and false or true
+            Tome_Guild.Roleplaying = string.find(Tome.UI.Layouts.Guild.Roleplaying:GetText(), "No RP") and false or true
+
+            -- Send data to server storage
+            Tome.Guild.Store()
+        end
 
         -- Disable the save button
         Tome.UI.Save:SetEnabled(false)
@@ -195,10 +223,10 @@ Tome.UI.NavButtons.Settings:EventAttach(
         Tome.UI.Layouts.Settings:SetVisible(true)
 
         -- Enable all buttons and disable this button
-            for _, button in pairs(Tome.UI.NavButtons) do
-                button:SetEnabled(true)
-            end
-            Tome.UI.NavButtons.Settings:SetEnabled(false)
+        for _, button in pairs(Tome.UI.NavButtons) do
+            button:SetEnabled(true)
+        end
+        Tome.UI.NavButtons.Settings:SetEnabled(false)
     end,
     "Tome_UI_NavButton_Settings_Click"
 )
@@ -221,16 +249,16 @@ Tome.UI.NavButtons.Preview:EventAttach(
         end
 
         -- Populate the View layout
-        Tome.UI.Layouts.View.Populate(Tome_Character)
+        Tome.UI.Layouts.CharacterView.Populate(Tome_Character)
 
         -- Show the View layout
-        Tome.UI.Layouts.View:SetVisible(true)
+        Tome.UI.Layouts.CharacterView:SetVisible(true)
 
         -- Enable all buttons and disable this button
-            for _, button in pairs(Tome.UI.NavButtons) do
-                button:SetEnabled(true)
-            end
-            Tome.UI.NavButtons.Preview:SetEnabled(false)
+        for _, button in pairs(Tome.UI.NavButtons) do
+            button:SetEnabled(true)
+        end
+        Tome.UI.NavButtons.Preview:SetEnabled(false)
     end,
     "Tome_UI_NavButton_Preview_Click"
 )
@@ -259,13 +287,18 @@ function Tome.UI.Show(data)
         -- Store that this is not the players own data
         Tome.UI.ShowingSelf = false
 
-        -- Populate the View layout
-        Tome.UI.Layouts.View.Populate(data)
+        -- Populate the CharacterView layout
+        Tome.UI.Layouts.CharacterView.Populate(data)
 
-        -- Enable the View layout
-        Tome.UI.Layouts.View:SetVisible(true)
+        -- Populate the GuildView layout
+        if data.Guild and Tome_Cache.Guild[string.upper(data.Guild)] then
+            Tome.UI.Layouts.GuildView.Populate(Tome_Cache.Guild[string.upper(data.Guild)])
+        else
+            Tome.UI.Layouts.GuildView.Populate(nil)
+        end
 
-        -- TODO: Set all the fields to current data
+        -- Enable the CharacterView layout
+        Tome.UI.Layouts.CharacterView:SetVisible(true)
     else
         -- Enable the navbar buttons
         for _, button in pairs(Tome.UI.NavButtons) do
@@ -286,6 +319,15 @@ function Tome.UI.Show(data)
 
         -- Populate the Character layout
         Tome.UI.Layouts.Character.Populate(data)
+
+        -- Populate the GuildView layout
+        if Inspect.Unit.Detail("player").guild then
+            Tome.UI.Layouts.Guild.Populate(Tome_Guild)
+            Tome.UI.Layouts.GuildView.Populate(Tome_Guild)
+        else
+            Tome.UI.Layouts.Guild.Populate(nil)
+            Tome.UI.Layouts.GuildView.Populate(nil)
+        end
 
         -- Show and disable the save button
         Tome.UI.Save:SetVisible(true)

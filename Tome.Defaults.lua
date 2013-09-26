@@ -30,9 +30,9 @@ Tome_Defaults = {
 }
 
 Tome_Character_Defaults = {
-    Prefix = detail and detail.titlePrefixName or "",
+    Prefix = "",
     Name = detail and detail.name or "",
-    Suffix = detail and detail.titleSuffixName or "",
+    Suffix = "",
     Title = "",
     Age = "",
     Height = "",
@@ -48,12 +48,28 @@ Tome_Character_Defaults = {
 
 Tome_Notes = {}
 
+Tome_Guild_Defaults = {
+    Name = detail and detail.guild or "",
+    Subtitle = "",
+    Description = "",
+    Miscellaneous = "",
+    Recruiting = false,
+    Roleplaying = false
+}
+
 Tome_Blacklist = {}
 
-Tome_Cache = {}
+Tome_Cache_Defaults = {
+    Character = {},
+    Guild = {}
+}
 
 Tome_Throttle = {}
 
 Tome_Config = Tome_Defaults
 
 Tome_Character = Tome_Character_Defaults
+
+Tome_Guild = Tome_Guild_Defaults
+
+Tome_Cache = Tome_Cache_Defaults

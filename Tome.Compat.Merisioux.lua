@@ -90,9 +90,9 @@ end
 -- This function adds specified data to the character data cache
 function Tome.Compat.Merisioux.Cache(name, data)
     -- Check if we have this character in the cache. Data might be from Tome
-    if Tome_Cache[string.upper(name)] then
+    if Tome_Cache.Character[string.upper(name)] then
         --
-        local cache = Tome_Cache[string.upper(name)]
+        local cache = Tome_Cache.Character[string.upper(name)]
 
         -- If the data is from tome and it's not expired, abort
         if cache.Origin == "Tome" and (cache.Timestamp + Tome_Config.Timeout) > os.time() then
@@ -128,8 +128,11 @@ function Tome.Compat.Merisioux.Cache(name, data)
     -- Set the time this entry was added so we can check for expiry later
     tomedata.Timestamp = os.time()
 
+    -- Store the players guild name in the data
+    tomedata.Guild = Inspect.Unit.Detail(name).guild
+
     -- Store the data in our cache
-    Tome_Cache[string.upper(name)] = tomedata
+    Tome_Cache.Character[string.upper(name)] = tomedata
 
     -- Notify the tooltip that we have an update in the cache
     Tome.Tooltip.NotifyUpdate(name)

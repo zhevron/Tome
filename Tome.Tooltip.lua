@@ -116,14 +116,14 @@ function Tome.Tooltip.Update(data)
         local name = string.upper(Tome.Tooltip.Target.name)
 
         -- If we do not have this player in the cache, abort and make a query
-        if not Tome_Cache[name] then
+        if not Tome_Cache.Character[name] then
             Tome.Data.Query(Tome.Tooltip.Target.name)
             Tome.Tooltip.Frame:SetVisible(false)
             return
         end
 
         -- Fetch the data from the cache
-        data = Tome_Cache[name]
+        data = Tome_Cache.Character[name]
     end
 
     -- Set the players title
@@ -290,7 +290,7 @@ function Tome.Tooltip.NotifyUpdate(name)
     end
 
     -- Get the data from the cache
-    local data = Tome_Cache[string.upper(name)]
+    local data = Tome_Cache.Character[string.upper(name)]
 
     -- Abort if we were unable to get the data from the cache
     if not data then
