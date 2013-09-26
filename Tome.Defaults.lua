@@ -59,7 +59,7 @@ Tome_Guild_Defaults = {
 
 Tome_Blacklist = {}
 
-Tome_Cache = {
+Tome_Cache_Defaults = {
     Character = {},
     Guild = {}
 }
@@ -71,3 +71,5 @@ Tome_Config = Tome_Defaults
 Tome_Character = Tome_Character_Defaults
 
 Tome_Guild = Tome_Guild_Defaults
+
+Tome_Cache = Tome_Cache_Defaults

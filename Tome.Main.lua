@@ -504,6 +504,11 @@ function Tome.Event_Loaded(handle, addonidentifier)
         -- Update the Tome_Character with new fields in case of an update
         Tome_Character = Tome.SetDefaults(Tome_Character_Defaults, Tome_Character)
 
+        -- Reset the cache if it has somehow gone corrupt
+        if not Tome_Cache.Character or not Tome_Cache.Guild then
+            Tome_Cache = Tome_Cache_Defaults
+        end
+
         -- Get the addon version
         local version = Tome.GetVersion()
 
