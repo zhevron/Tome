@@ -128,7 +128,11 @@ Tome.UI.NavButtons.Guild:EventAttach(
         -- Check if this is the players own data
         if Tome.UI.ShowingSelf then
             -- Show the Guild tab
-            Tome.UI.Layouts.Guild:SetVisible(true)
+            if Tome.Guild.PlayerCanWrite() then
+                Tome.UI.Layouts.Guild:SetVisible(true)
+            else
+                Tome.UI.Layouts.GuildView:SetVisible(true)
+            end
 
             -- Enable all buttons and disable this button
             for _, button in pairs(Tome.UI.NavButtons) do
@@ -175,7 +179,21 @@ Tome.UI.Save:EventAttach(
             -- Broadcast the new data
             Tome.Data.Send("say", true)
         elseif Tome.UI.Layouts.Guild:GetVisible() then
-            --
+            -- Abort if the player is not allowed to save details
+            if not Tome.Guild.PlayerCanWrite() then
+                return
+            end
+
+            -- Save the settings
+            Tome_Guild.Name = string.gsub(Tome.UI.Layouts.Guild.Name:GetText(), "Name", "")
+            Tome_Guild.Subtitle = string.gsub(Tome.UI.Layouts.Guild.Subtitle:GetText(), "Subtitle", "")
+            Tome_Guild.Description = Tome.UI.Layouts.Guild.Description.Text:GetText()
+            Tome_Guild.Miscellaneous = Tome.UI.Layouts.Guild.Miscellaneous.Text:GetText()
+            Tome_Guild.Recruiting = string.find(Tome.UI.Layouts.Guild.Recruiting:GetText(), "Not Recruiting") and false or true
+            Tome_Guild.Roleplaying = string.find(Tome.UI.Layouts.Guild.Roleplaying:GetText(), "No RP") and false or true
+
+            -- Send data to server storage
+            Tome.Guild.Store()
         end
 
         -- Disable the save button
